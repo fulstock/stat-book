@@ -1,5 +1,6 @@
 \documentclass[oneside,final,14pt]{extreport}
 
+\usepackage{cmap}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{vmargin}
@@ -17,6 +18,8 @@
     linkcolor=black,
     urlcolor=black
 }
+\usepackage{hhline}
+\usepackage{multirow}
 
 \newcommand\mydef[1]{{\bf Опр.}}
 \newcommand\mynote[1]{{\bf Замеч.}}
@@ -98,13 +101,12 @@
 До того, как эксперимент проведён, выборка~--- набор случайных величин, после~--- набор чисел из множества возможных значений случайной величины. Числовой набор \( \vec{X}(\omega_0) = (X_{1}(\omega_0), \ldots, X_{n}(\omega_0)) = (x_1, \ldots, x_n) \)~--- {\it реализация выборки} на элементарном исходе \( \omega_0 \).
 
 \begin{defn}
-{\it Статистика} или {\it оценка}~--- измеримая функция от выборки \( T(X) \).
+{\it Статистика}~--- измеримая функция от выборки \( T(X) \).
 \end{defn}
 
 \begin{defn}
 {\it Вариационный ряд}~--- выборка \( X_{1}, \ldots, X_{n} \), упорядоченная по возрастанию на каждом элементарном исходе:
 \end{defn}
-
 \( \begin{array}{c}
 X_{(1)}(\omega)=\min (X_{1}(\omega), \ldots, X_{n}(\omega)) \\
 X_{(k)}(\omega)=\{\forall \omega \in \Omega \Rightarrow \exists m \leq i_{1}, \ldots, i_{k-1}, i_{k}, i_{k+1}, \ldots, i_{n} \leq n, i_{j} \neq i_{m}(j \neq m): \\ 
@@ -123,19 +125,21 @@ X_{(n)}(\omega)=\max (X_{1}(\omega), \ldots, X_{n}(\omega))
 
 Эмпирическая функция распределенния строится по вариационному ряду следующим образом:
 
-\( F_{n}^{*}(y)=\left\{\begin{array}{ll}
-0, & \text { если } y \leqslant X_{(1)} \\
-\frac{k}{n}, & \text { если } X_{(k)}<y \leqslant X_{(k+1)} \\
-1 & \text { при } y>X_{(n)}
-\end{array}\right.
-\)
+\begin{equation*}
+    F_{n}^{*}(y)=\left\{\begin{array}{ll}
+    0, & \text { если } y \leqslant X_{(1)} \\
+    \frac{k}{n}, & \text { если } X_{(k)}<y \leqslant X_{(k+1)} \\
+    1 & \text { при } y>X_{(n)}
+    \end{array}\right.
+\end{equation*}
 
 \begin{exmp}
 Найдём эмпирические функции распределения для крайних порядковых статистик.
 
 \begin{enumerate}
-    \item \( F_{(1)}(x)=\mathbb{P}(X_{(1)} < x) = 1 - \mathbb{P} (\mathrm{X}_{(1)} \geq x) = 1 - \mathbb{P}(x_{1} \geq x, \ldots, x_{n} \geq x) = 1 - \prod_{i=1}^{n} \mathbb{P}(x_{i} \geq x) = 1 - (\mathbb{P}({x}_{1} \geq x))^{\mathrm{n}} = 1 - (1 - F(x))^{n}\)
-
+    \item \(
+    F_{(1)}(x)=\mathbb{P}(X_{(1)} < x) = 1 - \mathbb{P} (\mathrm{X}_{(1)} \geq x) = 1 - \mathbb{P}(x_{1} \geq x, \ldots, x_{n} \geq x) = 1 - \prod_{i=1}^{n} \mathbb{P}(x_{i} \geq x) = 1 - (\mathbb{P}({x}_{1} \geq x))^{\mathrm{n}} = 1 - (1 - F(x))^{n}
+    \)
     \item \( F_{(n)}(x)=\mathbb{P}(X_{(n)} < x) = \mathbb{P}(x_{1} < x, \ldots, x_{n} < x) = \prod_{i=1}^{n} \mathbb{P}(x_{i} < x) = (\mathbb{P}({x}_{1} < x))^{\mathrm{n}} = F^{n}(x)\)
 \end{enumerate}
 \end{exmp}
@@ -154,28 +158,41 @@ X_{(n)}(\omega)=\max (X_{1}(\omega), \ldots, X_{n}(\omega))
 
 \begin{proof}\leavevmode
 \begin{enumerate}
-    \item \( F_{n}^{*}(y)=\cfrac{1}{n} \sum_{i=1}^{n} \mathrm{I}(X_{i}<y) \), при этом случайные величины \( \mathrm{I}(X_{1}<y), \mathrm{I}(X_{2}<y), \ldots \) независимы и одинаково распределены, их математическое ожидание конечно:
-    
-    \( \mathbb{E}\mathrm{I}(X_{1}<y)=1 \cdot \mathrm{P}(X_{1}<y)+0 \cdot \mathrm{P}(X_{1} \geqslant y)=\mathrm{P}(X_{1}<y)=F(y)<\infty \)
-
+    \item \( F_{n}^{*}(y)=\frac{1}{n} \sum_{i=1}^{n} \mathrm{I}(X_{i}<y) \), при этом случайные величины \( \mathrm{I}(X_{1}<y),~ \mathrm{I}(X_{2}<y), \ldots \) независимы и одинаково распределены, их математическое ожидание конечно:
+    \begin{equation*}
+        \mathbb{E}\mathrm{I}(X_{1}<y)=1 \cdot \mathrm{P}(X_{1}<y)+0 \cdot \mathrm{P}(X_{1} \geqslant y)=\mathrm{P}(X_{1}<y)=F(y)<\infty
+    \end{equation*}
     Следовательно, применим ЗБЧ в форме Хинчина:
-    
-    \( F_{n}^{*}(y)=\cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E}\mathrm{I}(X_{1}<y)=F(y) \).
-    
+    \begin{equation*}
+        F_{n}^{*}(y)=\cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E}\mathrm{I}(X_{1}<y)=F(y) 
+    \end{equation*}
     \item Заметим, что \(\mathrm{I}(X_{1}<y) \sim  \mathrm{B}_{F(y)} \Rightarrow \mathbb{E}\mathrm{I}(X_{1}<y) = F(y); \mathbb{D}\mathrm{I}(X_{1}<y) = F(y)(1-F(y)) \).
     \begin{enumerate}[label={\arabic*)}]
         \item Случайные величины \(\mathrm{I}(X_{i}<y) \) одинаково распределены, поэтому:
-    
-        \( \mathbb{E} F_{n}^{*}(y)=\mathbb{E} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}=\cfrac{\sum_{i=1}^{n} \mathbb{E}\mathrm{I}(X_{i}<y)}{n}=\cfrac{n \mathbb{E}\mathrm{I}(X_{1}<y)}{n}=F(y) \)
+        \begin{equation*}
+            \mathbb{E} F_{n}^{*}(y)=\mathbb{E} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}=\cfrac{\sum_{i=1}^{n} \mathbb{E}\mathrm{I}(X_{i}<y)}{n}=\cfrac{n \mathbb{E}\mathrm{I}(X_{1}<y)}{n}=F(y)  
+        \end{equation*}
         
         \item Случайные величины \(\mathrm{I}(X_{i}<y) \) независимы и одинаково распределены, поэтому:
         
-        \( \mathbb{D}\mathrm{I}_{n}^{*}(y)=\mathbb{D} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}=\cfrac{\sum_{i=1}^{n} \mathbb{D}\mathrm{I}(X_{i}<y)}{n^{2}}=\cfrac{n \mathbb{D}\mathrm{I}(X_{1}<y)}{n^{2}}=\cfrac{F(y)(1-F(y))}{n} \)
-        
+        \begin{multline*}
+            \mathbb{D}\mathrm{I}_{n}^{*}(y)
+            = \mathbb{D} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}
+            = \cfrac{\sum_{i=1}^{n} \mathbb{D}\mathrm{I}(X_{i}<y)}{n^{2}}
+            = \\
+            = \cfrac{n\mathbb{D}\mathrm{I}(X_{1}<y)}{n^{2}}
+            = \cfrac{F(y)(1-F(y))}{n}
+        \end{multline*}
+    
         \item Применим ЦПТ:
-        
-        \( \sqrt{n}\left(F_{n}^{*}(y)-F(y)\right)=\sqrt{n}\left(\cfrac{\sum I(X_{i}<y)}{n}-F(y)\right) = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n F(y)}{\sqrt{n}} = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n \mathbb{E}\mathrm{I}(X_{1}<y)}{\sqrt{n}} \Rightarrow \mathrm{N}_{0, \mathbb{D}\mathrm{I}(X_{1}<y)}=\mathrm{N}_{0, F(y)(1-F(y))}
-        \)
+        \begin{multline*}
+            \sqrt{n}\left(F_{n}^{*}(y)-F(y)\right)
+            = \sqrt{n}\left(\cfrac{\sum I(X_{i}<y)}{n}-F(y)\right) 
+            = \\
+            = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n F(y)}{\sqrt{n}} 
+            = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n \mathbb{E}\mathrm{I}(X_{1}<y)}{\sqrt{n}} \Rightarrow \mathrm{N}_{0, \mathbb{D}\mathrm{I}(X_{1}<y)}
+            = \mathrm{N}_{0, F(y)(1-F(y))}
+        \end{multline*}
         
     \end{enumerate}
 \end{enumerate}  
@@ -219,30 +236,39 @@ X_{(n)}(\omega)=\max (X_{1}(\omega), \ldots, X_{n}(\omega))
 \begin{enumerate}[label={\arabic*.}]
     \item \( \mathbb{E} \overline{X}=\frac{1}{n}(\mathbb{E} X_{1}+\ldots+\mathbb{E} X_{n})=\frac{1}{n} \cdot n \mathbb{E} X_{1}=\mathbb{E} X_{1}=a \)
     \item Из ЗБЧ в форме Хинчина:
-    
-    \( \overline{X}=\cfrac{X_{1}+\ldots+X_{n}}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E} X_{1}=a \)
+    \begin{equation*}
+        \overline{X}
+        = \cfrac{X_{1}+\ldots+X_{n}}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E} X_{1} 
+        = a
+    \end{equation*}
+
     \item Из ЦПТ:
-    
-    \( \sqrt{n}\left(\overline{X}-\mathbb{E} X_{1}\right)=\cfrac{\sum_{i=1}^{n} X_{i}-n \mathbb{E} X_{1}}{\sqrt{n}} \Rightarrow \mathrm{N}_{0, \mathbb{D} X_{1}} \)
+    \begin{equation*}
+        \sqrt{n}\left(\overline{X}-\mathbb{E} X_{1}\right) 
+        = \cfrac{\sum_{i=1}^{n} X_{i}-n \mathbb{E} X_{1}}{\sqrt{n}} 
+        \Rightarrow \mathrm{N}_{0, \mathbb{D} X_{1}}
+    \end{equation*}
 \end{enumerate}
 
-Аналогичными свойствами обладает выборочный \( k \)-й момент \( \overline{X^{k}} \).
+Аналогичными свойствами обладает выборочный $k$-й момент $\overline{X^{k}}$.
 \end{proof}
 
 \begin{thm}
-Пусть \( \mathbb{D} X_{1}<\infty \).
+Пусть $\mathbb{D} X_{1}<\infty$.
 \begin{enumerate}
-    \item Выборочные дисперсии \( S^{2} \) и \( S^{2}_0 \) являются состоятельными оценками для истинной дисперсии:
-    
-    \( S^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2}, \quad S_{0}^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2} \)
-    
-    \item Величина \( S^{2} \)— смещённая оценка дисперсии, а \( S^{2}_0 \)~--— несмещённая:
-    
-    \( \mathbb{E} S^{2}=\frac{n-1}{n} \mathbb{D} X_{1}=\frac{n-1}{n} \sigma^{2} \neq \sigma^{2}, \quad \mathbb{E} S_{0}^{2}=\mathbb{D} X_{1}=\sigma^{2} \)
+    \item Выборочные дисперсии $S^{2}$ и $S^{2}_0$ являются состоятельными оценками для истинной дисперсии:
+    \begin{equation*}
+        S^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2}, \quad S_{0}^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2}
+    \end{equation*}
+    \item Величина $S^{2}$~--- смещённая оценка дисперсии, а $S^{2}_0$~--— несмещённая:
+    \begin{equation*}
+        \mathbb{E} S^{2}=\frac{n-1}{n} \mathbb{D} X_{1}=\frac{n-1}{n} \sigma^{2} \neq \sigma^{2}, \quad \mathbb{E} S_{0}^{2}=\mathbb{D} X_{1}=\sigma^{2}
+    \end{equation*}
     
     \item Если \( 0 \neq \mathbb{D}(X_{1}-\mathbb{E}X_{1})^{2}<\infty \), то \( S^{2} \) и \( S^{2}_0 \) являются асимптотически нормальными оценками истинной дисперсии:
-    
-    \( \sqrt{n}\left(S^{2}-\mathbb{D} X_{1}\right) \Rightarrow \mathrm{N}_{0, \mathbb{D}\left(X_{1}-\mathbb{E} X_{1}\right)^{2}} \)
+    \begin{equation*}
+        \sqrt{n}\left(S^{2}-\mathbb{D} X_{1}\right) \Rightarrow \mathrm{N}_{0, \mathbb{D}\left(X_{1}-\mathbb{E} X_{1}\right)^{2}} 
+    \end{equation*}
 \end{enumerate}
 \end{thm}
 
@@ -251,10 +277,11 @@ X_{(n)}(\omega)=\max (X_{1}(\omega), \ldots, X_{n}(\omega))
     \item \( S^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\overline{X^{2}}-(\overline{X})^{2} \)
 
     Используя состоятельность первого и второго выборочных моментов и свойства сходимости по вероятности, получаем:
-
-    \( S^{2}=\overline{X^{2}}-(\overline{X})^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{E} X_{1}^{2}-\left(\mathbb{E} X_{1}\right)^{2}=\sigma^{2} \)
+    \begin{gather*}
+        S^{2}=\overline{X^{2}}-(\overline{X})^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{E} X_{1}^{2}-\left(\mathbb{E} X_{1}\right)^{2}=\sigma^{2} \\
+        \cfrac{n}{n-1} \rightarrow 1 \Rightarrow S_{0}^{2}=\frac{n}{n-1} S^{2} \stackrel{\mathrm{p}}{\rightarrow} \sigma^{2}
+    \end{gather*}
     
-    \( \cfrac{n}{n-1} \rightarrow 1 \Rightarrow S_{0}^{2}=\frac{n}{n-1} S^{2} \stackrel{\mathrm{p}}{\rightarrow} \sigma^{2} \)
     \item Используя несмещённость первого и второго выборочных моментов:
     
     \(
@@ -447,34 +474,39 @@ L(\vec{x} ; \theta)=\prod_{i=1}^{n} f_{\theta}(x_{i}) =\mathrm{P}_{\theta}(X_{1}
 
 \( \int T(x) L(x, \theta) \mu(d x)=\mathbf{E}_{\theta} T(X)=T(\theta) \Rightarrow \int T(x) \cfrac{\partial L(x, \theta)}{\partial \theta} \mu(d x)=\tau^{\prime}(\theta) \)
 
-Заметим, что:
-
-\( \cfrac{\partial L(x, \theta)}{\partial \theta}=\cfrac{\partial \ln L(x, \theta)}{\partial \theta} \cdot L(x, \theta) \)
+Заметим, что
+\begin{equation*}
+    \cfrac{\partial L(x, \theta)}{\partial \theta}=\cfrac{\partial \ln L(x, \theta)}{\partial \theta} \cdot L(x, \theta)
+\end{equation*}
 
 Откуда следует:
-
-\( \begin{array}{c}
-\int U(x, \theta) L(x, \theta) \mu(d x)=0 \Leftrightarrow \mathbf{E}_{\theta} U(X, \theta)=0 \\
-\int T(x) U(x, \theta) L(x, \theta) \mu(d x)=\tau^{\prime}(\theta) \Leftrightarrow \mathbf{E}_{\theta} T(X) U(X, \theta)=T^{\prime}(\theta)
-\end{array} \)
+\begin{gather*}
+    \int U(x, \theta) L(x, \theta) \mu(d x)=0 \Leftrightarrow \mathbf{E}_{\theta} U(X, \theta)=0 \\
+\int T(x) U(x, \theta) L(x, \theta) \mu(d x)=\tau^{\prime}(\theta) \Leftrightarrow \mathbf{E}_{\theta} T(X) U(X, \theta)=\tau^{\prime}(\theta)
+\end{gather*}
 
 Вычитая из первого равенства, помноженного на \(\tau(\theta)\), второе, получаем:
-
-\( \mathbf{E}_{\theta}(T(X)-T(\theta)) U(X, \theta)=\tau^{\prime}(\theta) \)
+\begin{equation*}
+    \mathbf{E}_{\theta}(T(X)-T(\theta)) U(X, \theta)=\tau^{\prime}(\theta)
+\end{equation*}
 
 В левой части полученного равенства стоит ковариация случайных величин \(T(X)\) и \(U(X,\theta)\): \( \operatorname{cov}_{\theta}(T(X), U(X, \theta))=T^{\prime}(\theta) \)
 
 Из неравенства Коши-Буняковского:
-
-\(\left(\tau^{\prime}(\theta)\right)^{2}=\operatorname{cov}_{\theta}^{2}(T(X) U(X, \theta)) \leq \mathbf{D}_{\theta} T(X) \mathbf{D}_{\theta} U(X, \theta)=\mathbf{D}_{\theta} T(X) \mathbf{E}_{\theta} U^{2}(X, \theta) \)
+\begin{equation*}
+    \left(\tau^{\prime}(\theta)\right)^{2}=\operatorname{cov}_{\theta}^{2}(T(X) U(X, \theta)) \leq \mathbf{D}_{\theta} T(X) \mathbf{D}_{\theta} U(X, \theta)=\mathbf{D}_{\theta} T(X) \mathbf{E}_{\theta} U^{2}(X, \theta)
+\end{equation*}
 
 ...что равносильно п.1 теоремы:
-
-\( \mathbf{D}_{\theta} T(X) \geq \cfrac{\left[T^{\prime}(\theta)\right]^{2}}{\mathbf{E}_{\theta} U^{2}(X, \theta)} \)
+\begin{equation*}
+    \mathbf{D}_{\theta} T(X) \geq \cfrac{\left[T^{\prime}(\theta)\right]^{2}}{\mathbf{E}_{\theta} U^{2}(X, \theta)}
+\end{equation*}
 
 Неравенство достигается, если линейно связаны:
+\begin{equation*}
+    T(X)=\varphi(\theta) U(X, \theta)+\psi(\theta) \Rightarrow T(\theta)=\psi(\theta) \Rightarrow a_{n}(\theta)=\varphi(\theta)
+\end{equation*}
 
-\( T(X)=\varphi(\theta) U(X, \theta)+\psi(\theta) \Rightarrow T(\theta)=\psi(\theta) \Rightarrow a_{n}(\theta)=\varphi(\theta) \)
 \end{proof}
 
 \begin{defn}
@@ -648,15 +680,21 @@ H^{\prime}(a), & y=a
 \begin{exmp}
 Пусть \(X_1, \ldots, X_n\)~--- выборка из \(N(\theta, 1)\). Тогда
 
-\( \theta^{*}=\overline{X}=\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N\left(\theta, \cfrac{1}{n}\right) \Rightarrow (\overline{X}-\theta) \sqrt{n} \sim N(0,1)\)
+\begin{equation*}
+    \theta^{*}=\overline{X}=\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N\left(\theta, \cfrac{1}{n}\right) \Rightarrow (\overline{X}-\theta) \sqrt{n} \sim N(0,1)
+\end{equation*}
 
 Для величины, имеющей стандартное нормальное распределение, строим доверительный интервал, т.е. находим такое \(t_{\alpha / 2} \), что 
 
-\( \mathrm{P}_{\theta}\left(|(\bar{X}-\theta) \sqrt{n}|<t_{\alpha / 2}\right)=\alpha \).
+\begin{equation*}
+    \mathrm{P}_{\theta}\left(|(\bar{X}-\theta) \sqrt{n}|<t_{\alpha / 2}\right)=\alpha
+\end{equation*}
 
 Решаем уравнение относительно \(\theta\) и получаем
+\begin{equation*}
+    \mathrm{P}_{\theta}\left(\bar{X}-\cfrac{t_{\alpha / 2}}{\sqrt{n}}<\theta<\bar{X}+\cfrac{t_{\alpha / 2}}{\sqrt{n}}\right)=\alpha 
+\end{equation*}
 
-\( \mathrm{P}_{\theta}\left(\bar{X}-\cfrac{t_{\alpha / 2}}{\sqrt{n}}<\theta<\bar{X}+\cfrac{t_{\alpha / 2}}{\sqrt{n}}\right)=\alpha \).
 \end{exmp}
 
 \begin{defn}
@@ -674,71 +712,78 @@ H^{\prime}(a), & y=a
 Построение доверительного интервала с помощью центральной статистики:
 \begin{enumerate}
     \item Зафиксируем \( \alpha_{1}, \alpha_{2} \in \mathbf{R}\), т.ч.
-    
-    \(\mathbf{P}_{\theta}(\alpha_{1} \leq G_{1}(X, \theta) \leq \alpha_{2})=\alpha~\forall \theta \Leftrightarrow F(\alpha_{2})-F(\alpha_{1})=\alpha\).
+    \begin{equation*}
+        \mathbf{P}_{\theta}(\alpha_{1} \leq G_{1}(X, \theta) \leq \alpha_{2})=\alpha~\forall \theta \Leftrightarrow F(\alpha_{2})-F(\alpha_{1})=\alpha
+    \end{equation*}
     \item Пусть \(G(X,\theta)\) возрастает. Из условий
-    
-    \( \left\{\begin{array}{l}
-    G(X, \theta) \leq \alpha_{2} \\
-    G(X, \theta) \geq \alpha_{1}
-    \end{array}\right. \)
-    
+    \begin{equation*}
+        \left\{\begin{array}{l}
+        G(X, \theta) \leq \alpha_{2} \\
+        G(X, \theta) \geq \alpha_{1}
+        \end{array}\right.
+    \end{equation*}
     находятся статистики
-    
-    \(
-    \left\{\begin{array}{l}
-    T_{2}(X): G\left(X, T_{2}(X)\right)=\alpha_{2}, \quad \ T_{1}(X) \leq \theta \leq T_{2}(X) \\
-    T_{1}(X): G\left(X, T_{1}(X)\right)=\alpha_{1},
-    \end{array}\right.
-    \),
-    
+    \begin{equation*}
+        \left\{\begin{array}{l}
+        T_{2}(X): G\left(X, T_{2}(X)\right)=\alpha_{2}, \quad \ T_{1}(X) \leq \theta \leq T_{2}(X) \\
+        T_{1}(X): G\left(X, T_{1}(X)\right)=\alpha_{1},
+        \end{array}\right.
+    \end{equation*}
     откуда \( \mathbf{P}_{\theta}\left(T_{1}(X) \leq \theta \leq T_{2}(X)\right) \geq \alpha~ \forall \theta \).
 \end{enumerate}
 
 \begin{defn}
 {\it Центральный доверительный предел} для параметра \(\theta\) с коэффициентом доверия \(0 \leq \alpha \leq 1\)~--- интервал \((T_1(X), T_2(X))\), т.ч. 
-
-\(
-\begin{array}{l}
-\mathbf{P}_{\theta}\left(T_{1}(X)>\theta\right)=\cfrac{1-\alpha}{2} \\
-\mathbf{P}_{\theta}\left(T_{2}(X)<\theta\right)=\cfrac{1-\alpha}{2}
-\end{array}
-\)
+\begin{gather*}
+    \mathbf{P}_{\theta}\left(T_{1}(X)>\theta\right)=\cfrac{1-\alpha}{2} \\
+    \mathbf{P}_{\theta}\left(T_{2}(X)<\theta\right)=\cfrac{1-\alpha}{2}
+\end{gather*}
 \end{defn}
 
 Построение доверительного интервала с помощью точечной оценки:
 
+\section{Проверка гипотез. Лемма Неймана—Пирсона}
+
+\begin{defn}
+{\it Гипотеза \(H\)}~--- любое предположение о распределении наблюдаемой случайной величины: \(H=\left\{\mathcal{F}=\mathcal{F}_{1}\right\} \) или \(H=\{\mathcal{F} \in \mathbb{F}\}\), где \(\mathbb{F}\)~--- некоторое подмножество в множестве всех распределений. Гипотеза называется {\it простой} в первом случае, {\it сложной} во втором. Если гипотез всего две, то одну из них принято называть {\it основной}, а другую~--- {\itальтернативой}.
+\end{defn}
+
+\begin{rmrk} Типичные задачи проверки гипотез:
+\begin{enumerate}
+    \item Гипотезы о виде распределения;
+    \item Гипотезы о проверке однородности выборки: дано несколько выборок; основная гипотезасостоит в том, что эти выборки извлечены из одного распределения;
+    \item Гипотеза независимости: по выборке $(X_1,Y_1), \ldots, (X_n,Y_n)$ из $n$ независимых наблюдений пары случайных величин проверяется гипотеза $H_{1}=\left\{X_{i} \text { и } Y_{i} \text { независимы }\right\}$ при альтернативе $H_{2}=\left\{H_{1} \text { неверна }\right\}$. Обе гипотезы являются сложными;
+    \item Гипотеза случайности: в эксперименте наблюдаются $n$ случайныхвеличин $X_{1}, \ldots, X_{n}$ и проверяется сложная гипотеза $H_{1}=\left\{X_{1}, \ldots, X_{n}~ \text{независимы и одинаково распределены}\right\}$
+\end{enumerate}
+\end{rmrk}
+
+Пусть дана выборка $X_{1}, \ldots, X_{n}$, относительно распределения которой выдвинуты гипотезы $H_{1}, \ldots, H_{k}$.
+\begin{defn}
+{\it Критерий} $\varphi=\varphi\left(X_{1}, \ldots, X_{n}\right)$~--- измеримое отображение $\varphi: \mathbb{R}^{n} \rightarrow\left\{H_{1}, \ldots, H_{k}\right\}$ из множества всех возможных значений выборки в множество гипотез.
+\end{defn}
+
+\begin{rmrk}
+В случае одной основной гипотезы и одной альтернативы критерий задаёт критическую область $S \in \mathbb{R}^{n}$ для гипотезы $H_0$~--- $\varphi(x) = I(x \in S)$; тогда правило проверки гипотезы $H_0$ при альтернативе $H_1$ можно сформулировать следующий образом:
+\begin{itemize}
+    \item $\varphi(x) = 1 \Rightarrow$ отвергаем $H_0$, принимаем $H_1$;
+    \item $\varphi(x) = 0 \Rightarrow$ отвергаем $H_1$, принимаем $H_0$;
+\end{itemize}
+\end{rmrk}
+
+\begin{defn}
+Говорят, что произошла {\it ошибка $i$-го рода} критерия $\delta$, если критерий отверг верную гипотезу $H_i$. {\it Вероятностю ошибки $i$-го рода}~--- число $\alpha_{i}(\varphi)=P_{H_{i}}\left(\delta(\vec{X}) \neq H_{i}\right)$.
+\end{defn}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline \multirow{2}{*} { Истинная гипотеза } & \multicolumn{2}{|c|} { Результат принятия решения } \\
+\cline {2-3} & $H_{0}$ отклонена & $H_{0}$ принята \\
+\hline$H_{0}$ & $\alpha$ & $1-\alpha$ \\
+\hline$H_{1}$ & $1-\beta$ & $\beta$ \\
+\hline
+\end{tabular}
+\end{center}
+
+
 
 \end{document}
-
-
----------------------------------------------
-END OF EVANGELION
-
-\myst{} {\it Теорема Рао-Блекуэлла-Колмогорова:} Пусть \(\theta^{*}\)~--- несмещённая оценка функции \(\tau(\theta)\), \(T(X)\)~--- достаточная для \(\theta\) статистика. Тогда для функции \( \varphi(T) = \mathbb{E}(\tau^{*}|T)\):
-\begin{enumerate}
-    \item \( \mathbb{E}(\varphi(T)|\theta) = \tau(\theta)\) (\(\varphi(T)\)~--- несмещённая оценка \(\tau(\theta)\));
-    \item \( \mathbb{D}(\varphi(T)|\theta) \leq \mathbb{D}(\tau^{*}|\theta)~\forall \theta\) (равномерно минимальная дисперсия).
-\end{enumerate}
-Иными словами, \( \varphi(T)\)~--- оптимальная оценка \(\tau(\theta)\).
-
-\myqed{}
-\begin{enumerate}
-    \item Из свойств условного математического ожидания:
-    
-    \( \mathbb{E}(\varphi(T))=\mathbb{E}(\mathbb{E}(\tau^{*} | T))=\mathbb{E}(\tau^{*})=\tau(\theta) \)
-    \item \( \mathbb{D}(\varphi(T)) = \mathbb{E}(\varphi(T) - \tau)^{2} = \mathbb{E}(\mathbb{E}(\tau^{*}|T(X))-\tau)^{2}) = \mathbb{E}((\mathbb{E}(\tau^{*}-\tau|T(X)))^{2}) \leq \mathbb{E}(\mathbb{E}((\tau^{*}-\tau)^{2}|T(X))) = \mathbb{E}((\tau^{*}-\tau)^{2}) = \mathbb{D}(\tau^{*}) \)
-    
-    Переход к неравенству опирается на неравенство Йенсена для условного матожидания: \( \varphi(\mathbb{E}[X | T]) \leq \mathbb{E}[\varphi(X) | T] \).
-\end{enumerate}
-
-
-
-\myst{} {\it Теорема Колмогорова:} Пусть \(T(X)\)~--- полная достаточная статистика. Тогда \(\varphi(T(X))\)~--- оптимальная оценка функции \(\tau(\theta) \Leftrightarrow \mathbb{E}_\theta\varphi(T(X)) = \tau(\theta)\)
-
-\myqed{} 
-Из теоремы Рао-Блекуэлла-Колмогорова следует, что если существует несмещённая оценка функции \(\tau(\theta) \), то существует также её несмещённая оценка от достаточной статистики.
-
-Пусть \(T_1(X) = \varphi_1(T(X))\)~--- несмещённая оценка \(\tau(\theta)\), \(T(X)\)~--- полная достаточная статистика. Допустим, что \(\exists T_2(X) = \varphi_2(T(X)) \). Тогда \(\forall \theta \in \Theta: \mathbb{E}_\theta(\varphi_1(T(X))-\varphi_2(T(X)))=0\).
-
-Но из полноты \(T(X)\) следует, что \(\varphi_1(y)-\varphi_2(y) \stackrel{\text{п.н.}}{=}0 \Rightarrow \) несмещённая оценка от полной достаточной статистики~--- единственная. Ввиду того, что она имеет наименьшую дисперсию среди всех несмещённых оценок, она является оптимальной.
