@@ -4,7 +4,19 @@
 \usepackage[russian]{babel}
 \usepackage{vmargin}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{relsize}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
 \newcommand\mydef[1]{{\bf Опр.}}
 \newcommand\mynote[1]{{\bf Замеч.}}
@@ -12,6 +24,16 @@
 \newcommand\myqed[1]{{\bf Док-во.}}
 \newcommand\myex[1]{{\bf Пример.}}
 \newcommand\myprob[1]{{\mathbb{P}(#1)}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewenvironment{proof}{{\bfseries Доказательство.}}{\qed}
+
+\newtheorem{thm}{Теорема}[section]
+\newtheorem{lem}[thm]{Лемма}
+\newtheorem*{rmrk}{Замечание}
+\theoremstyle{definition}
+\newtheorem{defn}{Определение}[section]
+\newtheorem*{exmp}{Пример}
 
 \newenvironment{compactlist}{
 \begin{list}{{$\bullet$}}{
@@ -26,14 +48,697 @@
 }
 
 \setpapersize{A4}
-\setmarginsrb{2cm}{1.5cm}{1cm}{1.5cm}{0pt}{0mm}{0pt}{13mm}
+\setmarginsrb{2cm}{1.5cm}{2cm}{1.5cm}{0pt}{0mm}{0pt}{13mm}
+\linespread{1.05}
 
 \usepackage{indentfirst}
 \sloppy
 
+\usepackage{graphicx} 
+
 \begin{document}
+\begin{titlepage}
+    \centering
+    \vfill
+    {\scshape\large
+        Московский государственный университет\\
+        Факультет вычислительной математики и кибернетики\\
+    }
+    \vskip1cm
+    {\scshape\huge
+        Теория вероятностей.\\
+        Математическая статистика\\
+    }
+    \vskip0.5cm
+    {\upshape\large
+        Рожков И., Рыгин А.
+    }    
+    \vfill
+    \includegraphics[width=8cm]{pic.png}
+    \vfill
+    {\upshape\large
+        Москва\\
+        ~2020
+    }
+\end{titlepage}
+
+\tableofcontents
+\chapter{Теория вероятностей}
 \chapter{Математическая статистика}
-\section{Статистическая структура. Выборка. Статистика. Порядковые статистики. Вариационный ряд. Эмпирическая функция распределения.}
+\section{Статистическая структура. Выборка. Статистика. Порядковые статистики. Вариационный ряд. Эмпирическая функция распределения}
+
+\begin{defn}
+{\it Статистическая структура}~--- совокупность \( (\Omega, \mathcal{A}, \mathcal{P}) \), где \( \Omega \)~---множество элементарных исходов, \( \mathcal{A} )\)~--- \( \sigma \)-алгебра событий, \( \mathcal{P}) \)~--- семейство вероятностных мер, определённых на \( \mathcal{A} \), параметризованное одно- или многомерным числовым параметром: \( \mathcal{P} = (\mathbb{P}_{\theta}~|~\theta \in \Theta \subset R^{m}) \).
+\end{defn}
+
+\begin{defn}
+{\it Выборка} \( \vec{X} = (X_{1}, \ldots, X_{n}) \) объёма \( n \)~--- набор из \( n \) независимых и одинаково распределённых случайных величин, имеющих такое же распределение, как и наблюдаемая случайная величина \( \xi \).
+\end{defn}
+
+До того, как эксперимент проведён, выборка~--- набор случайных величин, после~--- набор чисел из множества возможных значений случайной величины. Числовой набор \( \vec{X}(\omega_0) = (X_{1}(\omega_0), \ldots, X_{n}(\omega_0)) = (x_1, \ldots, x_n) \)~--- {\it реализация выборки} на элементарном исходе \( \omega_0 \).
+
+\begin{defn}
+{\it Статистика} или {\it оценка}~--- измеримая функция от выборки \( T(X) \).
+\end{defn}
+
+\begin{defn}
+{\it Вариационный ряд}~--- выборка \( X_{1}, \ldots, X_{n} \), упорядоченная по возрастанию на каждом элементарном исходе:
+\end{defn}
+
+\( \begin{array}{c}
+X_{(1)}(\omega)=\min (X_{1}(\omega), \ldots, X_{n}(\omega)) \\
+X_{(k)}(\omega)=\{\forall \omega \in \Omega \Rightarrow \exists m \leq i_{1}, \ldots, i_{k-1}, i_{k}, i_{k+1}, \ldots, i_{n} \leq n, i_{j} \neq i_{m}(j \neq m): \\ 
+X_{(k)}(\omega)=X_{i_{k}}(\omega) \\
+X_{i_{1}}(\omega), \ldots, X_{i_{k-1}}(\omega) \leq X_{i_{k}}(\omega); X_{i_{k+1}}(\omega), \ldots, X_{i_{n}}(\omega)>X_{i_{k}}(\omega)\}, 2 \leq k \leq n-1 \\
+X_{(n)}(\omega)=\max (X_{1}(\omega), \ldots, X_{n}(\omega))
+\end{array}
+\)
+
+Элемент \( X_{(k)} \)~--- {\it \( k\)-я порядковая статистика}.
+
+\begin{defn}
+{\it Эмпирическая функция распределения}, построенная по выборке \( X_{1}, \ldots, X_{n} \) объёма \( n \)~--- случайная функция \( F_{n}^{*}: \mathbb{R} \times \Omega \rightarrow[0,1] \), при каждом \( y \in \mathbb{R} \) равная:
+\( F_{n}^{*}(y) =\frac{1}{n} \sum_{i=1}^{n} \mathrm{I}\left(X_{i}<y\right)\)
+\end{defn}
+
+Эмпирическая функция распределенния строится по вариационному ряду следующим образом:
+
+\( F_{n}^{*}(y)=\left\{\begin{array}{ll}
+0, & \text { если } y \leqslant X_{(1)} \\
+\frac{k}{n}, & \text { если } X_{(k)}<y \leqslant X_{(k+1)} \\
+1 & \text { при } y>X_{(n)}
+\end{array}\right.
+\)
+
+\begin{exmp}
+Найдём эмпирические функции распределения для крайних порядковых статистик.
+
+\begin{enumerate}
+    \item \( F_{(1)}(x)=\mathbb{P}(X_{(1)} < x) = 1 - \mathbb{P} (\mathrm{X}_{(1)} \geq x) = 1 - \mathbb{P}(x_{1} \geq x, \ldots, x_{n} \geq x) = 1 - \prod_{i=1}^{n} \mathbb{P}(x_{i} \geq x) = 1 - (\mathbb{P}({x}_{1} \geq x))^{\mathrm{n}} = 1 - (1 - F(x))^{n}\)
+
+    \item \( F_{(n)}(x)=\mathbb{P}(X_{(n)} < x) = \mathbb{P}(x_{1} < x, \ldots, x_{n} < x) = \prod_{i=1}^{n} \mathbb{P}(x_{i} < x) = (\mathbb{P}({x}_{1} < x))^{\mathrm{n}} = F^{n}(x)\)
+\end{enumerate}
+\end{exmp}
+
+\begin{thm} Свойства эмпирической функции распределения:
+\begin{enumerate}
+    \item Пусть \( X_{1}, \ldots, X_{n} \)~--— выборка из распределения \( \mathcal{F} \) с функцией распределения \( F \) и пусть \( F_{n}^{*} \) — эмпирическая функция распределения, построенная по этой выборке. Тогда \( F_{n}^{*}(y) \stackrel{\mathrm{p}}{\longrightarrow} F(y)\) при \(n \rightarrow \infty\) для любого \(y \in \mathbb{R}.\)
+    \item Для любого y \( \in \mathbb{R} \):
+    \begin{enumerate}[label={\arabic*)}]
+        \item \( \mathbb{E} F_{n}^{*}(y)=F(y) \), т.е. \( F_{n}^{*}(y) \)~--- несмещённая оценка для \( F(y) \).
+        \item \( \mathbb{D} F_{n}^{*}(y)=\cfrac{F(y)(1-F(y))}{n} \)
+        \item \( \sqrt{n}(F_{n}^{*}(y)-F(y)) \Rightarrow \mathrm{N}_{0, F(y)(1-F(y))} \), т.е. \( F_{n}^{*}(y) \)~--- асимптотически нормальная оценка для \( F(y) \).
+    \end{enumerate}
+\end{enumerate}
+\end{thm}
+
+\begin{proof}\leavevmode
+\begin{enumerate}
+    \item \( F_{n}^{*}(y)=\cfrac{1}{n} \sum_{i=1}^{n} \mathrm{I}(X_{i}<y) \), при этом случайные величины \( \mathrm{I}(X_{1}<y), \mathrm{I}(X_{2}<y), \ldots \) независимы и одинаково распределены, их математическое ожидание конечно:
+    
+    \( \mathbb{E}\mathrm{I}(X_{1}<y)=1 \cdot \mathrm{P}(X_{1}<y)+0 \cdot \mathrm{P}(X_{1} \geqslant y)=\mathrm{P}(X_{1}<y)=F(y)<\infty \)
+
+    Следовательно, применим ЗБЧ в форме Хинчина:
+    
+    \( F_{n}^{*}(y)=\cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E}\mathrm{I}(X_{1}<y)=F(y) \).
+    
+    \item Заметим, что \(\mathrm{I}(X_{1}<y) \sim  \mathrm{B}_{F(y)} \Rightarrow \mathbb{E}\mathrm{I}(X_{1}<y) = F(y); \mathbb{D}\mathrm{I}(X_{1}<y) = F(y)(1-F(y)) \).
+    \begin{enumerate}[label={\arabic*)}]
+        \item Случайные величины \(\mathrm{I}(X_{i}<y) \) одинаково распределены, поэтому:
+    
+        \( \mathbb{E} F_{n}^{*}(y)=\mathbb{E} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}=\cfrac{\sum_{i=1}^{n} \mathbb{E}\mathrm{I}(X_{i}<y)}{n}=\cfrac{n \mathbb{E}\mathrm{I}(X_{1}<y)}{n}=F(y) \)
+        
+        \item Случайные величины \(\mathrm{I}(X_{i}<y) \) независимы и одинаково распределены, поэтому:
+        
+        \( \mathbb{D}\mathrm{I}_{n}^{*}(y)=\mathbb{D} \cfrac{\sum_{i=1}^{n} \mathrm{I}(X_{i}<y)}{n}=\cfrac{\sum_{i=1}^{n} \mathbb{D}\mathrm{I}(X_{i}<y)}{n^{2}}=\cfrac{n \mathbb{D}\mathrm{I}(X_{1}<y)}{n^{2}}=\cfrac{F(y)(1-F(y))}{n} \)
+        
+        \item Применим ЦПТ:
+        
+        \( \sqrt{n}\left(F_{n}^{*}(y)-F(y)\right)=\sqrt{n}\left(\cfrac{\sum I(X_{i}<y)}{n}-F(y)\right) = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n F(y)}{\sqrt{n}} = \cfrac{\sum_{i=1}^{n} I(X_{i}<y)-n \mathbb{E}\mathrm{I}(X_{1}<y)}{\sqrt{n}} \Rightarrow \mathrm{N}_{0, \mathbb{D}\mathrm{I}(X_{1}<y)}=\mathrm{N}_{0, F(y)(1-F(y))}
+        \)
+        
+    \end{enumerate}
+\end{enumerate}  
+\end{proof}
+
+\section{Выборочные моменты. Их свойства}
+
+Рассмотрим случайную величину \( \xi^{*} \) с эмпирическим распределением, введём для последнего числовые характеристики.
+
+\begin{defn}
+{\it Выборочное матожидание}~--- \( \tilde{\mathbb{E}} \xi^{*}=\sum_{i=1}^{n} \frac{1}{n} X_{i}=\frac{1}{n} \sum_{i=1}^{n} X_{i}=\overline{X} \).
+
+Выборочное матожидание функции от \( \xi^{*} \) ~--- \( \tilde{\mathbb{E}} g\left(\xi^{*}\right)=\frac{1}{n} \sum_{i=1}^{n} g\left(X_{i}\right)=\overline{g(X)} \).
+\end{defn}
+
+\begin{defn}
+{\it Выборочная дисперсия}~--- \( \tilde{\mathbb{D}} \xi^{*}=\sum_{i=1}^{n} \frac{1}{n}(X_{i}-\tilde{\mathbb{E}} \xi^{*})^{2}=\frac{1}{n} \sum_{i=1}^{n}(X_{i}-\overline{X})^{2}=S^{2} \).
+\end{defn}
+
+\begin{defn}
+{\it Несмещённая выборочная дисперсия}~--- \( S_{0}^{2}=\frac{1}{n-1} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2} \).
+\end{defn}
+
+\begin{defn}
+{\it Выборочный момент \( k \)-го порядка}~--- \( \tilde{\mathbb{E}}(\xi^{*})^{k}=\sum_{i=1}^{n} \frac{1}{n} X_{i}^{k}=\frac{1}{n} \sum_{i=1}^{n} X_{i}^{k}=\overline{X^{k}} \).
+\end{defn}
+
+Все вышеперечисленные характеристики являются случайными величинами как функции от выборки \( X_{1}, \ldots, X_{n} \) и оценками для истинных моментов искомого распределения.
+
+\begin{thm}
+Выборочное среднее \( \overline{X} \) является несмещённой, состоятельной и асимптотически нормальной оценкой для теоретического среднего (математического ожидания):
+
+\begin{enumerate}[label={\arabic*.}]
+    \item Если \( \mathbb{E}|X_{1}|<\infty \), то \( \mathbb{E}\overline{X}=\mathbb{E} X_{1}=a \)
+    \item Если \( \mathbb{E}|X_{1}|<\infty \), то \(\overline{X} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{E} X_{1}=a \) при \( n \rightarrow \infty \).
+    \item Если \( \mathbb{D} X_{1}<\infty, \quad \mathbb{D} X_{1} \neq 0 \), то \( \sqrt{n}(\overline{X}-\mathbb{E} X_{1}) \Rightarrow \mathrm{N}_{0, \mathbb{D} X_{1}} \).
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}[label={\arabic*.}]
+    \item \( \mathbb{E} \overline{X}=\frac{1}{n}(\mathbb{E} X_{1}+\ldots+\mathbb{E} X_{n})=\frac{1}{n} \cdot n \mathbb{E} X_{1}=\mathbb{E} X_{1}=a \)
+    \item Из ЗБЧ в форме Хинчина:
+    
+    \( \overline{X}=\cfrac{X_{1}+\ldots+X_{n}}{n} \stackrel{\mathrm{p}}{\rightarrow} \mathbb{E} X_{1}=a \)
+    \item Из ЦПТ:
+    
+    \( \sqrt{n}\left(\overline{X}-\mathbb{E} X_{1}\right)=\cfrac{\sum_{i=1}^{n} X_{i}-n \mathbb{E} X_{1}}{\sqrt{n}} \Rightarrow \mathrm{N}_{0, \mathbb{D} X_{1}} \)
+\end{enumerate}
+
+Аналогичными свойствами обладает выборочный \( k \)-й момент \( \overline{X^{k}} \).
+\end{proof}
+
+\begin{thm}
+Пусть \( \mathbb{D} X_{1}<\infty \).
+\begin{enumerate}
+    \item Выборочные дисперсии \( S^{2} \) и \( S^{2}_0 \) являются состоятельными оценками для истинной дисперсии:
+    
+    \( S^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2}, \quad S_{0}^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{D} X_{1}=\sigma^{2} \)
+    
+    \item Величина \( S^{2} \)— смещённая оценка дисперсии, а \( S^{2}_0 \)~--— несмещённая:
+    
+    \( \mathbb{E} S^{2}=\frac{n-1}{n} \mathbb{D} X_{1}=\frac{n-1}{n} \sigma^{2} \neq \sigma^{2}, \quad \mathbb{E} S_{0}^{2}=\mathbb{D} X_{1}=\sigma^{2} \)
+    
+    \item Если \( 0 \neq \mathbb{D}(X_{1}-\mathbb{E}X_{1})^{2}<\infty \), то \( S^{2} \) и \( S^{2}_0 \) являются асимптотически нормальными оценками истинной дисперсии:
+    
+    \( \sqrt{n}\left(S^{2}-\mathbb{D} X_{1}\right) \Rightarrow \mathrm{N}_{0, \mathbb{D}\left(X_{1}-\mathbb{E} X_{1}\right)^{2}} \)
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}
+    \item \( S^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\overline{X^{2}}-(\overline{X})^{2} \)
+
+    Используя состоятельность первого и второго выборочных моментов и свойства сходимости по вероятности, получаем:
+
+    \( S^{2}=\overline{X^{2}}-(\overline{X})^{2} \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{E} X_{1}^{2}-\left(\mathbb{E} X_{1}\right)^{2}=\sigma^{2} \)
+    
+    \( \cfrac{n}{n-1} \rightarrow 1 \Rightarrow S_{0}^{2}=\frac{n}{n-1} S^{2} \stackrel{\mathrm{p}}{\rightarrow} \sigma^{2} \)
+    \item Используя несмещённость первого и второго выборочных моментов:
+    
+    \(
+    \begin{aligned}
+\mathbb{E} S^{2} &=\mathbb{E}\left(\overline{X^{2}}-(\overline{X})^{2}\right)=\mathbb{E} \overline{X^{2}}-\mathbb{E}(\overline{X})^{2}=\mathbb{E} X_{1}^{2}-\mathbb{E}(\overline{X})^{2}=\\
+&=\mathbb{E} X_{1}^{2}-\left((\mathbb{E} \overline{X})^{2}+\mathbb{D} \overline{X}\right)=\mathbb{E} X_{1}^{2}-\left(\mathbb{E} X_{1}\right)^{2}-\mathbb{D}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i}\right)=\\
+&=\sigma^{2}-\frac{1}{n^{2}} n \mathbb{D} X_{1}=\sigma^{2}-\frac{\sigma^{2}}{n}=\frac{n-1}{n} \sigma^{2}
+\end{aligned}
+    \)
+    
+    Откуда следует:
+    
+    \( \mathbb{E} S_{0}^{2}=\frac{n}{n-1} \mathbb{E} S^{2}=\sigma^{2} \)
+    
+    \item Введём случайные величины \( Y_{i}=X_{i}-a \); \( \mathbb{E}Y_{i} = 0, \mathbb{D} Y_{1}=\mathbb{D} X_{1}=\sigma^{2} \).
+    
+    \( S^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-\overline{X}\right)^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}-a-(\overline{X}-a)\right)^{2}=\overline{Y^{2}}-(\overline{Y})^{2} \)
+    
+    \( \begin{aligned}
+\sqrt{n}\left(S^{2}-\sigma^{2}\right) &=\sqrt{n}\left(\overline{Y^{2}}-(\overline{Y})^{2}-\sigma^{2}\right)=\sqrt{n}\left(\overline{Y^{2}}-\mathbb{E} Y_{1}^{2}\right)-\sqrt{n}(\overline{Y})^{2}=\\
+&=\frac{\sum_{i=1}^{n} Y_{i}^{2}-n \mathbb{E} Y_{1}^{2}}{\sqrt{n}}-\overline{Y} \cdot \sqrt{n} \overline{Y} \Rightarrow \mathrm{N}_{0, \mathbb{D}\left(X_{1}-a\right)^{2}}
+\end{aligned} \)
+
+    ...поскольку \( \cfrac{\sum_{i=1}^{n} Y_{i}^{2}-n \mathbb{E} Y_{1}^{2}}{\sqrt{n}} \Rightarrow \mathrm{N}_{0}, \mathbb{D} Y_{1}^{2} \) по ЦПТ, а \( \overline{Y} \cdot \sqrt{n} \overline{Y} \Rightarrow 0 \) как произведение последовательностей \( \overline{Y} \xrightarrow[n \rightarrow \infty]{p} 0 \) и \(\sqrt{n} \overline{Y} \Rightarrow \mathrm{N}_{0, \mathbb{D}} x_{1} \).
+\end{enumerate}
+\end{proof}
+
+\section{Точечная оценка. Несмещенность, состоятельность, оптимальность. Теорема о единственности оптимальной оценки}
+\begin{defn}
+{\it Статистика} или {\it оценка}~--- измеримая функция от выборки \( T(X) \).
+\end{defn}
+
+\begin{defn}
+{\it Несмещённая оценка}  функции \( \tau(\theta) \)~--- статистика \( T(X) \), т.ч. \( \forall \theta \in \Theta: \mathbb{E}T(\theta) = \theta \).
+\end{defn}
+
+\begin{defn}
+{\it Асимптотически несмещённая оценка}  функции \( \tau(\theta) \)~--- статистика \( T(X) \), т.ч. \( \forall \theta \in \Theta: \mathbb{E}T(\theta) \xrightarrow[n \rightarrow \infty]{} \theta \).
+\end{defn}
+
+\begin{defn}
+{\it Состоятельная оценка}  функции \( \tau(\theta) \)~--- статистика \( T(X) \), т.ч. \( \forall \theta \in \Theta: T(\theta) \xrightarrow[n \rightarrow \infty]{p} \theta \).
+\end{defn}
+
+\begin{rmrk}
+Несмещённость означает отсутствие ошибки «в среднем», т. е. при систематическом использовании данной оценки. Несмещённость является желательным, но не обязательным свойством оценок. Достаточно, чтобы смещение оценки (разница между её средним значением и истинным параметром) уменьшалось с ростом объёма выборки. Поэтому асимптотическая несмещённость является весьма желательным свойством оценок. Свойство состоятельности означает, что последовательность оценок приближается к неизвестному параметру при увеличении количества наблюдений. В отсутствие этого свойства оценка совершенно «несостоятельна» как оценка.
+\end{rmrk}
+
+\begin{exmp}
+Дано распределение \( \operatorname{Pois}(\theta), X = X_{1}. \) Найти несмещённую оценку для функции \( \tau(\theta) = \cfrac{1}{\theta} \).
+
+\( \mathbb{E}T(\theta) = \mathlarger{\mathlarger{\sum}}_{x=0}^{\infty}T(x)e^{-\theta}\cfrac{\theta^{x}}{x!} = \cfrac{1}{\theta} \Rightarrow \mathlarger{\mathlarger{\sum}}_{x=0}^{\infty}T(x)\cfrac{\theta^{x+1}}{x!} = \mathlarger{\mathlarger{\sum}}_{x=0}^{\infty}\cfrac{\theta^{x}}{x!} \Rightarrow T(x) \equiv \cfrac{1}{\theta} \)
+
+Т.к. полученная статистика зависит от \( \theta \), искомой несмещённой оценки для \( \tau(\theta) \) не существует.
+\end{exmp}
+
+\begin{exmp}
+Дано распределение \( \operatorname{Bi}(1, \theta), X = X_1 \). Найти несмещённую оценку для параметра \( \theta \).
+
+\( \mathbb{E}T(\theta) = \sum_{x=0}^{\infty}T(x)\theta^{x} = \cfrac{\theta}{1-\theta} = \sum_{r=1}^{\infty}\theta^{r}\)
+
+\( T(x)=\left\{\begin{array}{ll}
+0, & \text { если } x = 0 \\
+1, & \text { если } x \geq 1
+\end{array}\right.
+\)
+
+Полученная оценка, очевидно, является бессмысленной.
+\end{exmp}
+
+\begin{rmrk}
+Для несмещённой оценки \( T(X) \) функции \( \tau(\theta) \): \(\mathbb{E}_{\theta}(T(X)-T(\theta))^{2}=\mathbb{D}_{\theta} T(X)\). Т.к. для двух разных оценок \( T_1(X) \), \( T_2(X) \) соответствующие дисперсии могут быть несравнимыми, введём понятие оптимальной оценки.
+\end{rmrk}
+
+\begin{defn}
+{\it Оптимальная оценка} параметра \( \theta \)~--- статистика \( \theta^{*}=\theta^{*}(X) \), т.ч.:
+\begin{enumerate}
+    \item \( T(X) \)~--- несмещённая.
+    \item \( T(X) \) имеет равномерно минимальную дисперсию, т.е. для любой другой несмещённой оценки \( T^{*}(X) \) функции \( \tau(\theta) \): \( \mathbb{D}_{\theta} T(X) \leq \mathbb{D}_{\theta} T_{1}(X)~ \forall X\).
+\end{enumerate}
+\end{defn}
+
+\begin{thm}
+Если существует оптимальная оценка функции \( \tau(\theta) \), то она единственна.
+\end{thm}
+
+\begin{proof}
+Предположим обратное: пусть существуют две оптимальныеоценки \(T_1(X) \) и \( T_2(X) \) функции \( \tau(\theta) \). Тогда в силу их несмещённости: \(\mathbb{E}_{\theta} T_{1}(X)=\mathbb{E}_{\theta} T_{2}(X)=T(\theta)\), а а в силу того, что они имеют равномерно минимальную дисперсию: \( \mathbb{D}_{\theta} T_{1}(X)=\mathbb{D}_{\theta} T_{2}(X)~ \forall \theta \).
+
+Введём новую статистику: \( T_{3}(X)=\cfrac{T_{1}(X)+T_{2}(X)}{2} \).
+
+Так как \(\mathbb{E}_{\theta} T_{3}(X)=\cfrac{\mathbb{E}_{\theta} T_{1}(X)+\mathbb{E}_{\theta} T_{2}(X)}{2}=\tau(\theta) \), то \( T_{3}(X) \)~--- несмещённая оценка функции \( \tau(\theta) \).
+
+Имеем также:
+
+\( \mathbb{D}_{\theta} T_{3}(X)=\cfrac{\mathbb{D}_{\theta}\left(T_{1}(X)+T_{2}(X)\right)}{4} =
+\cfrac{\mathbb{D}_{\theta} T_{1}(X)+\mathbb{D}_{\theta} T_{2}(X)+2 \operatorname{cov}\left(T_{1}(X) T_{2}(X)\right)}{4} \)
+
+В силу свойства 
+\( \mathbb{E}_{\theta} \xi^{2}<\infty, \mathbb{E}_{\theta} \eta^{2}<\infty \Rightarrow|\operatorname{cov}(\xi, \eta)| = | \mathbb{E}(\xi-\mathbb{E} \xi)(\eta-\mathbb{E} \eta)| \leq \sqrt{\mathbb{D} \xi} \sqrt{\mathbb{D} \eta} \), где равенство достигается тогда и только тогда, когда \( \xi=a \eta+b \), получаем:
+
+\( \mathbb{D}_{\theta} T_{3}(X) \leq \cfrac{\mathbb{D}_{\theta} T_{1}(X)+\mathbb{D}_{\theta} T_{2}(X)+2 \sqrt{\mathbb{D}_{\theta} T_{1}(X)} \sqrt{\mathbb{D}_{\theta} T_{2}(X)})}{4} =\mathbb{D}_{\theta} T_{1}(X) \)
+
+В силу того, что \( T_1(X) \) и \( T_2(X) \) — оптимальные, дисперсия \( T_3(X) \) не может быть меньше дисперсии \( T_1(X) \), следовательно, справедливо равенство, достигаемое при следующих условиях:
+
+\( T_{1}(X)=a T_{2}(X)+b \Rightarrow \mathbb{E} T_{1}(X)=a \mathbb{E} T_{2}(X)+b \Leftrightarrow T(\theta)=a T(\theta)+b \forall \theta \Rightarrow a=1, b=0 \)
+\end{proof}
+
+\section{Функция правдоподобия. Достаточные статистики, полные статистики. Теорема факторизации}
+
+В зависимости от типа распределения \( \mathcal{F}_\theta \) обозначим через \( f_{\theta}(y) \) одну из следующих функций:
+
+\( f_{\theta}(y)=\left\{\begin{array}{ll}
+\text { плотность } f_{\theta}(y), & \text { если } \mathcal{F}_{\theta} \text { абсолютно непрерывно, } \\
+P_{\theta}\left(X_{1}=y\right), & \text { если } \mathcal{F}_{\theta} \text { дискретно. }
+\end{array}\right. \)
+
+\begin{defn}
+{\it Функция правдоподобия} выборки \(\overline{X}\)~--- \( L(\vec{X} ; \theta)=f_{\theta}\left(X_{1}\right) \cdot f_{\theta}\left(X_{2}\right) \cdot \ldots \cdot f_{\theta}\left(X_{n}\right)=\prod_{i=1}^{n} f_{\theta}\left(X_{i}\right) \).
+\end{defn}
+
+\begin{rmrk}
+В дискретном случае функция правдоподобия принимает вид:
+
+\( 
+L(\vec{x} ; \theta)=\prod_{i=1}^{n} f_{\theta}(x_{i}) =\mathrm{P}_{\theta}(X_{1}=x_{1}) \cdot \ldots \cdot \mathrm{P}_{\theta}(X_{n}=x_{n}) = \mathrm{P}_{\theta}(X_{1}=x_{1}, \ldots, X_{n}=x_{n})
+\)
+
+Таким образом, смысл функции правдоподобия~--- вероятность попасть в заданную точку при соответствующем параметре \( \theta \) в дискретном случае; для абсолютно непрерывного аналогично~--- вероятность попасть в куб с центром в \(x_1, \ldots, x_n\) и сторонами \(dx_1, \ldots, dx_n \).
+\end{rmrk}
+
+\begin{defn}
+{\it Достаточная статистика} для параметра \( \theta \)~--- статистика \( T(X) \), т.ч. \( \forall t,~ \forall B \in \mathfrak{B}(\mathbb{R}^{n})\) условное распределение \( \mathbb{P}(X_1, \ldots, X_n \in B~|~T=t) \) не зависит от параметра \( \theta \).
+\end{defn}
+
+Иными словами, если значение статистики \( T \) известно и фиксировано, то даже знание её распределения больше не даёт никакой информации о параметре; достаточно лишь вычислить \( T \) по выборке.
+
+\begin{thm}
+{\it Критерий факторизации:} \( T(X) \)~--- достаточная статистика \(\Leftrightarrow \) её функция правдоподобия представима в виде \( L(X_{1}, \ldots, X_{n} ; \theta) \stackrel{\text{п.н.}}{=} h(\vec{X}) \cdot \Psi(S, \theta)\)
+\end{thm}
+
+\begin{proof}
+Рассмотрим только дискретный случай. Пусть \( T(X) \)~--- достаточная статистика. Тогда:
+
+\( f_{\theta}(x)=p_{\theta}(X=x)=\mathrm{P}_{\theta}(X=x, T(X)=T(x))=\underbrace{\mathrm{P}_{\theta}(X=x | T(X)=T(x)}_{h(x)} \underbrace{\mathrm{P}_{\theta}(T(X)=T(x))}_{g(\theta, T(X))} \)
+
+Пусть, наоборот, \( \mathrm{P}_{\theta}(X=x)=h(x) g_{\theta}(T(x)) \). Тогда:
+
+\( \mathrm{P}_{\theta}(X=x | T(X)=1)=\left\{\begin{array}{ll}
+0, & T(X) \neq 1 \\
+\mathrm{P}_{\theta}(X=x | T(X)=T(x)), & T(X)=1
+\end{array}\right. \)
+
+...откуда следует:
+
+\( \begin{array}{c}
+\mathrm{P}_{\theta}(X=x | T(X)=T(x)) = \cfrac{\mathrm{P}_{\theta}(X=x, T(X)=T(x))}{\mathrm{P}(T(X)=T(x))}= \\
+= \cfrac{\mathrm{P}_{\theta}(X=x, T(X)=T(x))}{\sum_{y: T(y)=T(x)} \mathrm{P}_{\theta}(T(X)=T(x), X=y)}= \cfrac{\mathrm{P}_{\theta}(X=x)}{\sum_{y: T(y)=T(x)} \mathrm{P}_{\theta}(x=y)}=\\
+\cfrac{h(x) g_{\theta}(T(x))}{\sum_{y: T(y)=T(x)} h(y) g_{\theta}(T(x))}=\cfrac{h(x)}{\sum_{y: T(y)=T(x)} h(y)}
+\end{array} \)
+\end{proof}
+
+\begin{defn}
+{\it Полная статистика} для параметра \( \theta \)~--- статистика \( T(X) \), т.ч. \( \mathbb{E} g(T)=0~\forall \theta \in \Theta \Rightarrow g(T) \stackrel{\text{п.н.}}{=}0\)
+\end{defn}
+
+\section{Неравенство Рао—Крамера. Эффективные оценки}
+
+Пусть \( X_1, \ldots, X_n \)  —  некоторая выборка с функцией правдоподобия \( L(X, \theta)\) относительно некоторой меры \( \mu \). Введём функцию \( \varphi(\theta)=\int_{\mathbf{R}^{n}} T(x) L(x, \theta) \mu(d x)<\infty \), в дальнейшем считая, что она дифференцируема необходимое число раз.
+
+\begin{defn}
+Функция правдоподобия \( L(X, \theta)\) {\it удовлетворяет условиям регулярности для \(m\)-й производной}, если существует \(\cfrac{d^{m} \phi(\theta)}{d \theta^{m}}=\int_{\mathbb{R}^{n}} T(x) \cfrac{\partial^{m} L(x, \theta)}{\partial \theta^{m}} \mu(d x) \), причём множество \( \left\{ {x~|~L(x,\theta) > 0} \right\} \) не зависит от параметра \(\theta\).
+\end{defn}
+
+\begin{thm}
+{\it Неравенство Рао-Крамера:} Пусть \( X_1, \ldots, X_n \) — выборка, \( L(X, \theta)\) удовлетворяет условиям регулярности для первой производной и \(\tau(\theta)\)  —  дифференцируемая функция \(\theta\). Тогда:
+\begin{enumerate}
+    \item \( \forall~T(X)\),~--- несмещённой оценки функции \(\tau(\theta)\), справедливо неравенство:
+    
+    \( \mathbf{D}_{\theta} T(X) \geq \cfrac{(\tau^{\prime}(\theta))^{2}}{\mathbf{E}_{\theta} U^{2}(X, \theta)}~\forall \theta \in \Theta, \\
+    \text{где}~ U(X, \theta)=\cfrac{\partial \ln L(X, \theta)}{\partial \theta}~\text{(функция вклада)} \)
+    \item Равенство достигается \( \Leftrightarrow \exists~ a_n(\theta):~ T(X)-\tau(\theta)=a_{n}(\theta) \cdot U(X, \theta)\)
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\( \int L(x, \theta) \mu(d x)=1 \Rightarrow \int \cfrac{\partial L(x, \theta)}{\partial \theta} \mu(d x)=0 \)
+
+Из условий регулярности \( L(X, \theta)\) для следует:
+
+\( \int T(x) L(x, \theta) \mu(d x)=\mathbf{E}_{\theta} T(X)=T(\theta) \Rightarrow \int T(x) \cfrac{\partial L(x, \theta)}{\partial \theta} \mu(d x)=\tau^{\prime}(\theta) \)
+
+Заметим, что:
+
+\( \cfrac{\partial L(x, \theta)}{\partial \theta}=\cfrac{\partial \ln L(x, \theta)}{\partial \theta} \cdot L(x, \theta) \)
+
+Откуда следует:
+
+\( \begin{array}{c}
+\int U(x, \theta) L(x, \theta) \mu(d x)=0 \Leftrightarrow \mathbf{E}_{\theta} U(X, \theta)=0 \\
+\int T(x) U(x, \theta) L(x, \theta) \mu(d x)=\tau^{\prime}(\theta) \Leftrightarrow \mathbf{E}_{\theta} T(X) U(X, \theta)=T^{\prime}(\theta)
+\end{array} \)
+
+Вычитая из первого равенства, помноженного на \(\tau(\theta)\), второе, получаем:
+
+\( \mathbf{E}_{\theta}(T(X)-T(\theta)) U(X, \theta)=\tau^{\prime}(\theta) \)
+
+В левой части полученного равенства стоит ковариация случайных величин \(T(X)\) и \(U(X,\theta)\): \( \operatorname{cov}_{\theta}(T(X), U(X, \theta))=T^{\prime}(\theta) \)
+
+Из неравенства Коши-Буняковского:
+
+\(\left(\tau^{\prime}(\theta)\right)^{2}=\operatorname{cov}_{\theta}^{2}(T(X) U(X, \theta)) \leq \mathbf{D}_{\theta} T(X) \mathbf{D}_{\theta} U(X, \theta)=\mathbf{D}_{\theta} T(X) \mathbf{E}_{\theta} U^{2}(X, \theta) \)
+
+...что равносильно п.1 теоремы:
+
+\( \mathbf{D}_{\theta} T(X) \geq \cfrac{\left[T^{\prime}(\theta)\right]^{2}}{\mathbf{E}_{\theta} U^{2}(X, \theta)} \)
+
+Неравенство достигается, если линейно связаны:
+
+\( T(X)=\varphi(\theta) U(X, \theta)+\psi(\theta) \Rightarrow T(\theta)=\psi(\theta) \Rightarrow a_{n}(\theta)=\varphi(\theta) \)
+\end{proof}
+
+\begin{defn}
+{\it Эффективная оценка}~--- оценка \(T(X)\), для которой в неравенстве Рао-Крамера достигается равенство.
+\end{defn}
+
+\begin{rmrk}
+Если существует эффективная оценка для функции \(\tau(\theta)\), то ни для какой другой функции от \(\theta\), кроме линейного преобразования \(\tau(\theta)\), эффективной оценки существовать не будет. 
+\end{rmrk}
+
+\section{Теорема Рао—Блекуэлла—Колмогорова. Оптимальность оценок являющихся функцией полной достаточной статистики}
+
+\begin{thm}
+{\it Теорема Рао—Блекуэлла—Колмогорова:} Если оптимальная оценка функции \(\tau(\theta)\) существует, то она является функцией от достаточной статистики.
+\end{thm}
+
+\begin{proof}
+В доказательстве используются следующие свойства условного матожидания: 
+
+\( \mathbb{E} f(x, z)=\mathbb{E}(\mathbb{E}(f(x, z) | z)),
+\mathbb{E}(g(z) | z)=g(z)\)
+
+Пусть \(T(X)\)~--- достаточная статистика, \(T_1(X)\)~--- несмещённая оценка функции \(\tau(\theta)\), т.е. \(\mathbb{E} T_{1}(X)=\tau(\theta)\). Рассмотрим функцию \( H(T)=\mathbb{E}\left(T_{1} | T\right) \). Тогда из первого свойства следует:
+
+\( \mathbb{E} H(T)=\mathbb{E}\left(\mathbb{E}\left(T_{1} | T\right)\right)=\mathbb{E} T_{1}=\tau(\theta) \Rightarrow H(T)\)~--- несмещённая оценка \(\tau(\theta)\).
+
+Докажем равномерную минимальность её дисперсии:
+
+\( \mathbb{E}((T_{1}-H(T))(H(T)-\tau(\theta))=\mathbb{E}(\mathbb{E}((T_{1}-H(T))(H(T)-\tau(\theta)) | T)) =\mathbb{E}((H(T)-H(T))(H(T)-\tau(\theta)))=0 \)
+
+Таким образом, \(H(T)\)~--- оптимальная оценка \(\tau(\theta)\).
+\end{proof}
+
+\begin{thm}
+{\it Теорема Колмогорова:} Если \(T(X)\)~--- полная достаточная статистика, то она является оптимальной оценкой своего математического ожидания.
+\end{thm}
+
+\begin{proof}
+Докажем, что \(T(X)\) является единственной несмещенной оценкой для \( \mathbb{E}T(X)\). Тогда \(T(X)\) будет оптимальной оценкой. Предположим, что \(T_1(X)\)~--- оптимальная оценка для \( \mathbb{E}T(X)\). Из теоремы Рао-Блекуэлла-Колмогорова получаем, что \( T_{1}=H(T) \) и \( \mathrm{E} T_{1}=\mathrm{E} T \). Тогда:
+
+\( \mathrm{E} \underbrace{(T(\mathbf{X})-H(T(\mathbf{X})))}_{\varphi(T)}=0 \)
+
+Из условия полноты \(T(X)\) следует, что \( \varphi(T)=0 \) с вероятностью 1, т.е. \(T=H(T)\) с вероятностью 1.
+\end{proof}
+
+\section{Метод моментов. Свойства оценок, полученных методом моментов}
+
+Пусть \(X_1, \ldots, X_n\)~--- выборка объёма \(n\) из параметрического семейства распределений \( \mathcal{F}_\theta \). Выберем функцию \( g(y): \mathbb{R} \rightarrow \mathbb{R} \) так, чтобы существовал момент \( \mathbb{E} g\left(X_{1}\right)=h(\theta) \) и функция \(h(\theta)\) была обратима на \(\Theta\). Разрешим полученное уравнение относительно \(\theta\), а затем вместо истинного момента возьмём выборочный:
+
+\( \theta=h^{-1}\left(\mathbb{E} g\left(X_{1}\right)\right), \quad \theta^{*}=h^{-1}(\overline{g(X)})=h^{-1}\left(\frac{1}{n} \sum_{i=1}^{n} g\left(X_{i}\right)\right) \)
+
+Полученная оценка \(\theta^{*}\)~--- {\it оценка метода моментов} для параметра \(\theta\). Чаще всего берут \(g(y)=y^{k}\). В этом случае, при условии обратимости функции \(h\) на \(\Omega\):
+
+\( \mathbb{E} X_{1}^{k}=h(\theta), \quad \theta=h^{-1}\left(\mathbb{E} X_{1}^{k}\right), \quad \theta^{*}=h^{-1}(\overline{X^{k}})=h^{-1}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i}^{k}\right) \)
+
+\begin{thm}
+Пусть \( \theta^{*}=h^{-1}(\overline{g(X)}) \)~--- оценка параметра \(\theta\), полученная методом моментов, причём функция \(h^{-1}\) непрерывна. Тогда оценка \(\theta^{*}\) состоятельна.
+\end{thm}
+
+\begin{proof}
+По ЗБЧ Хинчина имеем:
+
+\( \overline{g(X)}=\frac{1}{n} \sum_{i=1}^{n} g\left(X_{i}\right) \stackrel{\mathrm{p}}{\longrightarrow} \mathbb{E} g\left(X_{1}\right)=h(\theta) \)
+
+Ввиду непрерывности функции \( h^{-1} \):
+
+\( \theta^{*}=h^{-1}(\overline{g(X)}) \stackrel{\mathrm{p}}{\longrightarrow} h^{-1}\left(\mathbb{E} g\left(X_{1}\right)\right)=h^{-1}(h(\theta))=\theta \)
+\end{proof}
+
+\begin{defn}
+{\it Асимптотически нормальная оценка} параметра \(\theta\) с коэффициентом \(\sigma^{2}(\theta)\)~--- оценка \(\theta^{*}\), т.ч. при \(n \rightarrow \infty\) имеет место слабая сходимость к стандартному нормальному распределению: \( \sqrt{n}(\theta^{*}-\theta) \Rightarrow \mathrm{N}_{0, \sigma^{2}(\theta)}\).
+\end{defn}
+
+\begin{lem}
+Пусть функция \(g(y)\) такова, что \(0 \neq \mathrm{D} g\left(X_{1}\right)<\infty\). Тогда статистика \(\overline{g(X)}\) является асимптотически нормальной оценкой для \(\mathrm{E} g\left(X_{1}\right)\) с коэффициентом \(\sigma^{2}(\theta)=\mathrm{D} g\left(X_{1}\right)\):
+
+\( \sqrt{n} \cfrac{\overline{g(X)}-\mathrm{E} g\left(X_{1}\right)}{\sqrt{\mathrm{D} g\left(X_{1}\right)}} \Rightarrow \mathrm{N}_{0,1} \)
+\end{lem}
+
+\begin{proof}
+Следует непосредственно из ЦПТ.
+\end{proof}
+
+\begin{rmrk}
+Следующая теорема утверждает асимптотическую нормальность оценок вида
+
+\(\theta^{*}=H(\overline{g(X)})=H\left(\cfrac{g\left(X_{1}\right)+\ldots+g\left(X_{n}\right)}{n}\right)\),
+
+которые обычно получаются при использовании метода моментов, при этом всегда \(\theta=H\left(\mathrm{E} g\left(X_{1}\right)\right)\).
+\end{rmrk}
+
+\begin{thm}
+Пусть функция \(g(y)\) такова, что \(0 \neq \mathrm{D} g\left(X_{1}\right)<\infty\), функция \(H(y)\) дифференцируема в точке \(a=\mathrm{E} g\left(X_{1}\right)\) и её производная в этой точке \(H^{\prime}(a)=\left.H^{\prime}(y)\right|_{y=a}\) отлична от нуля. Тогда оценка \(\theta^{*}=H(\overline{g(X)})\)
+является асимптотически нормальной
+оценкой для параметра \(\theta=H\left(\mathrm{E} g\left(X_{1}\right)\right)=H(a)\) с коэффициентом асимптотической нормальности \(\sigma^{2}(\theta)=\left(H^{\prime}(a)\right)^{2} \cdot D g\left(X_{1}\right)\).
+\end{thm}
+
+\begin{proof}
+Согласно ЗБЧ последовательность \(\overline{g(X)}\) стремится к \(a=\mathrm{E} g\left(X_{1}\right)\) по вероятности с ростом \(n\): Функция
+
+\(G(y)=\left\{\begin{array}{ll}
+\cfrac{H(y)-H(a)}{y-a}, & y \neq a \\
+H^{\prime}(a), & y=a
+\end{array}\right.\)
+
+по условию непрерывна в точке \(a\): Поскольку сходимость по веро-
+ятности сохраняется под действием непрерывной функции, получим,
+что \(G(\overline{g(X)}) \stackrel{\mathrm{p}}{\longrightarrow} G(a)=H^{\prime}(a)\).
+
+Заметим также, что по вышеприведённой лемме величина \(\sqrt{n}(\overline{g(X)}-a)\) слабо сходится
+к нормальному распределению \(\mathrm{N}_{0, \mathrm{D} g}\left(X_{1}\right)\): Пусть \(\xi\)~--- случайная величина
+из этого распределения. Тогда
+
+\(\sqrt{n}(H(\overline{g(X)})-H(a))=\sqrt{n}(\overline{g(X)}-a) \cdot G(\overline{g(X)}) \Rightarrow \xi \cdot H^{\prime}(a)\)
+
+Мы использовали следующее свойство слабой сходимости: если \(\xi_{n} \Rightarrow \xi\) и \(\eta_{n} \stackrel{\mathrm{p}}{\longrightarrow} c=\mathrm{const}\), то \(\xi_{n} \eta_{n} \Rightarrow c \xi\). Но распределение случайной величины \(\xi \cdot H^{\prime}(a)\) есть \(\mathrm{N}_{0,\left(H^{\prime}(a)\right)^{2} \cdot \mathrm{D} g\left(X_{1}\right)}\), откуда следует
+
+\(\sigma^{2}(\theta)=\left(H^{\prime}(a)\right)^{2} \cdot \mathrm{D} g\left(X_{1}\right)\).
+\end{proof}
+
+\section{Метод максимального правдоподобия. Свойства оценок максимального правдоподобия}
+
+\begin{defn}
+{\it Оценка максимального правдоподобия \(\hat{\theta}\) параметра \(\theta\)}~--- точка параметрического множества \(\Theta\), в которой функция правдоподобия \(L(X,\theta)\) при заданном \(X\) достигает максимума, т.е.:
+
+\( L(\boldsymbol{x}, \hat{\theta})=\sup _{\theta \in \Theta} L(\boldsymbol{x}, \theta) \)
+\end{defn}
+
+\begin{rmrk}
+Поскольку функция \(\operatorname{ln}y\) монотонна, то точки максимума функций \(L(X,\theta)\) и \(ln L(X,\theta)\) совпадают.
+\end{rmrk}
+
+Если для каждого \(X\) максимум функции правдоподобия достигается во внутренней точке \(\Theta\), и \(L(X,\theta)\) дифференцируема по \(\theta\), то оценка максимального правдопо-добия \(\hat{\theta}\) удовлетворяет уравнению:
+
+\( \cfrac{\partial \ln L_{n}(\mathbf{x}, \theta)}{\partial \theta}=0 \)
+
+Если \(\theta\)~--- векторный параметр: \(\theta=\left(\theta_{1}, \ldots, \theta_{n}\right)\), то это уравнение заменяется системой уравнений:
+
+\( \cfrac{\partial \ln L_{n}(\mathbf{x}, \theta)}{\partial \theta_{i}}=0, \quad i=1, \ldots, n \)
+
+\begin{thm}
+Если существует эффективная оценка \(T(X)\) скалярного параметра \(\theta\), то она совпадает с оценкой максимального правдоподобия.
+\end{thm}
+
+\begin{proof}
+Если оценка \(T(X)\) скалярного параметра \(\theta\) эффективна, то в неравенстве Рао-Крамера достигается равенство:
+
+\( U(X,\theta) = \cfrac{\partial \ln L_{n}(\mathbf{x}, \theta)}{\partial \theta}=\cfrac{T(X)-\theta}{a_n(\theta)} \)
+\end{proof}
+
+\begin{thm}
+Если \(T(X)\) достаточная статистика, а оценка максимального правдоподобия \(\hat{\theta}\) существует и единственна, то она является функцией от \(T(X)\).
+\end{thm}
+
+\begin{proof}
+Из критерия факторизации следует, что если T=T(X) достаточная статистика, то имеет место представление:
+
+\( L(X, \theta)=g(T(X), \theta) h(X) \)
+
+Таким образом, максимизации \(L(X,\theta)\) сводится к максимизации \(g(T(X), \theta)\) по \(\theta\), Следовательно \(\hat{\theta}\) есть функция от \(T(X)\).
+\end{proof}
+
+Добавить асимптотическую нормальность и эффективность + Чернова стр 39 теорема для состоятельности.
+
+\section{Интервальное оценивание. Методы центральной статистики и использования точечной оценки}
+
+\begin{defn}
+{\it Доверительный интервал} для параметра \(\theta\) с коэффициентом доверия \(0 \leq \alpha \leq 1\)~--- интервал \((T_1(X), T_2(X))\), т.ч. \(\mathbb{P}_{\theta}(T_1(X) < \theta < T_2(X)) \geq \alpha\).
+\end{defn}
+
+\begin{exmp}
+Пусть \(X_1, \ldots, X_n\)~--- выборка из \(N(\theta, 1)\). Тогда
+
+\( \theta^{*}=\overline{X}=\frac{1}{n} \sum_{i=1}^{n} X_{i} \sim N\left(\theta, \cfrac{1}{n}\right) \Rightarrow (\overline{X}-\theta) \sqrt{n} \sim N(0,1)\)
+
+Для величины, имеющей стандартное нормальное распределение, строим доверительный интервал, т.е. находим такое \(t_{\alpha / 2} \), что 
+
+\( \mathrm{P}_{\theta}\left(|(\bar{X}-\theta) \sqrt{n}|<t_{\alpha / 2}\right)=\alpha \).
+
+Решаем уравнение относительно \(\theta\) и получаем
+
+\( \mathrm{P}_{\theta}\left(\bar{X}-\cfrac{t_{\alpha / 2}}{\sqrt{n}}<\theta<\bar{X}+\cfrac{t_{\alpha / 2}}{\sqrt{n}}\right)=\alpha \).
+\end{exmp}
+
+\begin{defn}
+{\it Центральная статистика}~--- функция \(G(X,\theta)\), т.ч.:
+\begin{enumerate}
+    \item \(G(X,\theta)\) непрерывна и строго монотонна по \(\theta\) при любом фиксированном \(X\).
+    \item \(\mathbf{P}_{\theta}(G(X, \theta)<t)=F(t)\) непрерывна и не зависит от \(\theta\).
+\end{enumerate}
+\end{defn}
+
+\begin{rmrk}
+Формально определённая выше величина не является статистикой, т.к. зависит от неизвестного параметра \(\theta\).
+\end{rmrk}
+
+Построение доверительного интервала с помощью центральной статистики:
+\begin{enumerate}
+    \item Зафиксируем \( \alpha_{1}, \alpha_{2} \in \mathbf{R}\), т.ч.
+    
+    \(\mathbf{P}_{\theta}(\alpha_{1} \leq G_{1}(X, \theta) \leq \alpha_{2})=\alpha~\forall \theta \Leftrightarrow F(\alpha_{2})-F(\alpha_{1})=\alpha\).
+    \item Пусть \(G(X,\theta)\) возрастает. Из условий
+    
+    \( \left\{\begin{array}{l}
+    G(X, \theta) \leq \alpha_{2} \\
+    G(X, \theta) \geq \alpha_{1}
+    \end{array}\right. \)
+    
+    находятся статистики
+    
+    \(
+    \left\{\begin{array}{l}
+    T_{2}(X): G\left(X, T_{2}(X)\right)=\alpha_{2}, \quad \ T_{1}(X) \leq \theta \leq T_{2}(X) \\
+    T_{1}(X): G\left(X, T_{1}(X)\right)=\alpha_{1},
+    \end{array}\right.
+    \),
+    
+    откуда \( \mathbf{P}_{\theta}\left(T_{1}(X) \leq \theta \leq T_{2}(X)\right) \geq \alpha~ \forall \theta \).
+\end{enumerate}
+
+\begin{defn}
+{\it Центральный доверительный предел} для параметра \(\theta\) с коэффициентом доверия \(0 \leq \alpha \leq 1\)~--- интервал \((T_1(X), T_2(X))\), т.ч. 
+
+\(
+\begin{array}{l}
+\mathbf{P}_{\theta}\left(T_{1}(X)>\theta\right)=\cfrac{1-\alpha}{2} \\
+\mathbf{P}_{\theta}\left(T_{2}(X)<\theta\right)=\cfrac{1-\alpha}{2}
+\end{array}
+\)
+\end{defn}
+
+Построение доверительного интервала с помощью точечной оценки:
 
 
 \end{document}
+
+
+---------------------------------------------
+END OF EVANGELION
+
+\myst{} {\it Теорема Рао-Блекуэлла-Колмогорова:} Пусть \(\theta^{*}\)~--- несмещённая оценка функции \(\tau(\theta)\), \(T(X)\)~--- достаточная для \(\theta\) статистика. Тогда для функции \( \varphi(T) = \mathbb{E}(\tau^{*}|T)\):
+\begin{enumerate}
+    \item \( \mathbb{E}(\varphi(T)|\theta) = \tau(\theta)\) (\(\varphi(T)\)~--- несмещённая оценка \(\tau(\theta)\));
+    \item \( \mathbb{D}(\varphi(T)|\theta) \leq \mathbb{D}(\tau^{*}|\theta)~\forall \theta\) (равномерно минимальная дисперсия).
+\end{enumerate}
+Иными словами, \( \varphi(T)\)~--- оптимальная оценка \(\tau(\theta)\).
+
+\myqed{}
+\begin{enumerate}
+    \item Из свойств условного математического ожидания:
+    
+    \( \mathbb{E}(\varphi(T))=\mathbb{E}(\mathbb{E}(\tau^{*} | T))=\mathbb{E}(\tau^{*})=\tau(\theta) \)
+    \item \( \mathbb{D}(\varphi(T)) = \mathbb{E}(\varphi(T) - \tau)^{2} = \mathbb{E}(\mathbb{E}(\tau^{*}|T(X))-\tau)^{2}) = \mathbb{E}((\mathbb{E}(\tau^{*}-\tau|T(X)))^{2}) \leq \mathbb{E}(\mathbb{E}((\tau^{*}-\tau)^{2}|T(X))) = \mathbb{E}((\tau^{*}-\tau)^{2}) = \mathbb{D}(\tau^{*}) \)
+    
+    Переход к неравенству опирается на неравенство Йенсена для условного матожидания: \( \varphi(\mathbb{E}[X | T]) \leq \mathbb{E}[\varphi(X) | T] \).
+\end{enumerate}
+
+
+
+\myst{} {\it Теорема Колмогорова:} Пусть \(T(X)\)~--- полная достаточная статистика. Тогда \(\varphi(T(X))\)~--- оптимальная оценка функции \(\tau(\theta) \Leftrightarrow \mathbb{E}_\theta\varphi(T(X)) = \tau(\theta)\)
+
+\myqed{} 
+Из теоремы Рао-Блекуэлла-Колмогорова следует, что если существует несмещённая оценка функции \(\tau(\theta) \), то существует также её несмещённая оценка от достаточной статистики.
+
+Пусть \(T_1(X) = \varphi_1(T(X))\)~--- несмещённая оценка \(\tau(\theta)\), \(T(X)\)~--- полная достаточная статистика. Допустим, что \(\exists T_2(X) = \varphi_2(T(X)) \). Тогда \(\forall \theta \in \Theta: \mathbb{E}_\theta(\varphi_1(T(X))-\varphi_2(T(X)))=0\).
+
+Но из полноты \(T(X)\) следует, что \(\varphi_1(y)-\varphi_2(y) \stackrel{\text{п.н.}}{=}0 \Rightarrow \) несмещённая оценка от полной достаточной статистики~--- единственная. Ввиду того, что она имеет наименьшую дисперсию среди всех несмещённых оценок, она является оптимальной.
