@@ -27,12 +27,15 @@
     \patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{}{}{}% Removes space above \chapter* head
     \makeatother
 
-\newcommand\mydef[1]{{\bf Опр.}}
-\newcommand\mynote[1]{{\bf Замеч.}}
-\newcommand\myst[1]{{\bf Утв.}}
-\newcommand\myqed[1]{{\bf Док-во.}}
-\newcommand\myex[1]{{\bf Пример.}}
-\newcommand\myprob[1]{{\mathbb{P}(#1)}}
+\newcommand\mydef{{\bf Опр.}}
+\newcommand\mynote{{\bf Замеч.}}
+\newcommand\myst{{\bf Утв.}}
+\newcommand\mycon{{\bf Следствие.}}
+\newcommand\myth{{\bf Теорема.}}
+\newcommand\myqed{{\bf Док-во.}}
+\newcommand\myex{{\bf Пример.}}
+\newcommand\myprob[1]{{\mathbf{P}(#1)}}
+\newcommand\mydes{{\bf Обозн.}}
 
 \renewcommand{\qedsymbol}{$\blacksquare$}
 \renewenvironment{proof}{{\bfseries Доказательство.}}{\qed}
@@ -94,6 +97,770 @@
 \tableofcontents
 \chapter{Теория вероятностей}
 
+\section{Вероятностное пространство. Операции над событиями. Свойства вероятности}
+\mydef{} {\it Пространство элементарных исходов}~--- любое непустое множество \( \Omega \ne \varnothing \). Элементы \( \omega \in \Omega \)~--- {\it элементарные исходы}.
+
+\mydef{} {\it Алгебра} \( \mathcal{A} \)~--- множество подмножеств \( \Omega \), обладающее следующими свойствами:
+
+\begin{enumerate}
+    \item \( \Omega \in \mathcal{A} \)
+    \item \( A \in \mathcal{A} \Rightarrow \overline{A} \in \mathcal{A} \)
+    \item \( A, B \in \mathcal{A} \Rightarrow A \cup B \in \mathcal{A} \) (по индукции: \( A_1, A_2, ..., A_n \in \mathcal{A} \Rightarrow \bigcup\limits_{i=1}^n A_i \in \mathcal{A} \))
+\end{enumerate}
+
+\mydef{} \( \sigma \text{\it{-алгебра~}} \mathcal{F} \)~--- множество подмножеств \( \Omega \), обладающее следующими свойствами:
+
+\begin{enumerate}
+    \item \( \Omega \in \mathcal{F} \)
+    \item \( A \in \mathcal{F} \Rightarrow \overline{A} \in \mathcal{F} \)
+    \item \( A_1, A_2,..., A_n,... \in \mathcal{F} \Rightarrow \bigcup\limits_{i=1}^\infty A_i \in \mathcal{F} \)
+\end{enumerate}
+
+\mynote{} Если \( A, B \in \mathcal{A} \), то \( A \cap B \equiv \overline{\overline{A} \cup \overline{B}} \in \mathcal{A} \)
+
+\mynote{} Любая \( \sigma \text{-алгебра} \) является алгеброй. Первые два пункта определений идентичны, рассмотрим третий. Для любой конечной последовательности \( A_1, A_2,..., A_n \in \mathcal{A}\) составим соответствующую счётную последовательность \( A_1, A_2, ..., A_n, A_{n+1}=\varnothing, A_{n+2}=\varnothing,... \in \mathcal{A} \). По определению \( \sigma \text{-алгебры} \): \( \bigcup\limits_{i=1}^\infty A_i \in \mathcal{F} \Rightarrow \bigcup\limits_{i=1}^n A_i \in \mathcal{F} \), следовательно, выполнен третий пункт определения алгебры.
+
+\mydef{} {\it Случайное событие} \(A\)~--- элемент \( \sigma \text{-алгебры~} \mathcal{F} \). \(A=\varnothing\)~---{\it достоверное событие}, \(A=\Omega\)~--- {\it невозможное событие}. Событие \( \overline{A} \)~--- {\it противоположное} \(A\), т.е. происходит тогда и только тогда, когда не происходит \(A\).
+
+Операции над событиями:
+
+\begin{compactlist}
+    \item {\it Объединение} \(A \cup B \)~--- происходит тогда и только тогда, когда происходят или \(A\), или \(B\), или оба вместе.
+    \item {\it Пересечение} \(A \cap B \) (или \(AB \))~--- происходит тогда и только тогда, когда происходят и \(A\) и \(B\) вместе.
+    \item {\it Разность} \(A \setminus B \)~--- происходит тогда и только тогда, когда происходит \(A\) и не происходит \(B\).
+    \item {\it Симметрическая разность} \(A \triangle B \) ~--- происходит тогда и только тогда, когда либо происходит \(A\) и не происходит \(B\), либо происходит \(B\) и не происходит \(A\).
+\end{compactlist}
+
+\mydef{} \( \sigma \text{-алгебра} \) {\it порождена классом \(K\)}, если она является пересечением всех \( \sigma \text{-алгебр}\), содержащих \(K\), т.е. является {\it минимальной \( \sigma \text{-алгеброй} \)}, содержащей \(K\).
+
+\myex{} Пусть \( K = \{A\} \), тогда \( \sigma (K) = \{\varnothing, \Omega, A, \overline{A}\} \).
+
+\mydef{} {\it \( \text{Борелевская~} \sigma \text{-алгебра~} \mathcal{B} \) }~--- \( \sigma \text{-алгебра}\), порождённая множеством всех открытых интервалов. Элемент \(B \in \mathcal{B}\)~--- {\it борелевское множество}.
+
+\mydef{} \( (\Omega, \mathcal{A}) \) и \( (\Omega, \mathcal{F}) \)~--- {\it измеримые пространства}, элементы \(\mathcal{A}\) и \(\mathcal{F}\)~---{\it измеримые множества}.
+
+\mydef{} {\it Вероятностная мера}~--- функция \( \mathbb{P}: \mathcal{F} \rightarrow \mathbb{R} \), обладающая следующими свойствами:
+
+\begin{enumerate}
+    \item \( \myprob{A} \geqslant 0~\forall A \in \mathcal{F} \) ({\it неотрицательность})
+    \item \( \myprob{\Omega} = 1 \) ({\it нормировка})
+    \item \( \forall A_1, A_2, ..., A_n... \in \mathcal{F},~ A_{i}A_{j} = \varnothing~ \forall i, j \in \mathbb{N}, i \ne j \Rightarrow \myprob{\bigcup\limits_{i=1}^\infty A_i} = \sum\limits_{i=1}^\infty \myprob{A_i} \) ({\it счётная аддитивность})
+\end{enumerate}
+
+\myst{} Свойства вероятности:
+\begin{enumerate}
+    \item \( \myprob{\varnothing}=0 \)
+    \item \( A, B \in \mathcal{F}, B \subset A \Rightarrow \myprob{A} \geqslant \myprob{B} \)
+    \item \( \myprob{A \setminus B} = \myprob{A} - \myprob{AB} \)
+    \item \( \myprob{A \cup B} = \myprob{A} + \myprob{B} - \myprob{AB} \)
+\end{enumerate}
+
+\myqed{}
+\begin{enumerate}
+    \item Рассмотрим последовательность событий \( \Omega, \varnothing, \varnothing, ...\): \( \bigcup\limits_{i=1}^\infty A_i = \Omega \Rightarrow \myprob{\bigcup\limits_{i=1}^\infty A_i} = \myprob{\Omega} = 1 \). При этом \( A_{i}A_j = \varnothing~(i \ne j) \), следовательно, по п.3 определения вероятности: \( \sum\limits_{i=2}^\infty \myprob{\varnothing} = 0 \Rightarrow \myprob{\varnothing} = 0 \).
+    \item \( B \subset A \Rightarrow A = (A \setminus B) \cup B \). Из неотрицательности вероятности и того, что \( (A \setminus B) \cap B = \varnothing \), следует, что \( \myprob{A} = \myprob{A \setminus B} + \myprob{B} \geqslant \myprob{B} \). Кроме того, \( \myprob{A \setminus B} = \myprob{A} \ \myprob{B})\).
+    \item Следует из того, что \( A = (A \ B) \cup AB, (A \ B) \cap AB = \varnothing \).
+    \item Следует из того, что \( A \cup B = (A \setminus AB) \cup B, (A \setminus AB) \cap B = \varnothing \).
+\end{enumerate}
+
+\mydef{} Тройка \( (\Omega, \mathcal{F}, \mathbb{P}) \)~--- {\it вероятностное пространство}.
+
+\mydef{} Пусть \( \Omega = \{ w_1, w_2,..., w_n\} \)~--- конечное непустое множество, \( \mathcal{F} \)~--- множество всех подмножеств \( \Omega \). Положим \( \myprob{\{w_i\}} = p_i \). Вероятностное пространство, определённое таким образом,~--- {\it дискретное вероятностное пространство}. Тогда для любого события \( A = \{ w_1,...w_k\} \) его вероятность \( \myprob{A} = \sum\limits_{i=1}^k p_i \).
+
+\mydef{} {\it Классическое определение вероятности}~--- \(p_1 = p_2 =...=p_n=\frac{1}{n} \). В этом случае \( \myprob{A} = \frac{k}{n} \).
+
+\section {Условная вероятность. Независимость событий. Критерий независимости. Формула полной вероятности. Формула Байеса.}
+
+\mydef{} Пусть задано вероятностное пространство \( (\Omega, \mathcal{F}, \mathbb{P}), A, B \in \mathcal{F}, \myprob{B} > 0 \). {\it Условная вероятность события \( A \) при событии \(B\)}~--- число \( \myprob{A|B}=\frac{\myprob{AB}}{\myprob{B}} \).
+
+\myst{} Условная вероятность \( \myprob{A|B} \)~--- вероятность, заданная на \( \mathcal{F} \).
+
+\myqed{} Проверим три аксиомы из определения вероятности.
+
+\begin{enumerate}
+    \item  \( \myprob{\Omega|B} = \frac{\myprob{B \cap \Omega}}{\myprob{B}} = \frac{\myprob{B}}{\myprob{B}} = 1\)
+    \item \( \forall A \in \mathcal{F}~ \myprob{A|B} \geq 0, \text{т.к.}~ \myprob{AB} \geqslant 0,~ \myprob{B} > 0 \)
+    \item Пусть дана некоторая последовательность $\it A_1, A_2, ..., A_n, ..., A_i \cap A_j = \varnothing ({\it i \ne j})$. Тогда: 
+    
+    $$\myprob{(\bigcup\limits_{i=1}^\infty A_i)|B}  = \dfrac{\myprob{(\bigcup\limits_{i=1}^\infty A_i) \cap B}}{\myprob{B}} = \dfrac{\myprob{\bigcup\limits_{i=1}^\infty(A_i \cap B)}}{\myprob{B}} = \dfrac{\sum\limits_{i=1}^\infty \myprob{A_i \cap B}}{\myprob{B}} = $$$$ = \sum\limits_{i=1}^\infty \myprob{A_i | B} ~~~ \square. $$
+    
+\end{enumerate}
+
+Некоторые свойства условной вероятности:
+\begin{enumerate}
+    \item Если $A \cap B = \varnothing,$ то $\myprob {A | B} = 0.$
+    \item Если $A \subset B$, то $\myprob{A|B} = 1.$ Например, $\myprob{B|B} = 1.$
+\end{enumerate}
+
+\newpage
+
+\subsubsection{Независимость событий}
+\mydef{} Пусть есть вероятностное пространство $(\Omega, \mathcal{F}, \mathbb{P})$. События $A_1, ..., A_n \in \mathcal{F}$ называются независимыми, если $\forall~2 \leq k \leq n$ и $\forall~1 \leq i_1 \leq i_2 \leq ... \leq i_k \leq n$ выполняется 
+$$ \myprob {\bigcap\limits_{j=1}^k A_{i_j}} = \prod\limits_{j=1}^k \myprob{A_{i_j}}. $$
+
+В частности, при $n = 2$: события $A_1$ и $A_2$ независимы, если $\myprob{A_1 \cap A_2} = \myprob{A_1}\myprob{A_2}$.
+
+Некоторые свойства:
+
+\begin{enumerate} 
+    \item Если $A = \varnothing$, то для любого $B$ с ненулевой вероятностью, $A$ и $B$ независимы. Действительно, $AB = \varnothing \rightarrow 0 = \myprob{AB} = \myprob{A}\myprob{B} = 0 * \myprob{B} = 0$. Аналогично для $\myprob{A} = 0$.
+    \item Если $\myprob{A} = 1$, то $A$ и $B$ независимы для любого $B$ с ненулевой вероятностью. Д-во аналогично.
+    \item Пусть $A$ и $B$ независимы. Тогда события $\overline{A}$ и $B$, $A$ и $\overline{B}$, $\overline{A}$ и $\overline{B}$ также независимы. Докажем независимость $\Bar{A}$ и $B$. Для события $B$ справедливо представление $B = AB \cup \overline{A}B.$ Тогда $\myprob{B} = \myprob{AB} + \myprob{\overline{A}B}$, но $\myprob{AB} = \myprob{A}\myprob{B},$ следовательно, $\myprob{\overline{A}B} = \myprob{B} - \myprob{A}\myprob{B} = \myprob{B} (1 - \myprob{A}) = \myprob{\overline{A}}\myprob{B}$, и независимость $\overline{A}$ и $B$ доказана. Аналогично доказываются остальные утверждения.
+    \item Пусть $A \subset B$ и $\myprob{A} > 0, \myprob{B} < 1$. Тогда $A$ и $B$ зависимы. Действительно, предположим, что они независимсы. Тогда $\myprob{AB} = \myprob{A}\myprob{B},$ но $\myprob{AB} = \myprob{A}$, следовательно, $\myprob{B} = 1$, что противоречит условию.
+    \item Если события $A$ и $B$ независимы и $\myprob{B} > 0$, то условная вероятность $A$ при условии $B$ равна вероятности $A$. Действительно, $\myprob{A | B} = \dfrac{\myprob{AB}}{\myprob{B}} = \dfrac{\myprob{A}\myprob{B}}{\myprob{B}} = \myprob{A}$.
+\end{enumerate}
+\myex{}, когда из попарной независимости не следует независимость в совокупности.
+Рассмотрим вероятностное пространство, в котором всего 4 различных элементарных исхода: $\Omega = \{ \omega_1, \omega_2, \omega_3, \omega_4 \}$. Пусть $\mathcal{F}$ --- множество всех подмножеств $\Omega, \myprob{\{\omega_i\}} = \dfrac{1}{4}, i = \overline{1,4}.$ Рассмотрим три события $A_1 = \{ \omega_1, \omega_4 \}, A_2 = \{ \omega_2, \omega_4 \}, A_3 = \{ \omega_3, \omega_4 \}$. $A_1A_2 = A_2A_3 = A_3A_1 = \{ \omega_4 \}, A_1A_2A_3 = \{ \omega_4 \}$.
+$$ \myprob{A_1} = \myprob{A_2} = \dfrac{1}{2}, \myprob{A_1A_2} = \myprob{A_2A_3} = \myprob{A_3A_1} = \dfrac{1}{4}, $$$$ \myprob{A_1A_2A_3} = \dfrac{1}{4} \neq \dfrac{1}{8} = \myprob{A_1}\myprob{A_2}\myprob{A_3},$$ следовательно события $A_1, A_2$ и $A_3$ не являются независимыми. 
+
+\subsubsection{Критерий независимости}
+
+\mydes{} $A_{i}^{(\delta)}=\left\{\begin{array}{ll}A_{i}, & \delta=1 \\ \overline{A_{i}}, & \delta=0\end{array}\right.$
+
+\myth{} {\bf (критерий независимости) }
+События $A_1, ..., A_n$ независимы тогад и только тогда, когда $\forall ~ \delta_1, \delta_2, ... \delta_n$ (равных нулю или единице) $$\myprob{\bigcap_{i=1}^{n} A_{i}^{\left(\delta_{j}\right)}}=\prod_{i=1}^{n}\myprob{A_{i}^{\left(\delta_{i}\right)}}$$
+\myqed{} Покажем, что если $A_1, ..., A_n$ независимы тогда и только тогда, когда $\forall ~ 2 \leq k \leq n, \forall ~ 1 \leq i_1 \leq ... \leq i_k \leq n, \forall ~ \delta_{i_1}, ..., \delta_{i_k} (= 0, 1)$ выполняется $\mathbf{P}\left(\bigcap_{j=1}^{k}A_{i_{j}}^{\left(\delta_{i}\right)}\right)=\prod_{j=1}^{k} \mathbf{P}\left(A_{i_{j}}^{\left(\delta_{j}\right)}\right)$. Пусть $A_1, ..., A_n$ независимы. Проведём индукцию по числу $\mu$ событий $A_{i_j}$, для которых $\delta_{i_j} = 0$. Если все $\delta_{i_j} = 1$, то утверждение превращается в определение независимости ($\mu = 0$ очевидно). 
+Пусть утверждение справедливо для всех $\mu \leq m$. Докажем, что оно справедливо при $\mu = m + 1$. Покажем, что $$\mathbf{P}\left(\overline{A_{i_{1}}}~ \overline{A_{i_{2}}} \ldots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)=\mathbf{P}(\overline{A_{i_{1}}}) \cdots \mathbf{P}(\overline{A_{i_{m+1}}}) \cdot \mathbf{P}\left(A_{i_{m+2}}\right) \cdots \mathbf{P}\left(A_{i_{n}}\right).$$
+Воспользуемся свойством аддитивности вероятности. Заметим предварительно, что для события $\overline{A_{i_{1}}}~ \overline{A_{i_{2}}} \ldots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}}$ допустимо разложение на два непересекающихся события $$\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m}}} A_{i_{m+2}} \cdots A_{i_{k}}=\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}} \cup \overline{A_{i_{1}}}~ \overline{A_{i_{2}}} \cdots A_{i_{m+1}} A_{i_{m+2}} \cdots A_{i_{k}}.$$
+Тогда
+$$\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)=\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)+
+$$$$+\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m}}} A_{i_{m+1}} A_{i_{m+2}} \cdots A_{i_{k}}\right),$$
+следовательно,
+$$\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)=\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)-$$$$-\mathbf{P}\left(\overline{A_{i_{1}}}~\overline{A_{i_{2}}} \cdots \overline{A_{i_{m}}} A_{i_{m+1}} A_{i_{l_{m+2}}} \cdots A_{i_{k}}\right)$$
+и
+$$\begin{array}{c}
+\mathbf{P}\left(\overline{A_{i_{1}}} \cdots \overline{A_{i_{m+1}}} A_{i_{m+2}} \cdots A_{i_{k}}\right)=\mathbf{P}(\overline{A_{i_{1}}}) \cdots \mathbf{P}(\overline{A_{i_{m}}}) \cdot \mathbf{P}\left(A_{i_{m+2}}\right) \cdots \mathbf{P}\left(A_{i_{k}}\right)
+\\
+\cdot\left[1-\mathbf{P}\left(A_{i_{m+1}}\right)\right]=
+\mathbf{P}(\overline{A_{i_{1}}}) \cdots \mathbf{P}\left(A_{i_{m}}\right) \cdot \mathbf{P}(\overline{A_{i_{m+1}}}) \cdot \mathbf{P}\left(A_{i_{m+2}}\right) \cdots \mathbf{P}\left(A_{i_{k}}\right)
+\end{array},$$
+тем самым утверждение доказано для некоторого $k$, в частности справедливо
+$$\mathbf{P}\left(A_{1}^{\delta_{1}} \cdots A_{n}^{\delta_{n}}\right)=\mathbf{P}\left(A_{1}^{\delta_{1}}\right) \cdots \mathbf{P}\left(A_{n}^{\delta_{n}}\right).$$
+Докажем теперь, что оно справедливо для любого $k$. Проведем индукцию по $k$. При $k = n$ утверждение, очевидно, справедливо. Предположим, что оно справедливо $\forall~k \geq m + 1.$ Докажем его для $k = m~(m < n)$. Для события $A_{i_1}^{(\delta_1)}\cdots A_{i_m}^{(\delta_m)}$ справедливо представление в виде объединения двух непересекающихся событий
+$$A_{i_{1}}^{\left(\delta_{1}\right)} \cdots A_{i_{m}}^{\left(\delta_{m}\right)}=A_{i_{1}}^{\left(\delta_{1}\right)} \cdots A_{i_{m}}^{\left(\delta_{m}\right)} A_{i_{m+1}}^{(1)} \cup A_{i_{1}}^{\left(\delta_{1}\right)} \cdots A_{i_{m}}^{\left(\delta_{m}\right)} A_{i_{m+1}}^{(0)}.$$
+Тогда в силу аддитивности вероятности 
+$$\mathbf{P}\left(A_{i_{1}}^{\left(\delta_{1}\right)} \cdots A_{i_{m}}^{\left(\delta_{m}\right)}\right)=\mathbf{P}\left(A_{i_{1}}^{\left(\delta_{1}\right)}\right) \cdots \mathbf{P}\left(A_{i_{m}}^{\left(\delta_{m}\right)}\right) \mathbf{P}\left(A_{i_{m+1}}^{(1)}\right)+$$$$+\mathbf{P}\left(A_{i_{1}}^{\left(\delta_{1}\right)}\right) \cdots \mathbf{P}\left(A_{i_{m}}^{\left(\delta_{m}\right)}\right) \mathbf{P}\left(A_{i_{m+1}}^{(0)}\right)
+=\mathbf{P}\left(A_{i_{1}}^{\left(\delta_{1}\right)}\right) \cdots \mathbf{P}\left(A_{i_{m}}^{\left(\delta_{m}\right)}\right) ~ \square.$$
+
+\subsubsection{Формула полной вероятности}
+\myth{} Пусть даны события $A, B_1, B_2, ..., B_n, ..., \myprob{B_i} > 0, $ причём $B_i \cap B_j = \varnothing~(i \neq j)$ и $\bigcup\limits_{i=1}^{\infty}B_i \supset A~$ (например, $\bigcup\limits_{i=1}^{\infty}B_i = \Omega$). Тогда справедлива {\it формула полной вероятности:}
+$$\mathbf{P}(A)=\sum_{i=1}^{\infty} \mathbf{P}\left(B_{i}\right) \cdot \mathbf{P}\left(A | B_{i}\right)$$
+\myqed{} Достаточно заметить, что при вышеперечисленных условиях $A = \bigcup\limits_{i=1}^{\infty}(AB_i),$ и $AB_i \cap AB_j = \varnothing ~(i \neq j).$ Тогда, учитывая $\myprob{B_i} > 0$, получаем
+$$\mathbf{P}(A)=\sum_{i=1}^{\infty} \mathbf{P}\left(A B_{i}\right)=\sum_{i=1}^{\infty} \mathbf{P}\left(B_{i}\right) \frac{\mathbf{P}\left(A B_{i}\right)}{\mathbf{P}\left(B_{i}\right)}=\sum_{i=1}^{\infty} \mathbf{P}\left(B_{i}\right) \cdot \mathbf{P}\left(A | B_{i}\right) ~~~ \square.$$
+
+\subsubsection{Формулы Байеса}
+\myth{} Пусть даны события $A, B_1, B_2, ..., B_n, ..., \myprob{B_i} > 0$, причём $B_i \cap B_j = \varnothing ~(i \neq j)$ и $\bigcup\limits_{i=1}^\infty B_i \supset A$ (например, $\bigcup\limits_{i=1}^{\infty}B_i = \Omega$). Пусть также $\myprob{A} > 0$. Тогда справедливы {\it формулы Байеса} для $i = 1, 2, ...~$:
+$$\mathbf{P}\left(B_{i} | A\right)=\frac{\mathbf{P}\left(B_{i}\right) \cdot \mathbf{P}\left(A | B_{i}\right)}{\sum\limits_{j=1}^{\infty} \mathbf{P}\left(B_{j}\right) \cdot \mathbf{P}\left(A | B_{j}\right)}.$$
+\myqed{} Согласно формуле полной вероятности в знаменателе дроби стоит вероятность $A$. Тогда $$\frac{\mathbf{P}\left(B_{i}\right) \cdot \mathbf{P}\left(A | B_{i}\right)}{\mathbf{P}(A)}=\frac{\mathbf{P}\left(B_{i}\right) \cdot \mathbf{P}\left(A B_{i}\right)}{\mathbf{P}(A) \cdot \mathbf{P}\left(B_{i}\right)}=\frac{\mathbf{P}\left(A B_{i}\right)}{\mathbf{P}(A)}=\mathbf{P}\left(B_{i} | A\right) ~~~ \square.$$
+
+\section{Случайная величина. Порожденное и индуцированное вероятностные пространства. Функция распределения, ее свойства}
+\subsubsection{Случайные величины}
+\mydef{} Пусть даны $(\Omega, \mathcal{F})$ - измеримое пространство и $(\mathbb{R}, \mathcal{B})$, где $\mathcal{B}$ - борелевская $\sigma$-алгебра множеств на числовой прямой $\mathbb{R}$. Тогда измеримая функция $\xi: \Omega \to \mathbb{R}$ называется {\it случайной величиной}.
+\\
+\\
+Очевидны следующие утверждения: 
+\begin{enumerate}
+    \item $\{\omega: \xi(\omega) < 0\} \in \mathcal{F}$
+    \item $\{\omega: \xi(\omega) < a\} \in \mathcal{F}$
+    \item $\forall~B \in \mathcal{B} \{\omega: \xi(\omega) \in B\} \in \mathcal{F}$
+    \item Если $\mathcal{F} = (\varnothing, \Omega)$, то $\xi = C$.
+    \item Если $\xi=\left\{\begin{array}{l}C_{1}, \omega \in A \\ C_{2}, \omega \in \bar{A}\end{array}(\omega: \xi(\omega) \in B)=\xi^{-1}(B)=A\right.$, то $C_{1}\in B, C_2 \notin B.$
+\end{enumerate}
+\subsubsection{Порожденное и индуцированное вероятностные пространства}
+\mydes{} $\mathcal{F}_\xi = \{ \xi^{-1}(\omega), B \in \mathcal{B} \}.$
+
+Отметим следующие факты:
+\begin{enumerate}
+    \item $\mathcal{F}_\xi \subset \mathcal{F}.$
+    \item $\mathcal{F}_\xi - \sigma$-алгебра. Действительно, $\xi^{-1}(\overline{B}) = \overline{\xi^{-1}(B)}$ и $\xi^{-1}\left(\bigcup\limits_{i=1}^{\infty}B_i\right) = \bigcup\limits_{i=1}^\infty \xi^{-1}(B_i)$, если $B_i$ попарно не пересекаются.
+\end{enumerate}
+
+\mydef{} Вероятностное пространство $(\Omega,\mathcal{F}_\xi,\mathbf{P})$ называется вероятностным пространством, {\it порожденным} случайной величиной $\xi$.
+
+\mydef{} Вероятностное пространство $(\mathbb{R},\mathcal{B},\mathbf{P}_\xi)$ называется вероятностым пространством, {\it индуцированным} случайной величиной $\xi$. При этом для $B \in \mathcal{B}$ --- $\myprob{B}_\xi = \myprob{\xi^{-1}(B)} = \myprob{\xi \in B}$ называется {\it распределением вероятностей} случайной величины $\xi$.
+
+\subsubsection{Функция распределения, её свойства}
+
+\mydef{} {\it Функцией распределения} $F_\xi (x)$ случайной величины $\xi$ называется функция, определённая для любого вещественного $x$ как
+$$F_{\xi}(x)=\mathbf{P}_{\xi}((-\infty, x))=\mathbf{P}(\xi<x).$$
+
+\myth{} $F_\xi(x)$ однозначно определяет $\mathbf{P}_\xi(B)$.
+\myqed{} Действительно, любое борелевское множество может быть представлено в виде разности числовой оси, одной или двух полупрямых и не более чем счётного объединения отрезков. В силу однозначности определения $\mathbf{P}_\xi([a,b]) = F_\xi(b + 0) - F_\xi(a)$ утверждение теоремы справедливо.
+
+Свойства функции распределения:
+\begin{enumerate}
+    \item $\forall x~ 0 \leq F_\xi(x) \leq 1.$ (как вероятность)
+    \item $F_\xi(x)$ --- монотонно убывает (т.е. для $x_1 < x_2 \Rightarrow F_\xi(x_1) \leq F_\xi(x_2)).$
+    
+    \myqed{} $x_1 < x_2 \Rightarrow \{ \xi < x_1 \} \subseteq \{ \xi < x_2\}$; из монотонности вероятности $\myprob{\xi < x_1} = F_\xi(x_1) \leq \myprob{\xi < x_2} = F_\xi(x_2) ~~~ \square.$ 
+
+    \item $\lim\limits_{x \rightarrow +\infty} F_\xi(x) = 1, \lim\limits_{x \rightarrow -\infty} F_\xi(x) = 0.$
+    
+    \myqed{} Пределы существуют в силу монотонности и ограниченности $F_\xi(x)$. Докажем, что $F_\xi(-n) \xrightarrow[n \rightarrow +\infty]{} 0.$ Рассмотрим последовательность вложенных событий $B_n = \{ \xi < -n \}$, 
+    $B_{n+1} = \{\xi < -(n+1) \} \subseteq B_n = \{ \xi < -n \} ~ \forall n ~ \geq 1.$
+    
+    Далее, $$\bigcap\limits_{j = 1}^{\infty}B_j = \{ \omega | \xi(\omega) < x, \forall x \in \mathbb{R} \} \Rightarrow \bigcap\limits_{j = 1}^{\infty}B_j = \varnothing.$$
+    
+    $F_\xi(-n) = \myprob{B_n} \xrightarrow[n \rightarrow +\infty]{} \myprob{B} = 0$ (в силу непрерывности меры)
+    
+    Теперь, $F_\xi(n) \xrightarrow[n \rightarrow +\infty]{} 1 \Leftrightarrow 1 - F_\xi(n) = \myprob{\xi \geq n} \xrightarrow[n \rightarrow +\infty]{} 0.$ Докажем это.
+    
+    Аналогично, пусть $B_n = \{\xi \geq n\}; B_{n+1} = \{ \xi \geq (n+1) \} \subseteq B_n, ...$
+    $$ \bigcap\limits_{j = 1}^{\infty}B_j = \varnothing \Rightarrow \xi(w) > x~\forall x \in \mathbb{R}. $$
+    Следовательно, $$1 - F_\xi(n) = \myprob{B_n} \xrightarrow[n \rightarrow +\infty]{} \myprob{B} = 0 \Rightarrow F_\xi(n) \xrightarrow[n \rightarrow +\infty]{}1 ~~~ \square. $$
+    
+    \item $F_\xi(x)$ непрерывна слева. (т.е. $F_\xi(x_0 - 0) = \lim\limits_{x \rightarrow x_0 - 0}F_\xi(x) = F_\xi(x_0)$)
+    
+    \myqed{} Докажем, что $F_\xi(x_0 - \frac{1}{n}) \xrightarrow[n \rightarrow +\infty]{} F_\xi(x_0).$ Это $~\Leftrightarrow F_\xi(x_0) - F_\xi(x_0 - \frac{1}{n}) = \myprob{\xi < x_0} - \myprob{\xi < x_0 - \frac{1}{n}} = \myprob{x_0 - \frac{1}{n} \leq \xi \leq x_0} \xrightarrow[n \rightarrow +\infty]{} 0$ (в силу непрерывности вероятности) $\square.$
+\end{enumerate}
+
+\section{Дискретные, сингулярные и абсолютно непрерывные функции распределения и случайные величины. Плотность распределения. Теорема Лебега о разложении функции распределения}
+
+\mydef{} {\it Точкой роста} функции распределения $F_\xi(x)$ назовём такую точку $x_0$, что 
+$$ \forall \varepsilon > 0 \Rightarrow F_\xi(x_0 + \varepsilon) - F_\xi(x_0 - \varepsilon) > 0.$$
+\mynote{} Возможен случай, когда точка роста является точкой разрыва:
+$$\lim _{\varepsilon \rightarrow 0} F_{\xi}\left(x_{0}+\varepsilon\right)-F_{\xi}\left(x_{0}-\varepsilon\right)=F_{\xi}\left(x_{0}+0\right)-F_{\xi}\left(x_{0}\right)>0 \Longleftrightarrow $$ $$ \Longleftrightarrow \mathbf{P}\left(x_{0}-\varepsilon \leq \xi<x_{0}+\varepsilon\right)=\mathbf{P}\left(\xi=x_{0}\right)>0$$
+
+\mydef{} Функция распределения $F_\xi(x)$ называется {\it дискретной}, если она имеет не более чем счётное число точек роста $(x_1, ..., x_n, ...).$ В этом случае $x_1, x_2, x_3, ...$ - точки разрыва функции распределения, которая принимает последовательность значений $p_i = \myprob{\xi = x_i}.$
+
+\mydef{} Функция распределения $F_\xi(x)$ называется {\it абсолютно непрерывной}, если её можно представить в виде $F_{\xi}(x)=\int\limits_{-\infty}^{x} p_{\xi}(u)du$, где $p_\xi(u) \geq 0$ - {\it плотность распределения} случайной величины.
+
+\mydef{} Функция распределения $F_\xi(x)$ называется {\it сингулярной}, если она непрерывна и множество точек её роста имеет нулевую меру Лебега.
+
+\myth{} \textbf{(о разложении функции распределения) [А. Лебег].} 
+Пусть $\xi$ - случайная величина с функцией распределения $F_\xi(x).$ Тогда существуют и единственны три функции $F_{ac}(x), F_s(x), F_d(x)$, соответственно абсолютно непрерывная, сингулярная и дискретная функции распределения, три числа $p_1, p_2, p_3 \geq 0, p_1 + p_2 + p_3 = 1$ такие, что 
+$$F_{\xi}(x)=p_{1} F_{ac}(x)+p_{2} F_{s}(x)+p_{3} F_{d}(x).$$
+\newpage
+\myqed{} Рассмотрим два возможных случая:
+\begin{enumerate}
+    \item $F_\xi(x)$ имеет хотя бы одну точку разрыва.
+    \item $F_\xi(x)$ непрерывна. В этом случае переходим к шагу II, положив $p_3 = 0$.
+\end{enumerate}
+
+\textbf{I}. Количество точек разрыва функции $F_\xi(x)$ не более, чем счётное. Это следует из того, что функция монотонна. Можно это доказать так: поскольку функция не убывает от 0 до 1, она может иметь не более двух скачков, больших или равных $\frac{1}{2}$. Затем, она может иметь не более четырёх скачков, больших или равных $\frac{1}{4}$, и так далее можно пересчитать все скачки функции $F_\xi(x).$ Пусть $x_1, x_2, ..., x_n, ... $ - точки разрыва, упорядоченные по возрастанию. Обозначим 
+$$\varphi_{i}=F_{\xi}\left(x_{i}+0\right)-F_{\xi}\left(x_{i}\right).$$
+
+Введём функцию
+$$\hat{F}_{d}(x)=\left\{\begin{array}{c}
+0, x \leq x_{1} \\
+\varphi_{1}, x_{1}<x \leq x_{2} \\
+\varphi_{1}+\varphi_{2}, x_{2}<x \leq x_{3} \\
+\vdots
+\end{array}\right..$$
+
+Очевидно, $\hat{F}_d(x)$  не убывает и непрерывна слева, $$\lim\limits_{x \rightarrow -\infty} \hat{F}_d(x) = 0, \lim\limits_{x \rightarrow +\infty} \hat{F}_d(x) = \sum\limits_{i=1}^\infty \varphi_i \leq 1.$$
+
+Возможны два случая:
+\begin{enumerate}
+    \item $\sum\limits_{i=1}^\infty \varphi_i = 1.$ Положим $p_3 = 1, p_1 = p_2 = 0$ и теорема доказана.
+    \item $\sum\limits_{i=1}^\infty \varphi_i = \alpha < 1.$ В таком случае положим $F_{d}(x)=\frac{1}{\alpha} \hat{F}_{d}(x)$. Функция $\hat{F}_{c}(x)=F_{\xi}(x)-\hat{F}_{d}(x)$ будет непрерывной неубывающей функцией, $\lim _{x \rightarrow-\infty} \hat{F}_{c}(x)=0, \lim _{x \rightarrow+\infty} \hat{F}_{c}(x)=1-\alpha$. Тогда функция $$F_{c}(x)=\frac{\hat{F}_{c}(x)}{1-\alpha}$$ будет непрерывной функцией распределения.
+\end{enumerate}
+
+Таким образом, получено разложение функции $F_\xi(x)$ на дискретную и непрерывную части: 
+$$F_{\xi}(x)=\hat{F}_{c}(x)+\hat{F}_{d}(x)=\alpha F_{d}(x)+(1-\alpha) F_{c}(x).$$
+
+\textbf{II.} Разложим $F_c(x)$ на $F_{ac}(x)$ и $F_s(x).$ $F_c(x)$, как функция распределения порождает меру $v_{c}(dx).$ Рассмотрим кроме этой меру Лебега. Тогда в силу теоремы Лебега о разложении меры, существуют и единственны две меры $v_{ac}$ и $v_s$, такие что $v_{ac}$ абсолютно непрерывна относительно меры Лебега, а $v_s$ сингулярна относительно меры Лебега:
+$$ v_c(B) = v_s(B) + v_{ac}(B), \forall B \in \mathcal{B}. $$
+Каждая из этих мер порождает функцию распределения меры, и $$F_{c}(x)=v_{s}((-\infty, x))+v_{a c}((-\infty, x)).$$
+Обозначим $\hat{F}_{s}(x)=v_{s}((-\infty, x)), \hat{F}_{a c}(x)=v_{a c}((-\infty, x)).~ \hat{F}_{s}(x), \hat{F}_{a c}(x)$ - непрерывные, неубывающие функции, $$\lim\limits_{x \rightarrow-\infty} \hat{F}_{s}(x)=\lim\limits_{x \rightarrow-\infty} \hat{F}_{a c}(x)=0, \lim\limits_{x \rightarrow+\infty} \hat{F}_{s}(x)=v_{s}(\mathbb{R}), \lim\limits_{x \rightarrow+\infty} \hat{F}_{a c}(x)=v_{a c}(\mathbb{R}).$$
+Однако, $$1=v_{c}(\mathbb{R})=v_{s}(\mathbb{R})+v_{a c}(\mathbb{R}) \Rightarrow v_{s}(\mathbb{R})=\beta, 0 \leq \beta \leq 1 ; v_{a c}(\mathbb{R})=1-\beta.$$
+Возможны три случая:
+\begin{enumerate}
+    \item $\beta=0 \Rightarrow p_{2}=0 \Rightarrow F_{a c}(x)=F_{c}(x).$
+    \item $\beta=1 \Rightarrow p_{1}=0 \Rightarrow F_{s}(x)=F_{c}(x).$
+    \item $0 < \beta < 1.$ Положим
+    $$F_{s}(x)=\frac{1}{\beta} \hat{F}_{s}(x), F_{a c}(x)=\frac{1}{1-\beta} \hat{F}_{a c}(x) \Rightarrow F_{c}(x)=\beta \cdot F_{s}(x)+(1-\beta) \cdot F_{a c}(x).$$
+\end{enumerate}
+Таким образом, все три функции определены, и коэффициенты соответственно равны
+$$p_1 = (1 - \beta)(1 - \alpha), p_2 = \beta(1 - \alpha), p_3 = \alpha. ~~~ \square$$
+
+\section{Числовые характеристики случайных величин: моменты, математическое ожидание, дисперсия. Их свойства.}
+
+\subsubsection{Математическое ожидание случайной величины}
+
+\mydef{} {\it Математическим ожиданием (средним значением, первым моментом)} случайной величины $\xi$, имеющей дискретное распределение со значениями $a_1, a_2, ...$, называется число
+$$\mathrm{E} \xi=\sum_{i} a_{i} p_{i}=\sum_{i} a_{i} \mathrm{P}\left(\xi=a_{i}\right),$$
+если данный ряд абсолютно сходится, т.е. если $\sum |a_i|p_i < \infty.$ В противном случае говорят, что математическое ожидание не существует.
+
+\mydef{} {\it Математическим ожиданием} случайной величины $\xi$, имеющей абсолютно непрерывное распределение с плотностью распределения $f(x)$, называется число
+$$\mathrm{E} \xi=\int\limits_{-\infty}^{\infty} x f(x) dx,$$
+если этот интеграл абсолютно сходится, т.е. если $\int\limits_{-\infty}^{+\infty}|x|f(x)dx < \infty.$ Иначе математическое ожидание не существует.
+
+\subsubsection{Свойства математического ожидания}
+\mynote{} Везде далее предполагается, что рассматриваемые математические ожидания существуют.
+\begin{enumerate}
+    \item Для произвольной функции $g(x)$ со значениями в $\mathbb{R}$
+    $$\mathrm{E} g(\xi)=\left\{\begin{array}{l}\sum\limits_{k} g\left(a_{k}\right) \mathrm{P}\left(\xi=a_{k}\right), \text { если распределение } \xi \text { дискретно; } \\ \int\limits_{-\infty}^{+\infty} g(x) f_{\xi}(x) d x, \text { если распределение } \xi \text { абсолютно непрерывно. }\end{array}\right.$$
+    
+    Такое же свойство верно и для числовых функций нескольких аргументов $g(x_1, ...,x_n)$, если $\xi$ - вектор из $n$ случайных величин, а в сумме и в интеграле участвует их совместное распределение. Например, для $g(x,y) = x + y$ и для случайных величин $\xi$ и $\eta$ с плотностью совместного распределения $f(x,y)$ верно: 
+    \begin{equation}
+        \mathrm{E}(\xi+\eta)=\int\limits_{-\infty}^{\infty} \int\limits_{-\infty}^{\infty}(x+y) f(x, y) d x d y
+    \end{equation}
+    
+    \item Математическое ожидание постоянной равно ей самой: $\mathrm{E} c=c.$
+    \item Постоянный множитель можно вынести за знак математического ожидания: $\mathrm{E}(c\xi) = c\mathrm{E}\xi.$
+    
+    Это следует из свойства 1. при $g(x) = cx$.
+    \item Математическое ожидание суммы {\it любых} случайных величин равно сумме их математических ожиданий: $\mathrm{E}(\xi + \eta) = \mathrm{E}\xi + \mathrm{E}\eta.$
+    
+    \myqed{} Воспользуемся равенством (1) и теоремой о совместном распределении:
+    $$\begin{aligned}
+    \mathrm{E}(\xi+\eta) &=\int\limits_{-\infty}^{\infty} \int\limits_{-\infty}^{\infty}(x+y) f(x, y) d x d y=\\
+    &=\int\limits_{-\infty}^{\infty} x d x \int\limits_{-\infty}^{\infty} f(x, y) d y+\int\limits_{-\infty}^{\infty} y d y \int\limits_{-\infty}^{\infty} f(x, y) d x=\\
+    &=\int\limits_{-\infty}^{\infty} x f_{\xi}(x) d x+\int\limits_{-\infty}^{\infty} y f_{\eta}(y) d y=\mathrm{E} \xi+\mathrm{E} \eta ~~~ \square.
+    \end{aligned}$$
+    \item Если $\xi \geq 0$, то $\mathrm{E}\xi \geq 0.$
+    
+    \myqed{} Неотрицательность $\xi$ означает, что $a_i \geq 0$ при всех $i$ в случае дискретного распределения, либо $f_\xi(x) = 0$ при $x < 0$ - для абсолютно непрерывного распределения. И в том, и в другом случае имеем:
+    $$\mathrm{E} \xi=\sum a_{i} p_{i} \geqslant 0 \quad \text { или } \quad \mathrm{E} \xi=\int_{0}^{\infty} x f(x) d x \geqslant 0 ~~~ \square.$$
+    
+    \mycon{} Если $\xi \leq \eta$, то $\mathrm{E}\xi \leq \mathrm{E}\eta.$
+    
+    \mycon{} Если $a \leq \xi \leq b$, то $a \leq \mathrm{E}\xi \leq b$.
+    
+    \item Математическое ожидание произведения {\it независимых} случайных величин равно произведению их математических ожиданий.
+    
+    \myqed{} В равенстве (1) заменим сложение умножением и плотность совместного распределениея произведением плотностей (это возможно в силу независимости случайных величин):
+    $$\begin{aligned}
+    \mathrm{E}(\xi \eta) &=\int\limits_{-\infty}^{\infty} \int\limits_{-\infty}^{\infty} x y f_{\xi}(x) f_{\eta}(y) d x d y=\\
+    &=\int\limits_{-\infty}^{\infty} x f_{\xi}(x) d x \int\limits_{-\infty}^{\infty} y f_{\eta}(y) d y=\mathrm{E} \xi \mathrm{E} \eta ~~~ \square.
+    \end{aligned}$$
+    
+    \mynote{} Обратное неверно: из равенства $\mathrm{E}(\xi \eta) = \mathrm{E}\xi \mathrm{E} \eta$ {\it не следует} независимость величин $\xi$ и $\eta$.
+\end{enumerate}
+
+\subsubsection{Дисперсия и моменты старших порядков}
+
+\mydef{}. Пусть $\mathrm{E}|\xi|^k < \infty.$ Число $\mathrm{E}\xi^k$ называется {\it моментом порядка $k$ или $k$-м моментом} случайной величины $\xi$, число $\mathrm{E}|\xi|^k$ - {\it абсолютным $k$-м моментом}, число $\mathrm{E}(\xi - \mathrm{E}\xi)^k$ - {\it центральным $k$-м моментом}, и число $\mathrm{E}|\xi - \mathrm{E}\xi|^k$ - {\it абсолютным центральным $k$-м моментом} случайной величины $\xi$. 
+
+\mydef{} Число $\mathrm{D}\xi = \mathrm{E}(\xi - \mathrm{E}\xi)^2$ (центральный момент второго порядка) называется {\it дисперсией} случайной величины $\xi$.
+
+\mydef{} Число $\sigma = \sqrt{\mathrm{D}\xi}$ называют {\it среднеквадратичным отклонением} случайной величины $\xi$.
+
+\myth{} Если существует момент порядка $t > 0$ случайной величины $\xi$, то существует и ее момент порядка $s$, где $0 < s < t$.
+
+\myqed{} Заметим, что $|\xi|^s \leq |\xi|^t + 1.$ В силу следствия из свойства 5 для математического ожидания можно получить из неравенства для случайных величин такое же неравенство для их математических ожиданий: $\mathrm{E}|\xi|^s \leq \mathrm{E}|\xi|^t + 1 < \infty. ~~~ \square$
+
+\myth{} \textbf{Неравенство Йенсена}. (без доказательства)
+
+Пусть функция $g(x)$ на своей области определения выпукла, т.е. область над графиком этой функции есть выпуклое множество. Тогда для любой случайно величины $\xi$ верно неравенство: 
+$$\mathrm{E}g(\xi) \geq g(\mathrm{E}\xi).$$
+Для вогнутых функций знак неравенства меняется на противоположный.
+
+В частности,
+$$\begin{array}{ccc}
+\mathrm{E} e^{\xi} \geqslant e^{\mathrm{E} \xi}, & \mathrm{E} \xi^{2} \geqslant(\mathrm{E} \xi)^{2}, & \mathrm{E}|\xi| \geqslant|\mathrm{E} \xi| \\
+\mathrm{E} \ln \xi \leqslant \ln (\mathrm{E} \xi), & \mathrm{E} \frac{1}{\xi} \geqslant \frac{1}{\mathrm{E} \xi}, & \mathrm{E} \sqrt{\xi} \leqslant \sqrt{\mathrm{E} \xi}
+\end{array}$$
+
+Последние три неравенства верны для положительных $\xi$.
+
+\subsubsection{Свойства дисперсии}
+
+\mynote{} Во всех свойствах предполагается существование вторых моментов случайных величин. Тогда (в силу вышеописанной теоремы) существуют и сами матожидания.
+
+\begin{enumerate}
+    \item Дисперсия может быть вычислена по формуле: $\mathrm{D}\xi = \mathrm{E}\xi^2 - (\mathrm{E}\xi)^2$.
+    
+    \myqed{} Обозначим для удобства $a = \mathrm{E}\xi.$ Тогда
+    $$\mathrm{D} \xi=\mathrm{E}(\xi-a)^{2}=\mathrm{E}\left(\xi^{2}-2 a \xi+a^{2}\right)=\mathrm{E} \xi^{2}-2 a \mathrm{E} \xi+a^{2}=\mathrm{E} \xi^{2}-a^{2}. ~~~ \square$$
+    
+    \item При умножении случайной величины на постоянную $c$ дисперсия увеличивается в $c^2$ раз: $\mathrm{D}(c\xi) = c^2\mathrm{D}\xi.$
+    \item Дисперсия всегда неотрицательна: $\mathrm{D}\xi \geq 0.$
+    
+    \myqed{} Пусть $a = \mathrm{E}\xi.$ Дисперсия есть математичекое ожидание неотрицательной случайной величины $(\xi - a)^2$, откуда (и из свойства 5 матожидания) следует неотрицательность дисперсии. $ ~~~ \square$
+    
+    \item Дисперсия обращается в нуль лишь для вырожденного распределения: если $\mathrm{D}\xi = 0$, то $\xi = const$, и наоборот.
+    
+    \myqed{} $\mathrm{D}\xi = 0 \Rightarrow (\xi - a)^2 = 0, \xi = a = const.$ И наоборот: если $\xi = c$, то $\mathrm{D} \xi=\mathrm{E}(c-\mathrm{E} c)^{2}=\mathrm{E} 0=0. ~~~ \square$
+    
+    \item Дисперсия не зависит от сдвига случайной величины на постоянную: $\mathrm{D}(\xi + c) = \mathrm{D}\xi.$
+    
+    \item Если $\xi$ и $\eta$ независимы, то $\mathrm{D}(\xi + \eta) = \mathrm{D}\xi + \mathrm{D}\eta.$
+    
+    \myqed{} Действительно, применяя свойство (6) матожидания, получим:
+    $$\begin{aligned}
+    \mathrm{D}(\xi+\eta) &=\mathrm{E}(\xi+\eta)^{2}-(\mathrm{E}(\xi+\eta))^{2}=\\
+    &=\mathrm{E} \xi^{2}+\mathrm{E} \eta^{2}+2 \mathrm{E}(\xi \eta)-(\mathrm{E} \xi)^{2}-(\mathrm{E} \eta)^{2}-2 \mathrm{E} \xi \mathrm{E} \eta=\mathrm{D} \xi+\mathrm{D} \eta
+    \end{aligned}. ~~~ \square$$
+    
+    \mynote{} Обратное, аналогично замечанию к свойству (6) матожидания, неверно.
+    
+    \mycon{} Если $\xi$ и $\eta$ независимы, то $\mathrm{D}(\xi-\eta)=\mathrm{D} \xi+\mathrm{D} \eta$. 
+    
+    \myqed{} Из свойств (6) и (2) получим: 
+    $$\mathrm{D}(\xi-\eta)=\mathrm{D}(\xi+(-\eta))=\mathrm{D} \xi+\mathrm{D}(-\eta)=\mathrm{D} \xi+(-1)^{2} \mathrm{D} \eta=\mathrm{D} \xi+\mathrm{D} \eta. ~~~ \square$$
+    
+    \mycon{} Для произвольных случайных величин $\xi$ и $\eta$ имеет место равенство:
+    $$\mathrm{D}(\xi \pm \eta)=\mathrm{D} \xi+\mathrm{D} \eta \pm 2(\mathrm{E}(\xi \eta)-\mathrm{E} \xi \mathrm{E} \eta).$$
+    
+\end{enumerate}
+
+\section {Числовые характеристики случайных величин: квантили. Медиана и ее свойства. Интерквартильный размах.}
+
+\mydef{} {\it Медианой} распределения случайной величины $\xi$ называется любое из {\it чисел} $\mu$ таких, что
+$$\myprob{\xi \leqslant \mu} \geqslant \frac{1}{2}, ~~~ \myprob{\xi \geqslant \mu} \geqslant \frac{1}{2}.$$
+
+\mynote{} Медиана распределения всегда существует, но может быть не единственна.
+
+\mydef{} Пусть, для простоты, функция распределения $F$ непрерывна и строго монотонна. Тогда {\it квантилью} уровня $\delta$, где $\delta \in (0, 1), $ называется решение $x_\delta$ уравнения $F(x_\delta) = \delta.$ 
+
+Квантиль уровня $\delta$ отрезает от области под графиком плотности область с площадью с площадью $\delta$ слева от себя. Справа от $x_\delta$ площадь области равна $1 - \delta$.
+
+\mydef{} Квантили уровней, кратных $0,01$, называют {\it процентилями}, квантили уровней, кратных $0,1$, — {\it децилями}, уровней, кратных $0,25$, — {\it квартилями}.
+
+\mynote{} Медиана является одной из квантилей распределения, уровня $\frac{1}{2}.$
+
+\subsubsection{Свойства медианы}
+
+Экстремальные свойства:
+
+\begin{enumerate}
+    \item Медиана $\mathrm{Med}~\xi$ случайной величины $\xi$ минимизирует средний модуль её отклонения:
+    $$\mathrm{E}|\xi-\operatorname{Med} \xi|=\min _{a} \mathrm{E}|\xi-a|$$
+    
+    \myqed{}
+    $$\mathrm{E}|\xi - a| - \mathrm{E}|\xi| = a\myprob{\xi \leqslant a} - a\myprob{\xi > a} - 2\mathrm{E}(\xi; 0 < \xi \leqslant a) \geqslant$$ $$\geqslant a\myprob{\xi \leqslant a} - a\myprob{\xi > a} - 2a\myprob{0 < \xi \leqslant a} = a(\myprob{\xi \leqslant 0} - \myprob{\xi > 0}) \geqslant 0. ~~~\square $$
+\end{enumerate}
+
+\subsubsection{Интерквантильный размах}
+
+\mydef{} {\it Интерквартильным размахом} называется разность между третьим и первым квартилями, то есть ${\displaystyle x_{0{,}75}-x_{0{,}25}}.$
+
+\section {Испытания Бернулли. Биномиальное распределение. Теорема Пуассона. (док-во в Ульянове) Распределение Пуассона.}
+
+\mydef{} {\it Схемой Бернулли} называется последовательность независимых испытаний, в каждом из которых возможны лишь два исхода - <<успех>> и <<неудача>>, при этом успех в каждом испытании происходит с одной и той же вероятностью $p \in (0,1)$, а неудача - с вероятностью $q = 1 - p.$
+
+\mydes{} $\mathrm{v}_n$ - число успехов, случившихсся в $n$ испытаниях схемы Бернулли. 
+
+\myth{} (формула Бернулли). Для любого $k = 0, 1, ..., n$ вероятность получить в $n$ испытаниях ровно $k$ успехов равна
+\begin{equation}
+    \mathbf{P}\left(\mathrm{v}_{n}=k\right)=C_{n}^{k} p^{k} q^{n-k}.
+\end{equation}
+
+\mydef{} Набор вероятностей (2) называется {\it биномиальным распределением} вероятностей.
+
+\myqed{} Событие $A = \{ \mathrm{v}_n = k \}$ означает, что в $n$ испытаниях схемы Бернулли произошло ровно $k$ успехов. Рассмотрим один элементарный исход из события $A$:
+$$(\underbrace{y, y, \ldots, y}_{k}, \underbrace{\text{\it н}, \text{\it н}, \ldots,\text{\it н}}_{n-k}),$$
+когда первые $k$ испытаний завершились успехом (у), остальные неудачей (н). Поскольку испытания независимы, вероятность такого элементарного исхода равна $p^k(1 - p)^{n-k}.$ Другие элементарные исходы из события $A$ отличаются лишь расположением $k$ успехов на $n$ местах. Поэтому событие $A$ состоит из $C_n^k$ элементарых исходов, вероятность каждого из которых равна $p^kq^{n-k}.~~~ \square$
+
+\myth {} \textbf{(Пуассона)}. Пусть проводится $n$ обобщённых испытаний Бернулли
+(то есть, вероятность успеха испытания зависит от $n$) с вероятностью успеха
+$p_n$, $S_n$ — количество успехов в этих испытаниях и $n p_{n} \underset{n \rightarrow \infty}{\longrightarrow} a$. Тогда
+
+$$\forall k \in \mathbb{Z}: 0 \leqslant k \leqslant n \quad \mathrm{P}\left(S_{n}=k\right) \underset{n \rightarrow \infty}{\longrightarrow} \frac{a^{k}}{k !} e^{-a}.$$
+
+\mydef{} Набор вероятностей $\{ \frac{\lambda^k}{k!} e^{-\lambda} \}$, где $k$ принимает значения $0, 1, 2, ...$, называется {\it распределением Пуассона} с параметром $\lambda > 0$.
+
+\myqed{} 
+
+$$\begin{aligned}
+\mathrm{P}\left(S_{n}=k\right) &=C_{n}^{k} p_{n}^{k}\left(1-p_{n}\right)^{n-k}=\frac{p_{n}^{k} n !}{k !(n-k) !}\left(1-p_{n}\right)^{n}\left(1-p_{n}\right)^{-k} \\
+&=\frac{\left(n p_{n}\right)^{k}}{k !} \cdot \frac{n !}{(n-k) ! n^{k}} \cdot \frac{\left(1-p_{n}\right)^{n}}{\left(1-p_{n}\right)^{k}}
+\end{aligned},$$
+$k$ - константа. Поэтому
+$$\lim\limits_{n \rightarrow \infty} \frac{\left(n p_{n}\right)^{k}}{k !}=\frac{a^{k}}{k !}.$$
+Далее,
+$$\lim _{n \rightarrow \infty} \frac{n !}{(n-k) ! n^{k}}=\lim _{n \rightarrow \infty}(1)\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right) \cdot \ldots \cdot\left(1-\frac{k-2}{n}\right)\left(1-\frac{k-1}{n}\right) =$$
+$$=\lim _{n \rightarrow \infty}\left(1-\frac{1}{n}\right) \lim _{n \rightarrow \infty}\left(1-\frac{2}{n}\right) \cdot \ldots \cdot \lim _{n \rightarrow \infty}\left(1-\frac{k-2}{n}\right) \lim _{n \rightarrow \infty}\left(1-\frac{k-1}{n}\right)=1.$$
+При выяснении предела третьей дроби требуется второй замечательный предел и
+непрерывность показательной функции. Кроме того, отметим, что раз $n p_{n} \underset{n \rightarrow \infty}{\longrightarrow} a$, то $p_{n} \underset{n \rightarrow \infty}{\longrightarrow} 0$. Таким образом
+$$\begin{aligned}
+\lim _{n \rightarrow \infty} \frac{\left(1-p_{n}\right)^{n}}{\left(1-p_{n}\right)^{k}} &=\frac{\lim _{n \rightarrow \infty}\left(1-p_{n}\right)^{n}}{\lim _{n \rightarrow \infty}\left(1-p_{n}\right)^{k}}=\frac{\lim _{n \rightarrow \infty}\left(1-p_{n}\right)^{n}}{1}=\lim _{n \rightarrow \infty}\left(1-p_{n}\right)^{\frac{1}{p_{n}} n p_{n}} \\
+&=\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{-n p_{n}}=\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{a-n p_{n}-a} \\
+&=\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{-a}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{a-n p_{n}} \\
+&=\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{-a} \lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{a-n p_{n}}
+\end{aligned}$$
+Последовательность $a - np_n$ является бесконечно малой, обозначим её как $\gamma_n.$ Вторая скобка:
+$$\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{\gamma_{n}}=\lim _{n \rightarrow \infty} e^{\gamma_{n} \frac{\ln \left(1-p_{n}\right)}{p_{n}}}=e^{\lim\limits _{n \rightarrow \infty} \gamma_{n} \frac{\ln \left(1-p_{n}\right)}{p_{n}}}=e^{\lim\limits _{n \rightarrow \infty} \gamma_{n} \lim\limits_{n \rightarrow \infty} \frac{\ln \left(1-p_{n}\right)}{p_{n}}}=e^{0 \cdot 1}=1.$$
+Первая скобка:
+$$\lim _{n \rightarrow \infty}\left(\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{-a}=\left(\lim _{n \rightarrow \infty}\left(1-p_{n}\right)^{-\frac{1}{p_{n}}}\right)^{-a}=e^{-a}.$$
+Собирая всё вышеполученное:
+$$\lim _{n \rightarrow \infty} \mathrm{P}\left(S_{n}=k\right)=\lim _{n \rightarrow \infty} \frac{\left(n p_{n}\right)^{k}}{k !} \cdot \frac{n !}{(n-k) ! n^{k}} \cdot \frac{\left(1-p_{n}\right)^{n}}{\left(1-p_{n}\right)^{k}} = $$
+$$=\lim _{n \rightarrow \infty} \frac{\left(n p_{n}\right)^{k}}{k !} \cdot \lim _{n \rightarrow \infty} \frac{n !}{(n-k) ! n^{k}} \cdot \lim _{n \rightarrow \infty} \frac{\left(1-p_{n}\right)^{n}}{\left(1-p_{n}\right)^{k}}=\frac{a^{k}}{k !} \cdot 1 \cdot e^{-a}=\frac{a^{k}}{k !} e^{-a} \cdot \square$$
+
+\section {Испытания Бернулли. Геометрическое распределение. Теорема Реньи. Показательное распределение.}
+
+\myth{} Вероятность того, что первый успех произойдёт в испытании с номером $k \in \mathbb{N} = \{1, 2, 3, ...\}$, равна $\myprob{\tau = k} = pq^{k-1}$.
+
+\myqed{} Вероятность первым $k - 1$ испытаниям завершиться неудачей, а последнему - успехом, равна 
+$$\mathrm{P}(\tau=k)=\mathrm{P}(\mu, \ldots, \mu, y)=p q^{k-1}. ~~~ \square$$
+
+\mydef{} Набор вероятностей $\{p q^{k-1}\}$, где $k$ принимает любые значения из множества натуральных чисел, называется {\it геометрическим распределением} вероятностей. 
+
+\mydef{} Случайная величина $\xi$ имеет {\it показательное (экспоненциальное) распределение} с параметром $\alpha > 0$, если $\xi$ имеет следующие плотность и функцию распределения:
+$$f(x)=\left\{\begin{array}{cc}
+0, & \text { если } x<0 \\
+\alpha e^{-\alpha x}, & \text { если } x \geqslant 0 ;
+\end{array} \quad F(x)=\left\{\begin{array}{cc}
+0, & \text { если } x<0 \\
+1-e^{-\alpha x}, & \text { если } x \geqslant 0
+\end{array}\right.\right.$$
+
+\myth{} \textbf{(Реньи)} (без доказательства). Пусть случайная величина $N$ имеет геометрическое распределение. $X_1, X_2, ...$ - независимые одинаково распределённые случайные величины, $X_i \geqslant 0$ и $0 < a = \mathrm{E}X < \infty$, $S_n = \sum\limits_{i=1}^N X_i.$
+
+Тогда $$\sup _{x}\left|P\left(\frac{p}{a} S_{N}<x\right)-G(x)\right| \underset{p \rightarrow 0}{\longrightarrow} 0,$$
+где $G(x)$ - функция стандартного показательного распределения.
+
+Если $b^2 = \mathrm{E}X_i^2$, тогда $$\sup_{x}\left|P\left(\frac{p}{a} S_{N}<x\right)-G(x)\right| \leqslant \frac{p b^{2}}{(1-p) a^{2}}.$$
+ 
+\section{Испытания Бернулли. Теорема Муавра—Лапласа. Нормальное распределение.}
+
+\myth{} \textbf{(Локальная предельная теорема Муавра-Лапласа.)} (без доказательства) Пусть $S_n$ - число успехов в $n$ испытаниях Бернулли с вероятностью успеха $p$. Если $n p(1-p) \underset{n \rightarrow \infty}{\longrightarrow} \infty$, то
+$$\forall m \in \mathbb{Z}: 0 \leqslant m \leqslant n \quad \mathrm{P}\left(S_{n}=m\right)=\frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{x^{2}}{2}}\left(1+\underline{O}\left(\frac{1}{\sigma}\right)\right),$$
+где $x = \frac{m - np}{\sigma},$ а $\sigma=\sqrt{\mathrm{D} S_{n}}=\sqrt{n p(1-p)}$.
+
+\myth{} \textbf{(Интегральная теорема Муавра-Лапласа)} Если выполнено условие локальной теоремы и $C$ - произвольная положительная константа, то равномерно по $a$ и $b$ из отрезка $[-C,C]$ (пусть $b \geqslant a$)
+$$\mathrm{P}\left(a \leqslant \frac{S_{n}-n p}{\sqrt{n p(1-p)}} \leqslant b\right) \underset{n \rightarrow \infty}{\longrightarrow} \frac{1}{\sqrt{2 \pi}} \int\limits_{a}^{b} e^{-\frac{x^{2}}{2}} d x$$
+
+\mynote{} Утверждение верно $\forall a,b \in \mathbb{R}$. Ограничение требуется для простоты доказательства.
+
+\myqed{} Обозначим за $q$ величину $1 - p$ и проведём небольшие выкладки с использованием локальной предельной теоремы в переходе, помеченном $\triangle$. В переходе $*$ - перенос знака.
+
+$$\mathrm{P}\left(a \leqslant \frac{S_{n}-n p}{\sqrt{n p(1-p)}} \leqslant b\right)=\mathrm{P}\left(n p+a \sqrt{n p q} \leqslant S_{n} \leqslant n p+b \sqrt{n p q}\right) \stackrel{*}{=}$$
+
+Пусть множество $M$ - это все целые числа $m$, такие что выполнено неравенство в последней вероятности. То есть,
+
+$$\begin{array}{c}
+M=\{m: n p+a \sqrt{n p q} \leqslant m \leqslant n p+b \sqrt{n p q}\} \Rightarrow \\
+\stackrel{*}{=} \sum\limits_{m \in M} \mathrm{P}\left(S_{n}=m\right) \triangleq \sum_{m \in M} \frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{x_{m}^{2}}{2}}\left(1+\underline{O}\left(\frac{1}{\sigma}\right)\right),
+\end{array}$$
+где $x_m$ понимается как $\frac{m - np}{\sigma}.$ Обозначим как $\Delta x_{m}$ разность $x_m - x_{m-1}.$ Рассмотрим эту разность:
+$$\Delta x_{m}=x_{m}-x_{m-1}=\frac{m-n p}{\sigma}-\frac{m-1-n p}{\sigma}=\frac{m-n p-m+1+n p}{\sigma}=\frac{1}{\sigma}.$$
+Таким образом после замены в последней сумме $\frac{1}{\sigma}$ на $\Delta x_m$ ясно, что это интегральная сумма Римана для интегрируемой на любом отрезке функции $e^{-\frac{x^2}{2}}$ плюс $\underline{O}\left(\frac{1}{\sigma}\right)$:
+$$\Delta x_{m}=\frac{1}{\sigma}=\frac{1}{\sqrt{n p(1-p)}} \underset{n \rightarrow \infty}{\longrightarrow} 0$$ по условию локальной теоремы.
+
+Таким образом, на отрезке $[-C,C]$ сумма сходится к интегралу:
+$$\sum_{m \in M} \frac{1}{\sqrt{2 \pi}} \Delta x_{m} e^{-\frac{x_{m}^{2}}{2}}\left(1+\underline{O}\left(\Delta x_{m}\right)\right) \underset{n \rightarrow \infty}{\longrightarrow} \frac{1}{\sqrt{2 \pi}} \int\limits_{a}^{b} e^{-\frac{x^{2}}{2}} d x,$$
+
+следовательно сойдется и на любом подотрезке. Причём в
+силу свойств сумм Римана, разность между суммой и предельным значением будет
+меньше $\varepsilon$ при $n$ не меньше некоторого $N_\varepsilon$, которое для всех допустимых $a$ и $b$ будет одним и тем же - это и есть равномерность (что верно в силу критерия Дарбу о сходимости). $~~~ \square$
+
+\mydef{} Случайная величина $\xi$ имеет {\it нормальное (гауссовское) распределение} с параметрами $a$ и $\sigma^2$, где $a \in \mathbb{R}, \sigma > 0$, если $\xi$ имеет следующую плотность распределения: 
+$$f(x)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-a)^{2}}{2 \sigma^{2}}}, \quad x \in \mathbb{R}.$$
+
+\section{Совокупности случайных величин. Совместная функция распределения. Независимость случайных величин. Критерии независимости. Ковариация, коэффициент корреляции.}
+
+\subsubsection{Совместное распределение, его свойства}
+
+Пусть случайные величины $\xi_1, ..., \xi_n$ заданы на одном вероятностном пространстве $(\Omega, \mathcal{F}, \mathbb{P})$.
+
+\mydef{} Функция $$F\left(x_{1}, \ldots, x_{n}\right)=\mathrm{P}\left(\xi_{1}<x_{1}, \ldots, \xi_{n}<x_{n}\right)$$
+называется функцией распределения вектора $(\xi_1, ..., \xi_n)$ или функцией {\it совместного} распределения случайных величин $\xi_1, ... \xi_n$.
+
+Свойства для двумерного случая $(\xi, \eta)$:
+
+\begin{enumerate}
+    \item Функция распределения $F(x,y) = \myprob{\xi < x, \eta < y}$ не убывает по $x$ и по $y$.
+    \item $F(x,y)$ стремится к нулю, если любую из переменных устремить к $-\infty$.
+    \item $F(x,y)$ стремится к единице, если {\it обе} переменные устремить к $+\infty$.
+    \item $F(x,y)$ непрерывна слева по каждой переменной
+    \item Чтобы по функции совместного распределения восстановить функцию распределения $\xi$ и $\eta$ в отдельности, следует устремить <<лишнюю>> переменную к $+\infty$:
+    $$\lim _{x \rightarrow+\infty} F(x, y)=F_{\eta}(y), \quad \lim _{y \rightarrow+\infty} F(x, y)=F_{\xi}(x)$$
+\end{enumerate}
+
+\subsubsection{Виды многомерных распределений}
+
+\mydef{} Совместное распределение величин $\xi$ и $\eta$ {\it дискретно}, если каждая из них имеет дискретное распределение. Если $\xi$ принимает значения $a_1, a_2, ...$, а $\eta$ принимает значения $b_1, b_2, ...$, то пара $(\xi, \eta)$ принимает всевозможные значения $(a_i, b_j)$. Таблицу, на пересечении $i$-ой строки и $j$-го столбца которой стоит вероятность $p_{i,j} = \myprob{\xi = a_i, \eta = b_j}$, называют {\it таблицей совместного распределения} случайных величин $\xi$ и $\eta$. Вероятности $p_{i,j}$ в сумме дают единицу:
+$$\sum_{i} \sum_{j} p_{i, j}=1$$
+
+\mydef{} Говорят, что случайные величины $\xi$ и $\eta$ имеют {\it абсолютно непрерывное совместное распределение}, если существует неотрицательная функция $f(x,y)$ такая, что для любых $a < b, c < d$ имеет место равенство
+$$\mathrm{P}(a<\xi<b, c<\eta<d)=\int_{a}^{b} d x \int_{c}^{d} f(x, y) d y.$$
+Если такая функция $f(x,y)$ существует, она называется {\it плотностью совместного распределения} случайных величин $\xi$ и $\eta$.
+
+Если случайные величины $\xi$ и $\eta$ имеют абсолютное непрерывное совместное распределение, то для любых $x, y$ имеет место равенство:
+\begin{equation}F(x, y)=\mathrm{P}(\xi<x, \eta<y)=\int\limits_{-\infty}^{x} d u \int\limits_{-\infty}^{y} f(u, v) d v\end{equation}
+
+Плотность совместного распределения имеет те же свойства, что и плотность распределения одной случайной величины: неотрицательность и нормированность:
+$$f(x, y) \geqslant 0, \quad \int\limits_{-\infty}^{\infty} d x \int\limits_{-\infty}^{\infty} f(x, y) d y=1.$$
+
+По функции совместного распределения его плотность находится как смешанная частная производная (в точках, где она существует):
+$$f(x, y)=\frac{\partial^{2}}{\partial x \partial y} F(x, y).$$
+
+\myth{} Если случайные величины $\xi$ и $\eta$ имеют абсолютное непрерывное совместное распределение с плотностью $f(x,y)$, то $\xi$ и $\eta$ в отдельности тоже имеют абсолютно непрерывные распределения с плотностями:
+$$f_{\xi}(x)=\int_{-\infty}^{\infty} f(x, y) d y ; \quad f_{\eta}(y)=\int_{-\infty}^{\infty} f(x, y) d x.$$
+
+\myqed{} TODO
+
+\subsubsection{Независимость случайных величин}
+
+\mydef{} Случайные величины $\xi_1, ..., \xi_n$ называют независимыми, если для любых множеств $B_1, ..., B_n$ имеет место равенство:
+
+$$\mathrm{P}\left(\xi_{1} \in B_{1}, \ldots, \xi_{n} \in B_{n}\right)=\mathrm{P}\left(\xi_{1} \in B_{1}\right) \cdot \ldots \cdot \mathrm{P}\left(\xi_{n} \in B_{n}\right).$$
+
+Можно сформулировать и другое, равносильное определение.
+
+\mydef{} Случайные величины $\xi_1, ..., \xi_n$ независимы, если функция совместного распределения распадается в произведение частных функций распределения, т.е. для любых $x_1, ..., x_n$ имеет место равенство:
+$$F\left(x_{1}, \ldots, x_{n}\right)=F_{\xi_{1}}\left(x_{1}\right) \cdot \ldots \cdot F_{\xi_{n}}\left(x_{n}\right).$$
+
+Для случайных величин с дискретными или с абсолютно непрерывными
+распределениями эквивалентные определения независимости выглядят так.
+
+\mydef{} Случайные величины $\xi_1, ..., \xi_n$ с дискретным распределением независимы, если для любых чисел $a_1, ..., a_n$ имеет место равенство: $\mathrm{P}\left(\xi_{1}=a_{1}, \ldots, \xi_{n}=a_{n}\right)=\mathrm{P}\left(\xi_{1}=a_{1}\right) \cdot \ldots \cdot \mathrm{P}\left(\xi_{n}=a_{n}\right)$.
+
+\mydef{} Случайные величины $\xi_1, ..., \xi_n$ с абсолютно непрерывным совместным распределением независимы, если плотность совместного распределения распадается в произведение плотностей, т.е. для любых $x_1, ..., x_n$ имеет место равенство: $f\left(x_{1}, \ldots, x_{n}\right)=f_{\xi_{1}}\left(x_{1}\right) \cdot \ldots \cdot f_{\xi_{n}}\left(x_{n}\right)$.
+
+TODO Критерии независимости
+
+\subsubsection{Ковариация, коэффициент корреляции, их свойства}
+
+\mydef{} {\it Ковариацией} $\operatorname{cov}(\xi,\eta)$ случайных величин $\xi$ и $\eta$ называется число $$\operatorname{cov}(\xi,\eta)=\mathrm{E}((\xi-\mathrm{E} \xi)(\eta-\mathrm{E} \eta)).$$
+
+\mynote{} $$\begin{aligned} \operatorname{cov}(\xi, \eta) &=\mathrm{E}((\xi-\mathrm{E} \xi)(\eta-\mathrm{E} \eta))=\mathrm{E}(\xi \eta-\eta \mathrm{E} \xi-\xi \mathrm{E} \eta+\mathrm{E} \xi \mathrm{E} \eta) \\ &=\mathrm{E} \xi \eta-\mathrm{E} \eta \mathrm{E} \xi-\mathrm{E} \xi \mathrm{E} \eta+\mathrm{E} \xi \mathrm{E} \eta=\mathrm{E} \xi \eta-\mathrm{E} \xi \mathrm{E} \eta \end{aligned}$$
+
+Свойства:
+
+\begin{enumerate}
+    \item $\operatorname{cov}(\xi, \xi)=\mathrm{D} \xi.$
+    \item $\operatorname{cov}(\xi, \eta)=\operatorname{cov}(\eta, \xi).$
+    \item $\operatorname{cov}(c \xi, \eta)=c \operatorname{cov}(\xi, \eta).$
+    \item Дисперсия суммы нескольких случайных величин вычисляется по любой из следующих формул:
+    $$\mathrm{D}\left(\xi_{1}+\ldots+\xi_{n}\right)=\sum_{i=1}^{n} \mathrm{D} \xi_{i}+\sum_{i \neq j} \operatorname{cov}\left(\xi_{i}, \xi_{j}\right)=\sum_{i=1}^{n} \mathrm{D} \xi_{i}+2 \sum_{i<j} \operatorname{cov}\left(\xi_{i}, \xi_{j}\right).$$
+\end{enumerate}
+
+\mydef{} {\it Коэффициентом корреляции} $\rho(\xi,\eta)$ случайных величин $\xi$ и $\eta$, дисперсии которых существуют и отличны от нуля, называется число
+$$\rho(\xi, \eta)=\frac{\operatorname{cov}(\xi, \eta)}{\sqrt{D \xi} \sqrt{D \eta}}.$$
+
+Свойства:
+
+\begin{enumerate}
+    \item Коэффициент корреляции независимых случайных величин равен нулю.
+    
+    \myqed{} В числителе дроби, которой равен коэффициент корреляции,
+окажется ноль. В знаменателе нуля быть не должно, это обеспечивается определением.
+$ ~~~ \square$
+
+    \item Для любых двух случайных величин (для которых выполнены условия определения) их коэффициент корреляции по модулю не превосходит единицы.
+    
+    \myqed{} Обозначим эти две случайные величины как $X$ и $Y$ и центрируем: $X_c = X - \mathrm{E}X$ и $Y_c = Y - \mathrm{E}Y$. Так как $\operatorname{cov}(X, Y)=\operatorname{cov}\left(X_{c}, Y_{c}\right)$, а дисперсия случайной величины не меняется от смещения случайной величины на константу, коэффициент корреляции не изменится.
+    
+    Далее, т.к. $\mathrm{E} X_{c}=\mathrm{E} Y_{c}=0$:
+    $$\mathrm{D} X_{c}=\mathrm{E} X_{c}^{2}-\left(\mathrm{E} X_{c}\right)^{2}=\mathrm{E} X_{c}^{2}, \mathrm{D} Y_{c}=\mathrm{E} Y_{c}^{2},$$$$ \operatorname{cov}\left(X_{c}, Y_{c}\right)=\mathrm{E}\left(X_{c} Y_{c}\right)-\mathrm{E} X_{c} \mathrm{E} Y_{c}=\mathrm{E}\left(X_{c} Y_{c}\right)$$
+    
+    Далее идут те же рассуждения, что часто используются при доказательстве неравенства Коши-Буняковского:
+    
+    $$\forall a \in \mathbb{R} \quad 0 \leqslant \mathrm{D}\left(X_{c}-a Y_{c}\right)=\mathrm{E}\left(X_{c}-a Y_{c}\right)^{2}-\left(\mathrm{E}\left(X_{c}-a Y_{c}\right)\right)^{2}=\mathrm{E}\left(X_{c}-a Y_{c}\right)^{2}.$$
+    
+    Полученное неравенство можно рассматривать как квадратное неравенство относительно $a$, а именно
+    
+    $$\mathrm{E}\left(X_{c}-a Y_{c}\right)^{2}=\mathrm{E} X_{c}^{2}-2 a \mathrm{E}\left(X_{c} Y_{c}\right)+a^{2} \mathrm{E} Y_{c}^{2} \geqslant 0$$
+    
+    Поскольку верно это для любого $a$, то дискриминанту нельзя ни в коем случае быть больше нуля. То есть:
+    
+    $$\left(\mathrm{E}\left(X_{c} Y_{c}\right)\right)^{2}-\mathrm{E} X_{c}^{2} \mathrm{E} Y_{c}^{2} \leqslant 0 \Longleftrightarrow\left|\mathrm{E}\left(X_{c} Y_{c}\right)\right| \leqslant \sqrt{\mathrm{E} X_{c}^{2} \mathrm{E} Y_{c}^{2}} $$$$\Rightarrow\left|\operatorname{cov}\left(X_{c}, Y_{c}\right)\right| \leqslant \sqrt{\mathrm{D} X_{c} \mathrm{D} Y_{c}}.$$
+    
+    По доказанному выше <<стирание>> индексов не изменит коэффициентов. $\square$
+
+    \item Если $|\rho(X,Y)| = 1$, то с вероятностью один $X$ и $Y$ линейно выражаются друг через друга. То есть,
+    $$|\rho(X, Y)|=1 \Longrightarrow \exists b \neq 0, c \in \mathbb{R}: \mathrm{P}(X-b Y=c)=1.$$
+    
+    \myqed{} Доказательство этого свойства целиком опирается на доказательство предыдущего: если выполнилось равенство $|\operatorname{cov}(X, Y)|=\sqrt{\mathrm{D} X \mathrm{D} Y}$, то квадратное неравенство относительно $a$ может обращаться в равенство при некотором $a = b$. Но это равенство означает, что равна нулю $\mathrm{D}(X-b Y)$, а это сразу говорит о том, что с вероятностью один $X - bY$ равна константе. Обозначим эту константу за $c$ и получим то, что нужно было доказать. $~~~\square$
+
+\end{enumerate}
+
+\section{Виды сходимости последовательностей случайных величин.}
+
+Везде далее каждая случайная величина $\xi_n(\omega)$ задана на вероятностном пространстве $(\Omega_n,\mathcal{F}_n,\mathbb{P})$.
+
+\mydef{} Последовательность случайных величин $\{ \xi_n \}$ сходится к случайной величине $\xi$ {\it по вероятности}: $\lim\limits_{n \rightarrow \infty} \xi_{n} \overset{\mathbb{P}}{=} \xi$, если для $\forall \varepsilon > 0 \Rightarrow \lim _{n \rightarrow \infty} \mathbf{P}\left(\left|\xi_{n}-\xi\right|>\varepsilon\right)=0.$
+
+\mydef{} Последовательность случайных величин $\{ \xi_n \}$ сходится к случайной величине $\xi$ {\it с вероятностью 1 (почти всюду)}: $\xi_n \xrightarrow[n \rightarrow \infty]{\text{с вероятностью}~1} \xi$, если $\mathbf{P}\left(\omega: \xi_{n}(\omega) \rightarrow \xi(\omega)\right)=1$. Рассматривается на вероятностном пространстве $(\Omega, \mathcal{F}, \mathbb{P})$, $\{ \xi_n(\omega) \}$ - последовательность случайных величин (по определению измеримых), следовательно, определение корректно.
+
+Введём множество $A=\left\{\left(\omega: \xi_{n}(\omega) \rightarrow \xi(\omega)\right\}\right.$. Его можно представить в виде 
+$$A=\bigcap_{k=1}^{\infty} \bigcup_{N=1}^{\infty} \bigcap_{n=N}^{\infty}\left(\omega:\left|\xi_{n}(\omega)-\xi(\omega)\right|<\frac{1}{k}\right)=\bigcap_{k=1}^{\infty} \varliminf_{n \rightarrow \infty}\left(\omega:\left|\xi_{n}(\omega)-\xi(\omega)\right|<\frac{1}{k}\right),$$ $A \in \mathcal{F}.$
+
+или, что то же самое, $A=\left(\omega: \forall k \in \mathbf{N}, \exists N: \forall n \geq N \Rightarrow\left|\xi_{n}(\omega)-\xi(\omega)\right|<\frac{1}{k}\right).$
+
+Тогда определение сходимости с вероятностью 1 можно переписать как $\myprob{A} = 1.$
+
+\mydef{} Последовательность случайных величин $\{ \xi_n \}$ сходится к случайной величине $\xi$ {\it в среднем порядка} $\alpha > 0: \xi_n \rightarrow \xi$, если $\lim _{n \rightarrow \infty} \mathbf{E}\left|\xi_{n}-\xi\right|^{\alpha}=0.$
+
+\mydef{} Последовательность случайных величин $\{ \xi_n \}$ сходится к случайной величине $\xi$ {\it по распределению}: $\xi_n \rightarrow \xi$, если $F_{\xi_n}(x) \rightarrow F_\xi(x), \forall x_0 \Rightarrow F_\xi(x_0)$ непрерывна.
+
+\mydef{} Последовательность случайных величин $\{ \xi_n \}$ сходится к случайной величине $\xi$ {\it слабо}: $\xi_n \Rightarrow \xi$, если для любой непрерывной ограниченной функции $\phi$ верно:
+$$\lim _{n \rightarrow \infty} \mathbf{E} \varphi\left(\xi_{n}\right)=\mathbf{E} \varphi(\xi).$$
+
+\section{Неравенства Маркова, Чебышева и Гаусса. Правило «трех сигм». Закон больших чисел в форме Чебышева.}
+
+\myth{} \textbf{(неравенство Маркова)} Если $\mathrm{E}|\xi| < \infty$, то для любого $x > 0$
+$$\myprob{|\xi| \geqslant x} \leqslant \frac{\mathrm{E}|\xi|}{x}.$$
+
+\mydef{}  Назовём индикатором события $A$ случайную величину $I(A)$, равную единице, если событие $A$ произошло, и нулю, если $A$ не произошло.
+
+\myqed{} По определению, величина $I(A)$ имеет распределение Бернулли с параметром $p = \myprob{I(A) = 1} = \myprob{A}$ и её математическое ожидание равно вероятности успеха $p = \myprob{A}.$ Индикаторы прямого и противоположного событий связаны равенством $I(A) + I(\overline{A}) = 1.$ Поэтому
+$$|\xi|=|\xi| \cdot I(|\xi|<x)+|\xi| \cdot I(|\xi| \geqslant x) \geqslant|\xi| \cdot I(|\xi| \geqslant x) \geqslant x \cdot I(|\xi| \geqslant x).$$
+Тогда $\mathrm{E}|\xi| \geqslant \mathrm{E}(x \cdot I(|\xi| \geqslant x))=x \cdot \mathrm{P}(|\xi| \geqslant x)$. Осталось разделить обе части этого неравенства на положительное число $x$. $~~~\square$
+
+\mycon{} \textbf{(обобщённое неравенство Чебышёва)}. Пусть функция $g$ не убывает и неотрицательна на $\mathbb{R}.$ Если $\mathrm{E}g(\xi) < \infty$, то для любого $x \in \mathbb{R}$
+$$P(\xi \geqslant x) \leqslant \frac{E g(\xi)}{g(x)}.$$
+
+\myqed{} Заметим, что $\myprob{\xi \geqslant x} \leqslant \myprob{g(\xi) \geqslant g(x)}$, поскольку функция $g$ не убывает. Оценим последнюю вероятность по неравенству Маркова, которое можно применять в силу неотрицательности $g$:
+$$\mathrm{P}(g(\xi) \geqslant g(x)) \leqslant \frac{\mathrm{E} g(\xi)}{g(x)}. ~~~ \square$$
+
+\mycon{} \textbf{(неравенство Чебышёва)} Если $\mathrm{D}\xi$ существует, то для любого $\varepsilon > 0$
+$$\mathrm{P}(|\xi-\mathrm{E} \xi| \geqslant \varepsilon) \leqslant \frac{\mathrm{D} \xi}{x^{2}}.$$
+
+\myqed{} Для $x > 0$ неравенство $|\xi - \mathrm{E}\xi| \geqslant x$ равносильно неравенству $(\xi - \mathrm{E}\xi)^2 \geqslant x^2$, поэтому
+$$\mathrm{P}(|\xi-\mathrm{E} \xi| \geqslant x)=\mathrm{P}\left((\xi-\mathrm{E} \xi)^{2} \geqslant x^{2}\right) \leqslant \frac{\mathrm{E}(\xi-\mathrm{E} \xi)^{2}}{x^{2}}=\frac{\mathrm{D} \xi}{x^{2}}. ~~~\square$$
+
+\myth{} \textbf{(неравенство Гаусса)} (без доказательства) Пусть $X$ - случайная величина с модой $m$ и пусть $\tau^2$ - математическое ожидание $(X - m)^2.$ Тогда верно следующее:
+
+$$\mathbb{P}(|X-m|>k) \leq\left\{\begin{array}{ll}
+\left(\frac{2 \tau}{3 k}\right)^{2}, & \text { если } k \geq \frac{2 \tau}{\sqrt{3}} \\
+1-\frac{k}{\tau \sqrt{3}}, & \text { если } 0 \leq k \leq \frac{2 \tau}{\sqrt{3}}
+\end{array}\right.$$
+
+В неравенстве Чебышева в качестве $\varepsilon$ можно брать любое положительное число. Если взять в качестве $\varepsilon$ величину $3\sigma$, где $\sigma$ — стандартное отклонение (то есть именно корень из дисперсии), то получится
+$$\mathrm{P}(|X-\mathrm{E} X|>3 \sigma) \leqslant \frac{\mathrm{D} X}{9 \mathrm{D} X}=\frac{1}{9}$$
+или то же самое $$\mathrm{P}(|X-\mathrm{E} X| \leqslant 3 \sigma) \geqslant 1-\frac{1}{9}=\frac{8}{9}.$$ 
+Это соотношение и зовётся {\it правилом трёх сигм}.
+
+\mydef{} Говорят, что последовательность случайных величин $\xi_1, \xi_2, ...$ с конечными первыми моментами {\it удовлетворяет закону Больших чисел (ЗБЧ)}, если
+$$\frac{\xi_{1}+\ldots+\xi_{n}}{n}-\frac{\mathrm{E} \xi_{1}+\ldots+\mathrm{E} \xi_{n}}{n} \stackrel{\mathrm{p}}{\longrightarrow} 0 \text { при } n \rightarrow \infty.$$
+
+\myth{} \textbf{(ЗБЧ Чебышёва)} Для любой последовательности $\xi_1, \xi_2, ...$ попарно независимых и одинаково распределённых случайных величин с конечным вторым моментом $\mathrm{E}\xi_1^2 < \infty$ имеет место сходимость
+$$\frac{\xi_{1}+\ldots+\xi_{n}}{n} \stackrel{\mathrm{p}}{\longrightarrow} \mathrm{E} \xi_{1}.$$
+
+\myqed{} Обозначим через $S_n = \xi_1 + ... + \xi_n$ сумму первых $n$ случайных величин. Из линейности матожидания получим
+$$\mathrm{E}\left(\frac{S_{n}}{n}\right)=\frac{\mathrm{E} \xi_{1}+\ldots+\mathrm{E} \xi_{n}}{n}=\frac{n \mathrm{E} \xi_{1}}{n}=\mathrm{E} \xi_{1}.$$
+Пусть $\varepsilon > 0.$ Воспользуемся неравенством Чебышёва:
+$$\mathrm{P}\left(\left|\frac{S_{n}}{n}-\mathrm{E}\left(\frac{S_{n}}{n}\right)\right| \geqslant \varepsilon\right) \leqslant \frac{\mathrm{D}\left(\frac{S_{n}}{n}\right)}{\varepsilon^{2}}=\frac{\mathrm{D} S_{n}}{n^{2} \varepsilon^{2}}=\frac{\mathrm{D} \xi_{1}+\ldots+\mathrm{D} \xi_{n}}{n^{2} \varepsilon^{2}}=$$$$=\frac{n \mathrm{D} \xi_{1}}{n^{2} \varepsilon^{2}}=\frac{\mathrm{D} \xi_{1}}{n \varepsilon^{2}} \rightarrow 0 \text { при } n \rightarrow \infty,$$
+так как $\mathrm{D}\xi_1 < \infty$. Дисперсия суммы превратилась в сумму дисперсий в силу попарной независимости слагаемых, из-за которой все ковариации $\operatorname{cov}(\xi_i, \xi_j)$ по свойству ковариации обратились в нуль при $i \neq j. ~~~ \square$
+
+\section{Характеристические функции и их свойства.}
+
+\mydef{} Пусть $\xi$ - случайная величина. {\it Характеристической функцией случайной величины} $\xi$ называется функция, определённая $\forall t \in \mathbb{R}$ как
+$$\varphi_{\xi}(t)=\mathbf{E} e^{i t \xi}=\mathbf{E} \cos (t \xi)+i \cdot \mathbf{E} \sin (t \xi).$$
+
+Свойства:
+\begin{enumerate}
+    \item $\varphi_\xi(0) = 1, |\varphi_\xi(1)| \leqslant 1~\forall t$, следовательно, для любой случайно величины $\xi$ и для любого $t$ функция $\varphi_\xi(t)$ определена.
+    \item $\varphi_\xi(t)$ равномерно непрерывна на всей числовой оси:
+    $$\left|\varphi_{\xi}(t+\Delta)-\varphi_{\xi}(t)\right|=\left|\mathbf{E} e^{i(t+\Delta) \xi}-\mathbf{E} e^{i t \xi}\right| \leq \mathbf{E}\left|e^{i \Delta \xi}-1\right|.$$
+    \item Следующие утверждения эквивалентны:
+    \begin{enumerate}
+        \item $\varphi_\xi(t)$ принимает лишь действительные значения
+        \item $\varphi_\xi(t)$ - чётная функция, то есть $\varphi_\xi(-t) = \varphi_\xi(t).$
+        \item $\xi$ имеет симметричное распределение (то есть $\xi$ и $-\xi$ одинаково распределены):
+        $$\forall x~F_{\xi}(x)=\mathbf{P}(\xi<x)=\mathbf{P}(-\xi<x)=\mathbf{P}(\xi>-x)=1-\mathbf{P}(\xi \leq-x)=1-F_{\xi}(-x+0)$$
+        
+        \myqed{} Действительно, $\varphi_{\xi}(t)=\mathbf{E} e^{i t \xi}, \quad \varphi_{\xi}(-t)=\overline{\varphi_{\xi}(t)} \Leftarrow e^{i(-t) \xi}=\overline{e^{i t \xi}}$, что устанавливает эквивалетность первых двух утверждений. Далее, имеем $\varphi_{\xi}(-t)=\mathbf{E} e^{i(-t) \xi}=\mathbf{E} e^{i t(-\xi)}=\varphi_{-\xi}(t)$, а так как $$\varphi(t)=\int e^{i t \xi} d F_{\xi}(x),$$ утверждение доказано. $~~~\square$
+    \end{enumerate}
+    
+    \item \myth{} \textbf{(Бохнера-Хинчина)} Функция $\varphi_\xi(t)$ является характеристической функцией случайной величины $\xi$ тогда и только тогда, когда $\varphi_\xi(0) = 1$, $\varphi_\xi(t)$ положительно определена, то есть $$\forall n, \forall t_{1}, \ldots, t_{n} \in \mathbf{R}, \forall c_{1}, \ldots, c_{n} \in \mathbf{C} \text { выполняется } \sum_{j=1}^{n} \sum_{k=1}^{n} \varphi_{\xi}\left(t_{j}-t_{k}\right) \cdot c_{j} \overline{c_{k}} \geq 0.$$
+    
+    \item $\varphi_{\xi}(t) \equiv \varphi_{\eta}(t)$, тогда и только тогда, когда $F_\xi(x) \equiv F_\eta(x).$
+    \item Если $\xi$ абсолютно непрерывна с плотностью $p_\xi(x)$, то
+    $$\varphi_{\xi}(t)=\int_{-\infty}^{+\infty} e^{i t x} p_{\xi}(x) d x, p_{\xi}(x)=\frac{1}{2 \pi} \int_{-\infty}^{+\infty} e^{-t x} \varphi_{\xi}(t) d t$$
+    \item Пусть у случайной величины $\xi$ существует момент $n$-го порядка $E \xi^{n}<\infty$. Тогда
+    $$\exists \frac{d^{k} \varphi(t)}{d t^{k}}=\varphi^{(k)}(t), \forall k=1, \ldots, n \text { и } \varphi^{(k)}(0)=i^{k} \mathbf{E} \xi.$$
+    
+    Так, например, если существует $\varphi^{(2k)}(t)|_0$, то существует $\mathbf{E} \xi^{2 k},$ и $\varphi^{(2 k)}(0)=(-1)^{k} \cdot \mathbf{E} \xi^{2 k}$.
+\end{enumerate}
+
+\section{Закон больших чисел в форме Хинчина}
+
 \section{Центральная предельная теорема}
 \begin{thm}[Центральная предельная теорема]
     Пусть $\xi_{1}, \xi_{2}, \ldots$~--- последовательность независимых одинаково распределенных (невырожденных) случайных величин с $\mathrm{E} X_{1}^{2}<\infty$ и $S_{n}=X_{1}+\ldots+X_{n}$. Тогда
@@ -125,6 +892,66 @@
 
 Функция $e^{-\frac{t^{2}}{2}}$ является характеристической функцией стандартного нормальногораспределения. В силу теорем о непрерывном соответсвии между функциями распределения и характеристическими функциями центральная предельная теорема доказана.
 \end{proof}
+
+\section{Условное математическое ожидание.}
+
+\mydef{} Расстоянием от точки $y$ до множества $A$ называется по определению {\it проекция точки $y$ на множество $A$}: $\min _{x \in A} \rho(x, y)$.
+
+На вероятностном пространстве $(\Omega, \mathcal{F}, \mathbb{P})$ рассмотрим вероятностное пространство, порождённое случайной величиной $\xi: (\Omega, \mathcal{F}_\xi, \mathbb{P})$, $\mathcal{F}_\xi = $ $\left\{\xi^{-1}(\omega), B \in \mathcal{B}\right\} \subset \mathcal{F}$ - минимальная $\sigma$-алгебра, в которой $\xi$ измерима. Зафиксируем $\mathcal{F}_\xi.$ Множество величин разбивается на две части: измеримых в $\mathcal{F}_\xi$ и неизмеримых в $\mathcal{F}_\xi$. Рассмотрим множество случайных величин, измеримых относительно $\mathcal{F}_\xi = \mathcal{F}_1$.
+
+\mydef{} Две случайные величины $\xi$ и $\eta$ называются {\it эквивалентными}, если $\myprob{\xi \neq \eta} = 0.$
+
+\mydef{} {\it Расстоянием между} $\xi$ и $\eta$ называется $\mathbf{E}(\xi-\eta)^{2}$.
+
+Напомним определение условной вероятности: $$\mathbf{P}(A | B)=\frac{\mathrm{P}(A B)}{\mathbf{P}(B)}=\mathbf{P}_{B}(A), \mathbf{P}(B)>0.$$
+
+\mydef{} Пусть есть случайная величина $\xi$, $\mathbf{E} \xi<\infty \Leftrightarrow \int_{\Omega} \xi(\omega) \mathbf{P}(d \omega)<\infty.$ Рассмотрим интеграл от той же функции относительно меры $\mathbf{P}_{B}(A)$ (относительно события $B$). {\it Условное математическоке ожидание} случайной величины $\xi$ относительно события $B$, имеющего ненулевую вероятность, определяется как интеграл
+$$\mathbf{E}(\xi | B)=\int_{\Omega} \xi(\omega) \mathbf{P}_{B}(d \omega)=\int_{B} \xi(\omega) \frac{\mathbf{P}(d \omega)}{\mathbf{P}(B)}.$$
+
+Последнее равенство следует из того, что $\mathbf{P}_{B}(\omega) = 0$, если $\omega \notin B.$ Отсюда следует, что $$\mathbf{P}(B) \mathbf{E}(\xi | B)=\int_{B} \xi(\omega) \mathbf{P}(d \omega).$$
+
+Рассмотрим счётное разбиение $\hat{\mathcal{F}} = (B_1, B_2, ...)$ множества $\Omega: \bigcup_{i=1}^{\infty} B_{i}=\Omega, B_{i} B_{j}=\varnothing(i \neq j), \myprob{B_i} > 0$ и рассмотрим случайную величину $\mathbf{E}(\xi | \hat{\mathcal{F}}) = \mathbf{E}\left(\xi | B_{i}\right), \omega \in B_{i}$. $\mathcal{F}_1$ - минимальная $\sigma$-алгебра, порождённая разбиением $\hat{\mathcal{F}}=\left(B_{1}, B_{2}, \ldots\right): \quad \mathcal{F}_{1}=\sigma(\hat{\mathcal{F}}).$ Если $A \in \sigma(\hat{\mathcal{F}})$, то $\exists B_{j_{k}} \in \hat{\mathcal{F}}: A=\bigcup_{k} B_{j_{k}}$. Также если $A \in \sigma(\hat{\mathcal{F}})$, то для любого $A$, входящего в минимальную $\sigma$-алгебру, порождённую разбиением выполняется
+$$\int_{A} \mathbf{E}(\xi | \hat{\mathcal{F}}) \mathbf{P}(d \omega)=\int_{A} \xi(\omega) \mathbf{P}(d \omega)$$
+
+\mydef{} Пусть имеется $(\Omega, \mathcal{F}, \mathbb{P})$, $\xi$ - случайная величина на этом вероятностном пространстве, $\mathbf{E} \xi<\infty, \mathcal{F}_{1} \subset \mathcal{F}, \mathcal{F}_{1}$ - $\sigma$-алгебра. {\it Условным математическим ожиданием случайной величины $\xi$ относительно $\sigma$-алгебры $\mathcal{F}_1$} называется случайная величина, которая удовлетворяет следующим двум условиям:
+\begin{enumerate}
+    \item $\mathbf{E}\left(\xi | \mathcal{F}_{1}\right)$ измерима относительно $\mathcal{F}_1$. (В случае конечного разбиения она будет кусочно-постоянной и, следовательно, измеримой)
+    \item $\forall A \in \mathcal{F}_1$ выполняется:
+    $$\int_{A} \mathbf{E}\left(\xi | \mathcal{F}_{1}\right)(d \omega)=\int_{A} \xi(\omega) \mathbf{P}(d \omega).$$
+\end{enumerate}
+
+Пусть $\xi \geqslant 0.$ Обозначим $\nu(A) =\int_{A} \xi(\omega) \mathbf{P}(d \omega)$. Если потребовать $A \in \mathcal{F}_1$, то $\nu$ будет мерой на $\mathcal{F}_1$. Из свойств интеграла Лебега следует, что $\nu$ абсолютно непрерывна относительно меры $\mathbb{P}$. В силу теоремы Радона-Никодима существует и почти всюду единственна измеримая относительно $\mathcal{F}_1$ (по мере $\mu$) функция $\mathbf{E}\left(\xi | A_{1}\right)$ такая, что $\nu(A)=\int_{A} \mathbf{E}\left(\xi | \mathcal{F}_{1}\right) \mu(d \omega)$.
+
+\mydef{} Пусть $\xi$ и $\eta$ - случайные величины, $\mathbf{E} \xi<\infty$. Тогда {\it условным математическим ожиданием случайной величины $\xi$ относительно случайной величины $\eta$} назовём 
+$$\mathbf{E}(\xi | \eta)=\mathbf{E}(\xi | \sigma(\eta)), \sigma(\eta)=\left(\eta^{-1}(B), B \in \mathcal{B}\right).$$
+
+\mydef{} {\it Условным математическим ожиданием события $A$ относительно $\sigma$-алгебры $\mathcal{F}_1$} назовём $\mathbf{P}\left(A | \mathcal{F}_{1}\right)=\mathbf{E}\left(\mathbf{I}(A) | \mathcal{F}_{1}\right).$
+
+Свойства:
+
+\begin{enumerate}
+    \item $\xi \geq 0 \Rightarrow \mathbf{E}\left(\xi | \mathcal{F}_{1}\right) \geq 0.$
+    \item $\xi$ измерима относительно $\mathcal{F}_1 \Rightarrow \mathbf{E}\left(\xi | A_{1}\right)=\xi$. Это следует из единственности функции в теореме Радона-Никодима (матожидание константы равно константе).
+    \item $\mathbf{E}\left(\mathbf{E}\left(\xi | \mathcal{F}_{1}\right)\right)=\mathbf{E}(\xi)$.
+    \item Линейность: $\forall a, b \in \mathbf{R}, \forall$ случайных величин $\xi, \eta: \mathbf{E} \xi<\infty, \mathbf{E} \eta<\infty$ верно
+    $$\mathbf{E}\left(a \xi+b \eta | \mathcal{F}_{1}\right)=a \cdot \mathbf{E}\left(\xi | \mathcal{F}_{1}\right)+b \cdot \mathbf{E}\left(\eta | \mathcal{F}_{1}\right)$$
+    \item Если $\xi$ и $\eta$ независимы, причём $\mathbf{E} \xi<\infty,$ то $\mathbf{E}(\xi | \eta)=\mathbf{E}(\xi)$.
+    \item Если $\xi$ и $\eta$ - случайные величины, причём $\mathbf{E} \varphi(\xi, \eta)<\infty$ и $\xi$ измерима относительно $\mathcal{F}_1, \varphi(\xi,\eta)$ - случайная величина, зависящая от $\xi$ и $\eta$. Тогда
+    $$\mathbf{E}\left(\varphi(\xi, \eta) | \mathcal{F}_{1}\right)=\left. \mathbf{E}\left(\varphi(u, \eta) | \mathcal{F}_{1}\right)\right|_{u=\xi}.$$
+    \item Если $\mathcal{F}_1 \subset \mathcal{F}_2 \subset \mathcal{F}$, $\xi$ - случайная величина, $\mathbf{E} \xi<\infty$, то существует такая измеримая функция $\varphi$, что $\mathbf{E}(\xi|\eta) = \varphi(\eta)$.
+\end{enumerate}
+
+\subsubsection{Вычисление условного матожидания}
+
+Если $\mathbf{E}(\xi|\mathcal{F}_1)$ принимает не более счётного числа значений, то оно может быть вычислено по формуле
+$$\frac{\sum_{i} \int_{B_{i}} \xi(\omega) \mathbf{P}(d \omega)}{\mathbf{P}(B)}.$$
+
+Рассмотрим $\mathbf{E}(\xi|\eta)$, если $(\xi,\eta)$ - абсолютно непрерывный случайный вектор с совместной плотностью $p(u,v)$ распределения $\xi$ и $\eta$. Тогда $p_{\xi}(u)=\int_{-\infty}^{+\infty} p(u, v) d v, p_{\eta}(v)=\int_{-\infty}^{+\infty} p(u, v) d u$.
+
+\mydef{} {\it Условной плотностью распределения $\xi$ при условии $\eta = v$} называется $p_{\eta}(u, v)=\frac{p(u, v)}{p_{\eta}(v)}$.
+
+Справедлива формула
+$$\mathbf{E}(\xi | \eta)=\int_{-\infty}^{+\infty} u p_{\eta}(u, \eta) d u=\int_{-\infty}^{+\infty} \frac{u p(u, \eta)}{p_{\eta}(\eta)} d u.$$
 
 \chapter{Математическая статистика}
 
