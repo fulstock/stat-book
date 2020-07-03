@@ -15,7 +15,7 @@ jobs:
         root_file: source.tex
     - name: Check pdf file
       run: |
-        file main.pdf | grep -q ' PDF '
+        file source.pdf | grep -q ' PDF '
     - name: Upload
       run: |
         set -e
