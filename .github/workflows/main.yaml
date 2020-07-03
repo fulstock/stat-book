@@ -12,10 +12,10 @@ jobs:
     - name: Compile LaTeX document
       uses: xu-cheng/latex-action@master
       with:
-        root_file: source.tex
+        root_file: main.tex
     - name: Check pdf file
       run: |
-        file source.pdf | grep -q ' PDF '
+        file main.pdf | grep -q ' PDF '
     - name: Upload
       run: |
         set -e
