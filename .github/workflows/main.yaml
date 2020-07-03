@@ -36,7 +36,7 @@ jobs:
         git checkout --orphan gh-pages
         git add main.pdf
         git commit -m "[github actions] deploy"
-        git remote add origin https://MandaloreUltimate:$GHPASS@github.com/MandaloreUltimate/stat-book.git
+        git remote add origin https://MandaloreUltimate:$GH_PASS@github.com/MandaloreUltimate/stat-book.git
         git push --force --set-upstream origin gh-pages
       env:
         GH_PASS: ${{ secrets.GH_PASS }}
