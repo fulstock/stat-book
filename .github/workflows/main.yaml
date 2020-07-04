@@ -21,7 +21,7 @@ jobs:
         set -e
         # configure git
         git config --global user.name "A. Rygin"
-        git config --global user.email "shadowsofangmar@yandex.ru"
+        git config --global user.email "$EMAIL"
         # setup ssh
         mkdir ~/.ssh
         chmod 700 ~/.ssh
@@ -40,3 +40,4 @@ jobs:
         git push --force --set-upstream origin gh-pages
       env:
         GH_PASS: ${{ secrets.GH_PASS }}
+        EMAIL: ${{ secrets.EMAIL }} 
