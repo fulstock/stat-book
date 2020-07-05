@@ -1,0 +1,45 @@
+\newcommand{\frc}[2]{\raisebox{2pt}{$#1$}\big/\raisebox{-3pt}{$#2$}}
+\newcommand\mydef{{\bf Опр.}}
+\newcommand\mynote{{\bf Замеч.}}
+\newcommand\myst{{\bf Утв.}}
+\newcommand\mycon{{\bf Следствие.}}
+\newcommand\myth{{\bf Теорема.}}
+\newcommand\myqed{{\bf Док-во.}}
+\newcommand\myex{{\bf Пример.}}
+\newcommand\myprob[1]{{\mathbb{P}(#1)}}
+\newcommand\mydes{{\bf Обозн.}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewenvironment{proof}{{\bfseries Доказательство.}}{\qed}
+
+\theoremstyle{plain}
+\newtheorem*{thm*}{Утверждение}
+\newtheorem{thm}{Утверждение}
+
+\newtheorem*{lem}{Лемма}
+\newtheorem*{crlr}{Следствие}
+
+\theoremstyle{definition}
+\newtheorem*{defn}{Определение}
+\newtheorem*{exmp}{Пример}
+\newtheorem*{symb}{Обозначение}
+\newtheorem*{rmrk}{Замечание}
+\newtheorem*{task}{Задача}
+
+\newtheoremstyle{named}{}{}{\itshape}{}{\bfseries}{.}{.5em}{\thmnote{#3}}
+\theoremstyle{named}
+\newtheorem*{namedthm}{Теорема}
+
+
+\newcommand\sbullet[1][.5]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+\newenvironment{compactlist}{
+\begin{list}{{$\sbullet[.75]$}}{
+\setlength\partopsep{0pt}
+\setlength\parskip{0pt}
+\setlength\parsep{0pt}
+\setlength\topsep{0pt}
+\setlength\itemsep{0pt}
+}
+}{
+\end{list}
+}
