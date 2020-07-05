@@ -1,0 +1,147 @@
+\section{Вероятностное пространство. Операции над событиями. Свойства вероятности}
+\begin{defn}
+    {\it Пространство элементарных исходов} $\Omega$~--- любое непустое множество, содержащее все возможные результаты случайного эксперимента. Элементы $\omega \in \Omega$~--- {\it элементарные исходы}.
+\end{defn}
+
+\begin{defn}
+{\it Алгебра} $\mathcal{A}$~--- множество подмножеств $\Omega$, обладающее следующими свойствами:
+
+\begin{enumerate}
+    \item $\Omega \in \mathcal{A}$;
+    \item $A \in \mathcal{A} \Rightarrow \overline{A} \in \mathcal{A}$; (здесь $\overline{A} = \Omega \setminus A$~--- {\it дополнение} к $A$)
+    \item $A, B \in \mathcal{A} \Rightarrow A \cup B \in \mathcal{A}$ (по индукции: $A_1, A_2, \ldots, A_n \in \mathcal{A} \Rightarrow \bigcup\limits_{i=1}^n A_i \in \mathcal{A}$).
+\end{enumerate}
+\end{defn}
+
+\begin{rmrk}
+    Если $A, B \in \mathcal{A}$, то $A \cap B \equiv \overline{\overline{A} \cup \overline{B}} \in \mathcal{A}$
+\end{rmrk}
+
+\begin{defn}
+$\sigma \text{\it{-алгебра~}} \mathcal{F}$~--- множество подмножеств $\Omega$, обладающее следующими свойствами:
+
+\begin{enumerate}
+    \item $\Omega \in \mathcal{F}$;
+    \item $A \in \mathcal{F} \Rightarrow \overline{A} \in \mathcal{F}$;
+    \item $A_1, A_2,\ldots, A_n,\ldots \in \mathcal{F} \Rightarrow \bigcup\limits_{i=1}^\infty A_i \in \mathcal{F}$.
+\end{enumerate}
+\end{defn}
+
+\begin{rmrk}
+    Любая $\sigma \text{-алгебра}$ является алгеброй. Первые два пункта определений идентичны, рассмотрим третий. Для любой конечной последовательности $A_1, A_2,\ldots, A_n \in \mathcal{A}$ составим соответствующую счётную последовательность $A_1, A_2, \ldots, A_n, A_{n+1}=\varnothing, A_{n+2}=\varnothing,\ldots \in \mathcal{A}$. По определению $\sigma \text{-алгебры}$: $\bigcup\limits_{i=1}^\infty A_i \in \mathcal{F} \Rightarrow \bigcup\limits_{i=1}^n A_i \in \mathcal{F}$, следовательно, выполнен третий пункт определения алгебры.
+\end{rmrk}
+
+\begin{defn}
+    {\it Случайное событие} $A$~--- элемент $\sigma \text{-алгебры~} \mathcal{F}$. $A=\varnothing$~---{\it невозможное событие}, $A=\Omega$~--- {\it достоверное событие}. Событие $\overline{A}$~--- {\it противоположное} $A$, т.е. происходит тогда и только тогда, когда не происходит $A$.
+
+Операции над событиями:
+
+\begin{compactlist}
+    \item {\it Объединение} $A \cup B$~--- происходит тогда и только тогда, когда происходят или $A$, или $B$, или оба вместе.
+    \item {\it Пересечение} $A \cap B$ (или $AB$)~--- происходит тогда и только тогда, когда происходят и $A$ и $B$ вместе. Если $AB = \varnothing$, то события $A$ и $B$ называются {\it несовместными}.
+    \item {\it Разность} $A \setminus B$~--- происходит тогда и только тогда, когда происходит $A$ и не происходит $B$.
+    \item {\it Симметрическая разность} $A \triangle B$ ~--- происходит тогда и только тогда, когда либо происходит $A$ и не происходит $B$, либо происходит $B$ и не происходит $A$.
+\end{compactlist}
+\end{defn}
+
+\begin{defn}
+    $\sigma \text{-алгебра}$ {\it порождена классом $K$}, если она является пересечением всех $\sigma \text{-алгебр}$, содержащих $K$, т.е. является {\it минимальной $\sigma \text{-алгеброй}$}, содержащей $K$.
+\end{defn}
+
+\begin{exmp}
+    Пусть $K = \{A\}$, тогда $\sigma (K) = \{\varnothing, \Omega, A, \overline{A}\}$.
+\end{exmp}
+
+\begin{defn}
+    {\it Вероятностная мера}~--- функция $\mathbb{P}: \mathcal{F} \rightarrow \mathbb{R}$, обладающая следующими свойствами:
+
+\begin{enumerate}
+    \item $\myprob{A} \geqslant 0~\forall A \in \mathcal{F}$ ({\it неотрицательность})
+    \item $\myprob{\Omega} = 1$ ({\it нормировка})
+    \item $\forall A_1, A_2, \ldots, A_n, \ldots \in \mathcal{F},~ A_{i}A_{j} = \varnothing~ \forall i, j \in \mathbb{N}, i \ne j \colon \myprob{\bigcup\limits_{i=1}^\infty A_i} = \sum\limits_{i=1}^\infty \myprob{A_i}$
+    
+    ({\it счётная аддитивность~--- вероятность счётного объединения несовместных событий равна сумме их вероятностей})
+\end{enumerate}
+\end{defn}
+
+\begin{rmrk}
+    Из счётной аддитивности, как уже было доказано выше, следует и конечная аддитивность.
+\end{rmrk}
+
+\begin{namedthm}[Свойства вероятности]\leavevmode
+    \begin{enumerate}
+       \item $\myprob{\varnothing}=0$;
+        \item $A, B \in \mathcal{F}, B \subset A \Rightarrow \myprob{A} \geqslant \myprob{B}$ (монотонность);
+       \item $\myprob{A \setminus B} = \myprob{A} - \myprob{AB}$;
+       \item $\myprob{A \cup B} = \myprob{A} + \myprob{B} - \myprob{AB}$.
+       \item $ \forall \; A_1 \supseteq A_2 \supseteq \ldots \supseteq A_n \supseteq \ldots \colon \bigcap\limits_{n = 1}^{\infty} A_n = A \quad \Rightarrow$
+       
+       $\displaystyle \lim_{n \to \infty}\myprob{A_n} = \myprob{A}$ (непрерывность).
+    \end{enumerate}
+\end{namedthm}
+
+\begin{proof}\leavevmode
+    \begin{enumerate}
+    \item Рассмотрим последовательность событий $A_{1} = \Omega, A_{2} = \varnothing, \ldots, A_{n} = \varnothing, \ldots$:
+    \begin{equation*}
+        \bigcup\limits_{i=1}^\infty A_i = \Omega \Rightarrow \myprob{\bigcup\limits_{i=1}^\infty A_i} = \myprob{\Omega} = 1.
+    \end{equation*}
+    При этом $A_{i}A_j = \varnothing~(i \ne j)$, следовательно, по пункту 3 определения вероятности: $\sum\limits_{i=2}^\infty \myprob{\varnothing} = 0 \Rightarrow \myprob{\varnothing} = 0$.
+    \item $B \subset A \Rightarrow A = (A \setminus B) \cup B$. Из неотрицательности вероятности и того, что $(A \setminus B) \cap B = \varnothing$, следует, что $\myprob{A} = \myprob{A \setminus B} + \myprob{B} \geqslant \myprob{B}$. Кроме того, в этом случае $\myprob{A \setminus B} = \myprob{A} - \myprob{B}$.
+    \item Доказательство аналогично пункту 2 при представлении $A$ в виде $A = (A \setminus B) \cup AB$.
+    \item Представим объединение событий $A$ и $B$ в виде $A \cup B = (A \setminus AB) \cup B$. Очевидно, что $(A \setminus AB) \cap B = \varnothing$, откуда по пункту 3 определения вероятности следует:
+    \begin{gather*}
+        \myprob{A \cup B} = \myprob{(A \setminus AB) \cup B} = \myprob{A \setminus AB} + \myprob{B} \\
+        \myprob{A \setminus AB} = \myprob{A} - \myprob{A \cap AB} = \myprob{A} - \myprob{AB}
+    \end{gather*}
+    Следовательно, $\myprob{A \cup B} = \myprob{A} + \myprob{B} - \myprob{AB}$.
+    \item Рассмотрим множества $C_n = A_n \setminus A_{n+1}, \, n \in \mathbb{N}$. Они несовместны (пусть $l < m$, тогда $C_m = (A_m \setminus A_{m+1}) \subset A_m \subset A_{m-1} \subset \ldots \subset A_{l+1},$ но $C_l = A_l \setminus A_{l+1} \Rightarrow C_l \cap C_m = \varnothing$). Тогда
+    $$A_1 = \bigcup\limits_{n = 1}^{\infty} C_n \cup A, \quad \myprob{A_1} = \mathbb{P}\left({\bigcup\limits_{n = 1}^{\infty} C_n \cup A}\right) = \sum\limits_{n=1}^{\infty} \myprob{C_n} + \myprob{A} $$
+    $$ \sum\limits_{n=1}^{\infty} \myprob{C_n} = \myprob{A_1} - \myprob{A}$$
+    Таким образом, ряд из вероятностей событий $C_n$ сходится. Это равносильно тому, что его остаток $\sum\limits_{n=k}^{\infty} \myprob{C_n}$ стремится к нулю при $k \rightarrow \infty$. Но при этом
+    $$ \bigcup\limits_{n = k}^{\infty} C_n \cup A = A_k, \quad \myprob{A_k} = \mathbb{P}\left({\bigcup\limits_{n = k}^{\infty} C_n \cup A}\right) = \sum\limits_{n=k}^{\infty} \myprob{C_n} + \myprob{A} $$
+    Перейдя в последнем равенстве к пределу при $k \rightarrow \infty,$ получим
+    $$ \lim_{k \to \infty} \myprob{A_k} = \myprob{A}.$$
+
+\end{enumerate}
+\end{proof}
+
+\begin{rmrk}
+    Можно показать, что счётная аддитивность равносильна одновременному наличию конечной аддитивности и непрерывности. Иными словами, третью аксиому в определении вероятности можно заменить на пару утверждений:
+    \begin{itemize}
+        \item $\forall \; A, B \colon A \cap B = \varnothing \; \Rightarrow \; \myprob{A \cup B} = \myprob{A} + \myprob{B}$ (по индукции можно показать аддитивность для любого конечного $n$)
+        \item $ \forall \; A_1 \supseteq A_2 \supseteq \ldots \supseteq A_n \supseteq \ldots \colon \bigcap\limits_{n = 1}^{\infty} A_n
+       = A \quad \Rightarrow$ 
+       
+       $\displaystyle \lim_{n \to \infty}\myprob{A_n} = \myprob{A}.$
+    \end{itemize}
+\end{rmrk}
+
+\begin{defn}
+    Тройка $(\Omega, \mathcal{F}, \mathbb{P})$~--- {\it вероятностное пространство}.
+\end{defn}
+\begin{rmrk}
+    Вероятностное пространство не является пространством в функциональном смысле.
+\end{rmrk}
+
+\begin{exmp}
+    Тройка $([0, 1], \mathfrak{B}_{[0, 1]}, \lambda_{[0, 1]})$, где $\lambda$~--- мера Лебега, $\mathfrak{B}$~--- борелевская $\sigma$-алгебра,~--- является вероятностным пространством. В самом деле:
+    \begin{compactlist}
+        \item $\Omega = [0, 1] \neq \varnothing$
+        \item $\mathfrak{B}_{[0, 1]}$~--- $\sigma$-алгебра над $\Omega = [0, 1]$ 
+        \item $\lambda(\Omega) = \lambda_{[0, 1]} = 1, \; \forall A \in \mathfrak{B}_{[0, 1]} \; \lambda(A) \geqslant 0$ и мера (счётного) объединения непересекающихся множеств есть (счётная) сумма их мер, т.е. выполняются три аксиомы вероятности.
+    \end{compactlist}
+    В то же время тройка $([-1, 1], \mathfrak{B}_{[-1, 1]}, \lambda_{[-1, 1]})$ не будет вероятностым пространством, т.к. нарушается свойство нормировки вероятностной меры: $\lambda(\Omega) = 2$, следовательно, вероятность не задана.
+\end{exmp}
+
+\begin{defn}
+    Пусть $\Omega = \{\omega_1, \omega_2, \ldots, \omega_n\}$~--- конечное непустое множество, $\mathcal{F}$~--- множество всех подмножеств $\Omega$. Положим $\myprob{\{\omega_i\}} = p_i$. Вероятностное пространство, определённое таким образом,~--- {\it дискретное вероятностное пространство}. Тогда для любого события $A = \{\omega_{i_1}, \ldots, \omega_{i_k}\}$ его вероятность $\myprob{A} = \sum\limits_{j=1}^k p_{i_j}$.
+\end{defn}
+
+\begin{defn}
+    {\it Классическое определение вероятности}:
+    \begin{equation*}
+        p_1 = p_2 = \ldots =p_n=\cfrac{1}{n}, \quad \myprob{A} = \cfrac{k}{n},~ k=|A|,
+    \end{equation*}
+    т.е. все элементарные исходы считаются {\it равновозможными}.
+\end{defn}
